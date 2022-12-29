@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>GuiQML/main.qml</file>
+        <file>GuiQML/Pane/MenuPane.qml</file>
+    </qresource>
+</RCC>
