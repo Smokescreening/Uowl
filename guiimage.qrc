@@ -6,5 +6,20 @@
         <file>GuiImage/window/window-minimize.png</file>
         <file>GuiImage/window/window-restore.png</file>
         <file>GuiImage/logo/logo.psd</file>
+        <file>GuiImage/background/background1.jpg</file>
+        <file>GuiImage/window/Menu_Collage_Purple.png</file>
+        <file>GuiImage/window/Menu_Collage_Yellow.png</file>
+        <file>GuiImage/window/Menu_Compasses_Purple.png</file>
+        <file>GuiImage/window/Menu_Compasses_Yellow.png</file>
+        <file>GuiImage/window/Menu_Hammer_Purple.png</file>
+        <file>GuiImage/window/Menu_Magic_Purple.png</file>
+        <file>GuiImage/window/Menu_Magic_Yellow.png</file>
+        <file>GuiImage/window/Menu_Setting_Purple.png</file>
+        <file>GuiImage/window/Menu_Setting_Yellow.png</file>
+        <file>GuiImage/window/Menu_Hammer_Yellow.png</file>
+        <file>GuiImage/logo/logo-32.ico</file>
+        <file>GuiImage/logo/logo-64.ico</file>
+        <file>GuiImage/logo/logo-128.ico</file>
+        <file>GuiImage/logo/logo-256.ico</file>
     </qresource>
 </RCC>

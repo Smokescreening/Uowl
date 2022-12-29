@@ -16,20 +16,54 @@ Window {
     visible: true
     color: '#00000000'
     flags:   Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint| Qt.Window
+
     //主界面
     Rectangle{
         id:windowMain
         anchors.fill: parent
+        radius: 12
+        clip: true
         // 当窗口全屏时，设置边距为 0，则不显示阴影，窗口化时设置边距为 6 就可以看到阴影了
         anchors.margins: rootWindow.visibility === Window.Maximized ? 0 : 4
         //color: "#663399"
+        //背景
+        Image {
+            id:windowBackground
+            anchors.fill: windowMain
+            source: "../GuiImage/background/background1.jpg"
+            clip: true
+            visible: false
+        }
+
+        // 圆形窗口
+        OpacityMask {
+                id: mask
+                anchors.fill: windowBackground
+                source: windowBackground
+                maskSource: windowMain
+         }
+        //高斯模糊
+        FastBlur{
+            anchors.fill: windowMain
+            source: windowBackground
+            radius: 24
+        }
+
+
+
         //菜单
         MenuPane{
             id:menuPane
             anchors{
+                left: parent.left
+                leftMargin: 12
                 top: parent.top
+                topMargin: 16
+                bottom: parent.bottom
+                bottomMargin: 16
             }
         }
+
 
         //标题栏
         Item {
@@ -52,6 +86,7 @@ Window {
                     onActiveChanged: if (active) { rootWindow.startSystemMove(); }
                 }
             }
+            //四个按钮
             Row{
                 anchors{
                     right: parent.right
@@ -73,7 +108,11 @@ Window {
                     icon.color: "transparent"
                     icon.width: parent.width
                     icon.height: parent.height
-                    onClicked: { Qt.openUrlExternally("http://baidu.com") }
+                    MouseArea{
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: { Qt.openUrlExternally("https://github.com/runhey/Uowl") }
+                    }
                 }
                 Button{  //最小到任务栏
                     width: 24
@@ -86,7 +125,11 @@ Window {
                     icon.color: "transparent"
                     icon.width: parent.width
                     icon.height: parent.height
+                    MouseArea{
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
                     onClicked: { rootWindow.showMinimized() }
+                    }
                 }
                 Button{  //最大化最小化
                     width: 24
@@ -99,6 +142,9 @@ Window {
                     icon.color: "transparent"
                     icon.width: parent.width
                     icon.height: parent.height
+                    MouseArea{
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if(rootWindow.visibility === Window.Maximized ) {
                             rootWindow.showNormal();
@@ -107,6 +153,7 @@ Window {
                             rootWindow.showMaximized()
                         }
                         }
+                    }
                 }
                 Button{  //关闭软件
                     width: 24
@@ -119,9 +166,65 @@ Window {
                     icon.color: "transparent"
                     icon.width: parent.width
                     icon.height: parent.height
+                    MouseArea{
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
                     onClicked: { rootWindow.close() }
+                    }
                 }
 
+            }
+        }
+        //图标
+        Item {
+            id: logo
+            height: 36
+            width: 140
+            anchors{
+                left: menuPane.right
+                leftMargin: 12
+                top: parent.top
+                topMargin: 12
+            }
+            Image {
+                id: appLoge
+                height: parent.height
+                width: parent.height
+                anchors.left: parent.left
+                source: "../GuiImage/logo/logo-64.ico"
+            }
+            Label{
+                id: appName
+                anchors.left: appLoge.right
+                anchors.leftMargin: 2
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Uowl")
+                color: "#FFCC00"
+                font.bold: true
+                font.pixelSize: 28
+            }
+            Label{
+                id: appVersion
+                anchors.left: appName.right
+                anchors.leftMargin: 4
+                anchors.bottom: parent.bottom
+                text: qsTr("V0.0")
+                color: "#FFCC00"
+                font.bold: false
+                font.pixelSize: 12
+            }
+            Button{
+                anchors.fill: parent
+                background: Rectangle{
+                    anchors.fill: parent
+                    radius: 4
+                    color: "transparent"
+                }
+                MouseArea{
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: { Qt.openUrlExternally("https://github.com/runhey/Uowl") }
+                }
             }
         }
     }
