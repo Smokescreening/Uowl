@@ -1,6 +1,8 @@
 
 /.idea/
 *.pyproject.user
+/build/
+/dist/
 
 
 
