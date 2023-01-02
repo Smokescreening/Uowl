@@ -11,7 +11,7 @@ Item {
     Rectangle {
         id: rectangle
         anchors.fill: parent
-        color: "#33ffffff"
+        color: "#80ffffff"
         border.color: "#ccffffff"
         border.width: 3
         radius: 8
@@ -81,6 +81,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
             onClicked: { menuPane.menuPaneFlag = 3 }
             }
+
         }
         Button{
             Layout.preferredWidth: 36
@@ -126,6 +127,13 @@ Item {
         cursorShape: Qt.PointingHandCursor
         onClicked: { menuPane.menuPaneFlag = 0 }
         }
+    }
+
+    function menuOpen(){
+        menuPane.visible = true
+    }
+    function menuClose(){
+        menuPane.visible = false
     }
 
 }

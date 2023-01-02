@@ -2,5 +2,13 @@
     <qresource prefix="/">
         <file>GuiQML/main.qml</file>
         <file>GuiQML/Pane/MenuPane.qml</file>
+        <file>GuiQML/Pane/BodyPane.qml</file>
+        <file>GuiQML/Body/TaskStart.qml</file>
+        <file>GuiQML/Body/TaskQueue.qml</file>
+        <file>GuiQML/Body/TaskList.qml</file>
+        <file>GuiQML/Body/TaskBuild.qml</file>
+        <file>GuiQML/Body/SettingBoby.qml</file>
+        <file>GuiQML/Component/SettingElement.qml</file>
+        <file>GuiQML/Body/SettingBoby.js</file>
     </qresource>
 </RCC>

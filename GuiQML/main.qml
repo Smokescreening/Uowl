@@ -5,14 +5,15 @@ import QtQml 2.12
 import Qt5Compat.GraphicalEffects
 
 import "./Pane"
+import "./Body"
 
 
 Window {
     id:rootWindow
-    width: 1440+8
-    height: 900+8 // +8是因为外阴影一边用了4
-    minimumWidth: 300
-    minimumHeight: 300
+    width: 700+8
+    height: 700+8 // +8是因为外阴影一边用了4
+    minimumWidth: 400
+    minimumHeight: 400
     visible: true
     color: '#00000000'
     flags:   Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint| Qt.Window
@@ -58,18 +59,20 @@ Window {
                 left: parent.left
                 leftMargin: 12
                 top: parent.top
-                topMargin: 16
+                topMargin: 12
                 bottom: parent.bottom
-                bottomMargin: 16
+                bottomMargin: 12
+            }
+            onMenuPaneFlagChanged: {
+                bodyPane.changeBodySource(menuPane.menuPaneFlag)
             }
         }
-
 
         //标题栏
         Item {
             height: 30
             anchors{
-                left: menuPane.right
+                left: (menuPane.visible === true)?  menuPane.right:parent.left
                 right: parent.right
                 top: parent.top
             }
@@ -181,7 +184,7 @@ Window {
             height: 36
             width: 140
             anchors{
-                left: menuPane.right
+                left: (menuPane.visible === true)?  menuPane.right:parent.left
                 leftMargin: 12
                 top: parent.top
                 topMargin: 12
@@ -226,6 +229,18 @@ Window {
                 onClicked: { Qt.openUrlExternally("https://github.com/runhey/Uowl") }
                 }
             }
+        }
+        //主体
+        BodyPane{
+            id:bodyPane
+            anchors.top: logo.bottom
+            anchors.topMargin: 4
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 12
+            anchors.right: parent.right
+            anchors.rightMargin: 12
+            anchors.left: (menuPane.visible === true)?  menuPane.right:parent.left
+            anchors.leftMargin: 12
         }
     }
     //外阴影

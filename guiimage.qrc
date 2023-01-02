@@ -21,5 +21,6 @@
         <file>GuiImage/logo/logo-64.ico</file>
         <file>GuiImage/logo/logo-128.ico</file>
         <file>GuiImage/logo/logo-256.ico</file>
+        <file>GuiImage/window/dishitian_run_progress.png</file>
     </qresource>
 </RCC>

@@ -8,7 +8,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('./GuiImage','GuiImage'),('./GuiQML','GuiQML')],
+    datas=[('./GuiImage','GuiImage'),('./GuiQML','GuiQML'),('./Config','Config')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

@@ -7,6 +7,8 @@ from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import Qt
 
+from Src.ConfigFile import ConfigFile
+
 
 if __name__ == "__main__":
     # 适配高分辨率
@@ -18,7 +20,12 @@ if __name__ == "__main__":
     # 设置软件名字
     QGuiApplication.setApplicationName("Uowl")
 
+
+    # 初始化模块
+    configFile = ConfigFile()
+
     engine = QQmlApplicationEngine()
+    engine.rootContext().setContextProperty("configFile",configFile)
     engine.load(os.fspath(Path(__file__).resolve().parent / "GuiQML/main.qml"))
     if not engine.rootObjects():
         sys.exit(-1)
