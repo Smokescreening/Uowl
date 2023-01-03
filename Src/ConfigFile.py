@@ -18,8 +18,9 @@ class ConfigFile(QObject):
             settingString = f.read()
         f.close()
         return settingString
+
     @Slot(str)
-    def writeSettingString(self, string:str) ->None:
+    def writeSettingString(self, string:str) -> None:
         """
         写回配置文件 默认文件名
         :param string:
@@ -29,7 +30,8 @@ class ConfigFile(QObject):
             f.write(string)
         f.close()
 
-    def getSettingDict(self, baseName: str) -> dict:
+    @staticmethod
+    def getSettingDict(baseName: str) -> dict:
         """
         读取设置文件获取对应的设置的字典
         :param baseName: 子一级设置名 如baseSetting
