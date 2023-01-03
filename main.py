@@ -5,9 +5,12 @@ import sys
 
 from PySide6.QtGui import QGuiApplication, QIcon
 from PySide6.QtQml import QQmlApplicationEngine
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QThread
 
 from Src.ConfigFile import ConfigFile
+from Src.ThreadRun import ThreadRun
+from Src.Bridge import Bridge
+from Src.Log4 import Log4
 
 
 if __name__ == "__main__":
@@ -21,11 +24,20 @@ if __name__ == "__main__":
     QGuiApplication.setApplicationName("Uowl")
 
 
-    # 初始化模块
+    # Logx系统
+    log4 = Log4()
+    # 初始化配置文件
     configFile = ConfigFile()
+    # 连接python和qml的信号桥，两个语言通信就这两种机制一个是以json文件另一个就是这个信号槽机制
+    bridge = Bridge()
+    # 后端线程
+    threadRun = ThreadRun(bridge, log4)
+    threadRun.start()
 
     engine = QQmlApplicationEngine()
-    engine.rootContext().setContextProperty("configFile",configFile)
+    engine.rootContext().setContextProperty("log4", log4)
+    engine.rootContext().setContextProperty("configFile", configFile)
+    engine.rootContext().setContextProperty("bridge", bridge)
     engine.load(os.fspath(Path(__file__).resolve().parent / "GuiQML/main.qml"))
     if not engine.rootObjects():
         sys.exit(-1)

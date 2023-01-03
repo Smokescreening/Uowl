@@ -33,6 +33,7 @@ Item {
                 font.pixelSize: 18
             }
             Text {
+                id:presentTask
                 text: qsTr("任务xxx")
                 color: "#ffffff"
                 font.bold: true
@@ -45,6 +46,7 @@ Item {
                 font.pixelSize: 18
             }
             Text {
+                id:presentState
                 text: qsTr("状态xxx")
                 color: "#ffffff"
                 font.bold: true
@@ -210,16 +212,20 @@ Item {
             onClicked: {
                 if(taskStart.runState === 0){
                     taskStart.runState = 1  //运行
+                    bridge.sigPresentTasks("start")
                 }
                 else if(taskStart.runState === 1){
                     taskStart.runState = 2 //暂停
+                    bridge.sigPresentTasks("pause")
                 }
                 else if(taskStart.runState === 2){
-                    taskStart.runState = 1 //暂停
+                    taskStart.runState = 1 //继续
+                    bridge.sigPresentTasks("continue")
                 }
             }
             }
         }
+        //停止按钮
         Button{
             width: 70
             height: 28
@@ -251,14 +257,45 @@ Item {
             onClicked: {
                 if(taskStart.runState === 1){
                     taskStart.runState = 0
+                    bridge.sigPresentTasks("stop")
                 }
                 else if(taskStart.runState === 2){
                     taskStart.runState = 0  //运行
+                    bridge.sigPresentTasks("stop")
                 }
             }
             }
         }
     }
+    Component.onCompleted: {
+        log4.sigUIShowLog.connect(slotUIShowLog)
+        bridge.sigUIUpdateProgressBar.connect(slotUIUpdateProgressBar)
+        bridge.sigUIUpdateRemainTime.connect(slotUIUpdateRemainTime)
+        bridge.sigUIUpdatePresentTask.connect(slotUIUpdatePresentTask)
+        bridge.sigUIUpdatePresentState.connect(slotUIUpdatePresentState)
+    }
+
+    function slotUIShowLog(grade, info){
+        var log = {}
+        log.logContent = info
+        logListModel.append(log)
+        if(logListModel.count > 30){
+            logListModel.remove(0)
+        }
+    }
+    function slotUIUpdateProgressBar(value){
+        controlProgress.value = value
+    }
+    function slotUIUpdateRemainTime(text){
+        remainTime.text = text
+    }
+    function slotUIUpdatePresentTask(taskName){
+        presentTask.text = taskName
+    }
+    function slotUIUpdatePresentState(stateName){
+        presentState.text = stateName
+    }
+
     onRunStateChanged: {
         if(taskStart.runState === 0){
             menuPane.menuOpen()

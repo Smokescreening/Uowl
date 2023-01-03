@@ -3,6 +3,7 @@
 *.pyproject.user
 /build/
 /dist/
+/Log/
 
 
 
