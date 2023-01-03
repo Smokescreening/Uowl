@@ -1,0 +1,322 @@
+{
+    "baseSetting": [
+        {
+            "category": "客户端",
+            "name": "客户端设备",
+            "description": "推荐mumu模拟器",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "安卓设备"
+                },
+                {
+                    "paramete": "mumu模拟器"
+                },
+                {
+                    "paramete": "雷电模拟器"
+                }
+            ],
+            "controlValue": "mumu模拟器"
+        },
+        {
+            "category": "客户端",
+            "name": "默认尺寸宽度",
+            "description": "请把模拟器设置中调整为1280",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "1111"
+                }
+            ],
+            "controlValue": "1280"
+        },
+        {
+            "category": "客户端",
+            "name": "默认尺寸高度",
+            "description": "请把模拟器设置中调整为720",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "1111"
+                }
+            ],
+            "controlValue": "720"
+        }
+    ],
+    "android": [
+        {
+            "category": "连接",
+            "name": "连接方式",
+            "description": "通过不同通道连接游戏",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "adb"
+                }
+            ],
+            "controlValue": "adb"
+        },
+        {
+            "category": "adb",
+            "name": "连接方式",
+            "description": "通过不同通道连接设备",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "usb"
+                },
+                {
+                    "paramete": "wifi"
+                }
+            ],
+            "controlValue": "usb"
+        },
+        {
+            "category": "adb",
+            "name": "设备ID",
+            "description": "每台设备唯一ID,默认选中连接电脑的第一个设备ID",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "usb"
+                },
+                {
+                    "paramete": "wifi"
+                }
+            ],
+            "controlValue": "CUYDU20102004949"
+        },
+        {
+            "category": "图片",
+            "name": "获取游戏截图",
+            "description": "使用何种途径获得游戏截图",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "adb"
+                }
+            ],
+            "controlValue": "adb"
+        },
+        {
+            "category": "图片",
+            "name": "图片压缩比例",
+            "description": "0到1之间，不可超出此范围",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "0.6"
+                }
+            ],
+            "controlValue": "0.4"
+        },
+        {
+            "category": "点击",
+            "name": "控制方式",
+            "description": "使用何种途径控制点击",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "abd"
+                }
+            ],
+            "controlValue": "abd"
+        },
+        {
+            "category": "控制",
+            "name": "全局控制周期",
+            "description": "执行一次所需的时间，单位秒",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "安卓设备"
+                }
+            ],
+            "controlValue": "2.0"
+        }
+    ],
+    "mumu": [
+        {
+            "category": "连接",
+            "name": "连接方式",
+            "description": "通过不同通道连接游戏",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "adb"
+                },
+                {
+                    "paramete": "window后台"
+                },
+                {
+                    "paramete": "window前台"
+                }
+            ],
+            "controlValue": "adb"
+        },
+        {
+            "category": "adb",
+            "name": "连接方式",
+            "description": "通过电脑局域网连接",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "usb"
+                }
+            ],
+            "controlValue": "127.0.0.1:75555"
+        },
+        {
+            "category": "图片",
+            "name": "获取游戏截图",
+            "description": "使用何种途径获得游戏截图，需要同连接方式一一对应",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "adb"
+                },
+                {
+                    "paramete": "window后台"
+                },
+                {
+                    "paramete": "window前台"
+                }
+            ],
+            "controlValue": "adb"
+        },
+        {
+            "category": "图片",
+            "name": "图片压缩比例",
+            "description": "0到1之间，不可超出此范围",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "0.6"
+                }
+            ],
+            "controlValue": "0.6"
+        },
+        {
+            "category": "点击",
+            "name": "控制方式",
+            "description": "使用何种途径控制点击使用何种途径控制点击,需要同连接方式一一对应",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "abd"
+                },
+                {
+                    "paramete": "window后台"
+                },
+                {
+                    "paramete": "window前台"
+                }
+            ],
+            "controlValue": "abd"
+        },
+        {
+            "category": "控制",
+            "name": "全局控制周期",
+            "description": "执行一次所需的时间，单位秒",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "安卓设备"
+                }
+            ],
+            "controlValue": "2"
+        }
+    ],
+    "leidian": [
+        {
+            "category": "连接",
+            "name": "连接方式",
+            "description": "通过不同通道连接游戏",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "adb"
+                },
+                {
+                    "paramete": "window后台"
+                },
+                {
+                    "paramete": "window前台"
+                }
+            ],
+            "controlValue": "adb"
+        },
+        {
+            "category": "adb",
+            "name": "连接方式",
+            "description": "通过电脑局域网连接",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "usb"
+                }
+            ],
+            "controlValue": "127.0.0.1:222"
+        },
+        {
+            "category": "图片",
+            "name": "获取游戏截图",
+            "description": "使用何种途径获得游戏截图，需要同连接方式一一对应",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "adb"
+                },
+                {
+                    "paramete": "window后台"
+                },
+                {
+                    "paramete": "window前台"
+                }
+            ],
+            "controlValue": "adb"
+        },
+        {
+            "category": "图片",
+            "name": "图片压缩比例",
+            "description": "0到1之间，不可超出此范围",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "0.6"
+                }
+            ],
+            "controlValue": "0.6"
+        },
+        {
+            "category": "点击",
+            "name": "控制方式",
+            "description": "使用何种途径控制点击,需要同连接方式一一对应",
+            "controlClass": "comboBox",
+            "controlParamete": [
+                {
+                    "paramete": "abd"
+                },
+                {
+                    "paramete": "window后台"
+                },
+                {
+                    "paramete": "window前台"
+                }
+            ],
+            "controlValue": "abd"
+        },
+        {
+            "category": "控制",
+            "name": "全局控制周期",
+            "description": "执行一次所需的时间，单位秒",
+            "controlClass": "textInput",
+            "controlParamete": [
+                {
+                    "paramete": "安卓设备"
+                }
+            ],
+            "controlValue": "2.0"
+        }
+    ]
+}
