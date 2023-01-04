@@ -2,22 +2,33 @@
 # @author runhey
 # github https://github.com/runhey
 
-import cv2
+# import cv2
 import re
-from PySide6.QtCore import QThread
+import random
+import cv2
 
+from PySide6.QtCore import QThread
 from numpy import frombuffer, uint8, array
 from pathlib import Path
 from subprocess import Popen, PIPE
-from win32con import SRCCOPY
+from win32print import GetDeviceCaps
+from win32con import SRCCOPY, DESKTOPHORZRES, DESKTOPVERTRES, WM_LBUTTONUP, WM_LBUTTONDOWN, WM_ACTIVATE, WA_ACTIVE, MK_LBUTTON
 from win32com.client import Dispatch
-from win32gui import GetWindowText, FindWindow, FindWindowEx, IsWindow, GetWindowRect, GetWindowDC, DeleteObject, SetForegroundWindow
+from win32gui import GetWindowText, FindWindow, FindWindowEx, IsWindow, GetWindowRect, GetWindowDC, DeleteObject, SetForegroundWindow, IsWindowVisible, GetDC
 from win32process import GetWindowThreadProcessId
 from win32ui import CreateDCFromHandle, CreateBitmap
+from win32api import GetSystemMetrics, SendMessage, MAKELONG
 from PIL import ImageGrab
 from pyautogui import position, click, moveTo
 
+from Src.ConfigFile import ConfigFile
+
 class Device():
+    """
+    虽然很大程度上可以把Device当成android mumu leidian 的基类，但是这个三种之间有很大不一样
+    考虑到设计需求这个东西是全局唯一的所以设计成单个依赖关系
+    非常利于后面调用
+    """
     def __init__(self, baseSetting :dict, android :dict, munu :dict, leidian :dict) -> None:
         super(Device, self).__init__()
         self.baseSetting :dict = baseSetting
@@ -25,28 +36,126 @@ class Device():
         self.mumu :dict = munu
         self.leidian :dict = leidian
 
-    def checkDevic(self) -> None:
+    def connect(self) -> None:
         """
-        检查 对设备的连接状态
+        检查 对设备的连接状态,如果OK返回对应的deviceId或者handleNum
         :return:
         """
-        match self.baseSetting["客户端设备"]:
+        match self.baseSetting["deviceType"]:
             case "安卓设备" :
-                pass
+                if self.baseSetting["connectType"] == "adb":
+                    self.android["deviceId"] = Adb.checkStatus()
+                    return self.android["deviceId"]
             case "mumu模拟器" :
-                pass
+                if self.baseSetting["connectType"] == "adb":
+                    self.mumu["deviceId"] = Adb.checkStatus()
+                    return self.android["deviceId"]
+                elif self.baseSetting["connectType"] == "window前台":
+                    self.mumu["handleNum"] = Handle.getHandleNum("阴阳师 - MuMu模拟器")
+                    return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
             case "雷电模拟器" :
-                pass
+                if self.baseSetting["connectType"] == "adb":
+                    self.leidian["deviceId"] = Adb.checkStatus()
+                    return self.android["deviceId"]
+                elif self.leidian["connectType"] == "window前台":
+                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
+                    return self.mumu["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
+                elif self.baseSetting["connectType"] == "window后台":
+                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
+                    return self.mumu["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
 
     def connectDevice(self) -> None:
         """
-        连接设备
+        现在没啥用的
         :return:
         """
         pass
 
+    def updateSettingToFile(self) -> None:
+        """
+        需要使用这个函数之前调用connect函数得到正确的deviceId或者handleNum
+        然后更新设置数据写入json
+        :return:
+        """
+        self.baseSetting["defaultWidth"] = 1280
+        self.baseSetting["defaultHeight"] = 720
+        self.baseSetting["windowScaleRate"] = 1.0
+        match self.baseSetting["deviceType"]:
+            case "安卓设备" :
+                self.android["andriodWidth"] = Adb.getScreenSize(self.android["deviceId"])[0]
+                self.android["andriodHeight"] = Adb.getScreenSize(self.android["deviceId"])[1]
+            case "mumu模拟器":
+                if self.mumu["connectType"] == "adb":
+                    self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
+                    self.mumu["mumuHeight"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
+                elif self.mumu["connectType"] == "window前台":
+                    self.mumu["mumuWidth"] = Handle.getSize(self.mumu["handleNum"])[0]
+                    self.mumu["mumuHeight"] = Handle.getSize(self.mumu["handleNum"])[1]
+            case "雷电模拟器":
+                if self.leidian["connectType"] == "adb":
+                    self.leidian["leidianWidth"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
+                    self.leidian["leidianHeight"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
+                else:
+                    self.leidian["leidianWidth"] = Handle.getSize(self.leidian["handleNum"])[0]
+                    self.leidian["leidianHeight"] = Handle.getSize(self.leidian["handleNum"])[1]
+        ConfigFile().writeSettingFromDevice(self.baseSetting, self.android, self.mumu, self.leidian)
 
+    def getScreen(self):
+        """
+        这个操作必须保证连接无误
+        :return:
+        """
+        match self.baseSetting["deviceType"]:
+            case "安卓设备" :
+                if self.android["getScreenWay"] == "adb":
+                    return Adb.getScreen(self.android["deviceId"])
+                else:
+                    pass
+            case "mumu模拟器":
+                if self.mumu["getScreenWay"] == "adb":
+                    return Adb.getScreen(self.mumu["deviceId"])
+                elif self.mumu["getScreenWay"] == "window前台":
+                    return Handle.getScreenPIL(self.mumu["handleNum"])
+                else:
+                    pass
+            case "雷电模拟器":
+                if self.leidian["getScreenWay"] == "adb":
+                    return Adb.getScreen(self.mumu["deviceId"])
+                elif self.leidian["getScreenWay"] == "window前台":
+                    return Handle.getScreenPIL(self.leidian["handleNum"])
+                elif self.leidian["getScreenWay"] == "window后台":
+                    return Handle.getScreen(self.leidian["handleNum"])
+            case default:
+                return None
 
+    def click(self, pos :list ) -> None:
+        """
+
+        :param pos:
+        :return:
+        """
+        match self.baseSetting["deviceType"]:
+            case "安卓设备":
+                if self.android["controlWay"] == "adb":
+                    Adb.click(self.android["deviceId"], pos)
+                else:
+                    pass
+            case "mumu模拟器":
+                if self.mumu["controlWay"] == "adb":
+                    Adb.click(self.mumu["deviceId"], pos)
+                elif self.mumu["controlWay"] == "window前台":
+                    Handle.clickPIL(self.mumu["handleNum"], pos)
+                else:
+                    pass
+            case "雷电模拟器":
+                if self.leidian["controlWay"] == "adb":
+                    Adb.click(self.leidian["deviceId"], pos)
+                elif self.leidian["controlWay"] == "window前台":
+                    Handle.clickPIL(self.leidian["handleNum"], pos)
+                elif self.leidian["controlWay"] == "window后台":
+                    Handle.click(self.leidian["handleNum"], pos)
+            case default:
+                return None
 
 class Adb():
     """
@@ -92,6 +201,11 @@ class Adb():
                     elif deviceDetail[1] == 'unknown':
                         deviceList.append('unknown')
             # return deviceList
+            if deviceList == []:   #如果都没有设备尝试连接mumu模拟器
+                print("mumu 连接中")
+                result = Adb.dealCmd('connect 127.0.0.1:7555').decode("utf-8")
+                if result.find('connect to 127.0.0.1:7555'):
+                    return '127.0.0.1:7555'
             for device in deviceList:
                 if device != 'offline' and device != 'unknown':
                     return device
@@ -99,13 +213,17 @@ class Adb():
     @classmethod
     def getScreenSize(cls, deviceId :str) -> list:
         """
-        获取设备的屏幕尺寸是第一个参数是height  第二个是width
+        获取设备的屏幕尺寸是第一个参数是比较大width的第二个参数是小的
+        因为手机和平板的宽高定义不一样
         :param deviceId:
         :return:
         """
         result = str(Adb.dealCmd(' shell wm size', deviceId))
         size = re.findall(r'\d+x\d+', result)
-        return size[0].split("x")
+        if size[0].split("x")[0] > size[0].split("x")[1]:
+            return size[0].split("x")
+        else :
+            return [size[0].split("x")[1], size[0].split("x")[0]]
 
     @classmethod
     def click(cls, deviceId :str, pos :list)-> None:
@@ -127,17 +245,21 @@ class Adb():
         """
         command = rf' shell screencap -p'
         commend = Adb.dealCmd(command, deviceId)
-        scrBytes = commend.replace(b'\r\n', b'\n')  # 传输
+        if deviceId.startswith('127.0.0.1:7555'):
+            scrBytes = commend.replace(b'\r\r\n', b'\n')  # 这个mumu模拟器和其他的不一样
+        else:
+            scrBytes = commend.replace(b'\r\n', b'\n')  # 传输
         scrImg = cv2.imdecode(frombuffer(scrBytes, uint8), cv2.IMREAD_COLOR)
         scrImg = cv2.cvtColor(scrImg, cv2.COLOR_BGRA2GRAY)
         return scrImg
 
 # print( Adb.checkStatus())
-# print( Adb.getScreenSize('CUYDU20102004949'))
+# Adb.getScreen(Adb.checkStatus())
+# print( Adb.getScreenSize('127.0.0.1:7555'))
 # Adb.DoClick('CUYDU20102004949', [500, 500])
-# img = Adb.getScreen('CUYDU20102004949')
+# img = Adb.getScreen('127.0.0.1:7555')
 # cv2.imshow("scr_img", img)  # 显示
-# cv2.waitKey(10000)
+# cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
 class Handle():
@@ -154,8 +276,16 @@ class Handle():
         :param handleTitle:
         :return:
         """
-        handleNum = FindWindow(None, handleTitle)
-        return handleNum
+        handleNumParent = FindWindow(None, handleTitle)
+        match handleTitle:
+            case '雷电模拟器':
+                handleNum = FindWindowEx(handleNumParent, None, None, "TheRender")
+                return 0 if handleNum == 0 else handleNum
+            case '阴阳师 - MuMu模拟器':
+                handleNum = FindWindowEx(handleNumParent, None, None, "NemuPlayer")
+                return 0 if handleNum == 0 else handleNum
+            case default:
+                return 0
 
     @classmethod
     def getHandTitle(cls, handleNum :int) -> str:
@@ -176,13 +306,13 @@ class Handle():
         return 0 if handleNum is None or handleNum == 0 or handleNum == '' else GetWindowThreadProcessId(handleNum)[1]
 
     @classmethod
-    def checkStatus(cls, handleNum :int) -> int:
+    def checkStatus(cls, handleNum :int) -> bool:
         """
-        如果窗口还存在返回1否则0
+        如果窗口还存在返回True否则False
         :param handleNum:
         :return:
         """
-        return IsWindow(handleNum)
+        return True if IsWindow(handleNum)==1 else False
 
     @classmethod
     def getSize(cls, handleNum :int) -> list:
@@ -197,10 +327,28 @@ class Handle():
         return [width, height]
 
     @classmethod
-    def getScreen(cls, handleNum :int, winSize :list, scaleRate :float):
+    def getWindowScaleRate(cls) -> float:
+        """
+        获取window系统的分辨率
+        这个函数在我的电脑上输出结果和我系统设定的不一致，但是使用这个值对
+        模拟器截屏缩放是没有问题的，估计是新版本window改了接口吧
+        :return:
+        """
+        hDC = GetDC(0)
+        # 物理上（真实的）的 横纵向分辨率
+        wReal = GetDeviceCaps(hDC, DESKTOPHORZRES)
+        hReal = GetDeviceCaps(hDC, DESKTOPVERTRES)
+        # 缩放后的 分辨率
+        wAfter = GetSystemMetrics(0)
+        hAfter = GetSystemMetrics(1)
+        # print(wReal, wAfter)
+        return round(wReal / wAfter, 2)
+
+    @classmethod
+    def getScreen(cls, handleNum :int, winSize :list, scaleRate :float =1.0):
         """
         windows api 截图
-        可以后台，可被遮挡，但是不能点击最小化
+        可以后台，可被遮挡，但是不能点击最小化  图片不包括标题栏边框等1280x720
         :param handleNum:
         :param winSize: 第一个参数是宽度width
         :param scaleRate:
@@ -231,10 +379,10 @@ class Handle():
         imgSrceen = cv2.resize(imgSrceen, (winSize[0], winSize[1]))
 
         # 测试显示截图图片
-        # cv2.namedWindow('imgSrceen')  # 命名窗口
-        # cv2.imshow("imgSrceen", imgSrceen)  # 显示
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+        cv2.namedWindow('imgSrceen')  # 命名窗口
+        cv2.imshow("imgSrceen", imgSrceen)  # 显示
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         # 内存释放
         DeleteObject(saveBitMap.GetHandle())
@@ -245,48 +393,79 @@ class Handle():
     @classmethod
     def getScreenPIL(cls, handleNum :int):
         """
-        PIL截图方法，不能被遮挡
+        PIL截图方法，不能被遮挡，不包括边框标题栏1280x720
         :param handleNum:
         :return:
         """
         shell = Dispatch("WScript.Shell")
         shell.SendKeys('%')
         SetForegroundWindow(handleNum)  # 窗口置顶
-        QThread.sleep(0.2)  # 置顶后等0.2秒再截图
+        QThread.sleep(0.1)  # 置顶后等0.2秒再截图
         x1, y1, x2, y2 = GetWindowRect(handleNum)  # 获取窗口坐标
         grabImage = ImageGrab.grab((x1, y1, x2, y2))  # 用PIL方法截图
         imgScreen = array(grabImage)  # 转换为cv2的矩阵格式
         imgScreen = cv2.cvtColor(imgScreen, cv2.COLOR_BGRA2GRAY)
 
-        # cv2.namedWindow('imgSrceen')  # 命名窗口
-        # cv2.imshow("imgSrceen", imgScreen)  # 显示
-        # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
+        cv2.namedWindow('imgSrceen')  # 命名窗口
+        cv2.imshow("imgSrceen", imgScreen)  # 显示
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
         return imgScreen
 
     @classmethod
-    def click(cls, handleNum :int) -> None:
-        pass
+    def click(cls, handleNum :int, pos :list) -> list:
+        """
+
+        :param handleNum:
+        :param pos: 图片上！！！是图片上！！！的相对坐标
+        :return: 以用户桌面为坐标系的点击坐标
+        """
+        x1, y1, x2, y2 = GetWindowRect(handleNum)
+        clickPos = MAKELONG(pos[0], pos[1])
+        SendMessage(handleNum, WM_ACTIVATE, WA_ACTIVE, 0)
+        SendMessage(handleNum, WM_LBUTTONDOWN, 0, clickPos)  # 模拟鼠标按下
+        QThread.sleep((random.randint(100, 200)) / 1000.0)  # 点击弹起改为随机,时间100ms-200ms
+        SendMessage(handleNum, WM_LBUTTONUP, 0, clickPos)  # 模拟鼠标弹起
+        return [x1+pos[0], y1+pos[1]]
 
     @classmethod
-    def clickPIL(cls, handleNum :int, pos :list) -> None:
+    def clickPIL(cls, handleNum :int, pos :list) -> list:
+        """
+
+        :param handleNum:
+        :param pos:
+        :return:
+        """
         x1, y1, x2, y2 = GetWindowRect(handleNum)
+        xClick = x1 +pos[0]
+        yClick = y1 +pos[1]
         # 把窗口置顶，并进行点击
         shell = Dispatch("WScript.Shell")
         shell.SendKeys('%')
         SetForegroundWindow(handleNum)
-        QThread.sleep(0.2)  # 置顶后等0.2秒再点击
+        QThread.sleep(0.1)  # 置顶后等0.2秒再点击
         presentPos = position()  # 记录当前的坐标
-        moveTo(x1+pos[0], x2+pos[1])
-        click(x1 + pos[0], x2 + pos[1])
+        moveTo(xClick, yClick)
+        click(xClick, yClick)
         moveTo(presentPos[0], presentPos[1])
-        return None
+        return [x1 + pos[0], y1 + pos[1]]
 
-# print(Handle.getHandleNum('雷电模拟器'))
-# print(Handle.getHandleNum('MuMu模拟器'))
+# print(Handle.getHandleNum('NemuPlayer'))
+# print(Handle.getHandleNum('阴阳师 - MuMu模拟器'))
 # print(Handle.getHandPid(Handle.getHandleNum("雷电模拟器")))
-# print(Handle.getSize(Handle.getHandleNum("雷电模拟器")))
-# Handle.getScreen(Handle.getHandleNum("雷电模拟器"), [608, 370], 1.25)
-# Handle.getScreenPIL(Handle.getHandleNum("雷电模拟器"))
+# print(Handle.getSize(Handle.getHandleNum('阴阳师 - MuMu模拟器')))
+# Handle.getScreen(Handle.getHandleNum("阴阳师 - MuMu模拟器"), [1280, 720], 1.0)
+# Handle.getScreenPIL(Handle.getHandleNum("阴阳师 - MuMu模拟器"))
 
+# Handle.getScreenPIL(Handle.getHandleNum("雷电模拟器"))
+# Handle.getScreen(Handle.getHandleNum("雷电模拟器"), [1282, 756])
+# print(Handle.click(2493146, [850,140]))
+# print(Handle.click( , [460,316]))
+
+# print(Handle.getSize(Handle.getHandleNum("PicGo")))
+# Handle.getScreen(Handle.getHandleNum("计算器"), [958 , 705])
+# Handle.getScreenPIL(Handle.getHandleNum("计算器"))
+# print(Handle.click(Handle.getHandleNum("计算器"), [330,453]))
+
+# print(IsWindowVisible(Handle.getHandleNum("阴阳师 - MuMu模拟器")))

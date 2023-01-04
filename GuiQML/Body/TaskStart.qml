@@ -68,7 +68,7 @@ Item {
                 anchors.rightMargin: 8
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                value: 0.2
+                value: 0
                 background: Rectangle{
                     implicitHeight: controlProgress.height
                     implicitWidth: controlProgress.width

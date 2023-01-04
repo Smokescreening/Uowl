@@ -10,6 +10,8 @@
 
 ## 📆
 
++ 2023.1.4：解决雷电模拟器后台模式bug，实现Device类
+
 + 2023.1.3：实现Bridge,Log4,ThreadRun：建立qml与python通信。实现Adb即Handle设备接口
 
 + 2023.1.2：打包测试，实现启动页UI，设置页UI，编写基本设置JSON文件

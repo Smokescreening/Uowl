@@ -3,7 +3,7 @@
 import os
 import json
 from pathlib import Path
-from PySide6.QtCore import QObject, Slot, Property
+from PySide6.QtCore import QObject, Slot
 
 class ConfigFile(QObject):
     def __init__(self) -> None:
@@ -46,3 +46,57 @@ class ConfigFile(QObject):
             name.append(item["name"])
             value.append(item["controlValue"])
         return dict(zip(name, value))
+
+    def writeSettingFromDevice(self, baseSetting :dict =None, android :dict =None, mumu :dict =None, leidian :dict =None) -> None:
+        """
+        拿到 name-controlValue的四个字典
+        把值写回去到文件里面去
+        :param baseSetting:
+        :param android:
+        :param mumu:
+        :param leidian:
+        :return:
+        """
+        root =json.loads( self.readSettingString())
+        if baseSetting is not None:
+            for i in range(len(root["baseSetting"])):
+                for name, value in baseSetting.items():
+                    print(root["baseSetting"][i]["name"], name)
+                    if root["baseSetting"][i]["name"] == name:
+                        root["baseSetting"][i]["controlValue"] = value
+        if android is not None:
+            for i in range(len(root["android"])):
+                for name, value in baseSetting.items():
+                    print(root["android"][i]["name"], name)
+                    if root["android"][i]["name"] == name:
+                        root["android"][i]["controlValue"] = value
+        if mumu is not None:
+            for i in range(len(root["mumu"])):
+                for name, value in baseSetting.items():
+                    print(root["mumu"][i]["name"], name)
+                    if root["mumu"][i]["name"] == name:
+                        root["mumu"][i]["controlValue"] = value
+        if leidian is not None:
+            for i in range(len(root["leidian"])):
+                for name, value in baseSetting.items():
+                    print(root["leidian"][i]["name"], name)
+                    if root["leidian"][i]["name"] == name:
+                        root["leidian"][i]["controlValue"] = value
+        ConfigFile().writeSettingString( json.dumps(root))
+
+
+
+
+# baseSetting = {"v1":"eeee", "v11":"vv333333332"}
+# root = {
+#     "baseSetting":[
+#         {"name":"v1", "controlValue":"v2"},
+#         {"name":"v11", "controlValue":"v22"}
+#      ]
+# }
+# for i in range(len(root["baseSetting"])):
+#     for name, value in baseSetting.items():
+#         print(root["baseSetting"][i]["name"], name)
+#         if root["baseSetting"][i]["name"] == name:
+#             root["baseSetting"][i]["controlValue"] = value
+# print(root)
