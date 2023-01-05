@@ -18,6 +18,8 @@ Window {
     color: '#00000000'
     flags:   Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint| Qt.Window
 
+    property int menuPaneFlag
+
     //主界面
     Rectangle{
         id:windowMain
@@ -64,6 +66,7 @@ Window {
                 bottomMargin: 12
             }
             onMenuPaneFlagChanged: {
+                rootWindow.menuPaneFlag = menuPane.menuPaneFlag
                 bodyPane.changeBodySource(menuPane.menuPaneFlag)
             }
         }
@@ -241,6 +244,10 @@ Window {
             anchors.rightMargin: 12
             anchors.left: (menuPane.visible === true)?  menuPane.right:parent.left
             anchors.leftMargin: 12
+        }
+        //弹出显示异常信息
+        Snackbar{
+            id: snackbar
         }
     }
     //外阴影

@@ -23,139 +23,12 @@ from pyautogui import position, click, moveTo
 
 from Src.ConfigFile import ConfigFile
 
-class Device():
-    """
-    虽然很大程度上可以把Device当成android mumu leidian 的基类，但是这个三种之间有很大不一样
-    考虑到设计需求这个东西是全局唯一的所以设计成单个依赖关系
-    非常利于后面调用
-    """
-    def __init__(self, baseSetting :dict, android :dict, munu :dict, leidian :dict) -> None:
-        super(Device, self).__init__()
-        self.baseSetting :dict = baseSetting
-        self.android :dict = android
-        self.mumu :dict = munu
-        self.leidian :dict = leidian
 
-    def connect(self) -> None:
-        """
-        检查 对设备的连接状态,如果OK返回对应的deviceId或者handleNum
-        :return:
-        """
-        match self.baseSetting["deviceType"]:
-            case "安卓设备" :
-                if self.baseSetting["connectType"] == "adb":
-                    self.android["deviceId"] = Adb.checkStatus()
-                    return self.android["deviceId"]
-            case "mumu模拟器" :
-                if self.baseSetting["connectType"] == "adb":
-                    self.mumu["deviceId"] = Adb.checkStatus()
-                    return self.android["deviceId"]
-                elif self.baseSetting["connectType"] == "window前台":
-                    self.mumu["handleNum"] = Handle.getHandleNum("阴阳师 - MuMu模拟器")
-                    return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
-            case "雷电模拟器" :
-                if self.baseSetting["connectType"] == "adb":
-                    self.leidian["deviceId"] = Adb.checkStatus()
-                    return self.android["deviceId"]
-                elif self.leidian["connectType"] == "window前台":
-                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
-                    return self.mumu["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
-                elif self.baseSetting["connectType"] == "window后台":
-                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
-                    return self.mumu["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
 
-    def connectDevice(self) -> None:
-        """
-        现在没啥用的
-        :return:
-        """
-        pass
 
-    def updateSettingToFile(self) -> None:
-        """
-        需要使用这个函数之前调用connect函数得到正确的deviceId或者handleNum
-        然后更新设置数据写入json
-        :return:
-        """
-        self.baseSetting["defaultWidth"] = 1280
-        self.baseSetting["defaultHeight"] = 720
-        self.baseSetting["windowScaleRate"] = 1.0
-        match self.baseSetting["deviceType"]:
-            case "安卓设备" :
-                self.android["andriodWidth"] = Adb.getScreenSize(self.android["deviceId"])[0]
-                self.android["andriodHeight"] = Adb.getScreenSize(self.android["deviceId"])[1]
-            case "mumu模拟器":
-                if self.mumu["connectType"] == "adb":
-                    self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
-                    self.mumu["mumuHeight"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
-                elif self.mumu["connectType"] == "window前台":
-                    self.mumu["mumuWidth"] = Handle.getSize(self.mumu["handleNum"])[0]
-                    self.mumu["mumuHeight"] = Handle.getSize(self.mumu["handleNum"])[1]
-            case "雷电模拟器":
-                if self.leidian["connectType"] == "adb":
-                    self.leidian["leidianWidth"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
-                    self.leidian["leidianHeight"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
-                else:
-                    self.leidian["leidianWidth"] = Handle.getSize(self.leidian["handleNum"])[0]
-                    self.leidian["leidianHeight"] = Handle.getSize(self.leidian["handleNum"])[1]
-        ConfigFile().writeSettingFromDevice(self.baseSetting, self.android, self.mumu, self.leidian)
 
-    def getScreen(self):
-        """
-        这个操作必须保证连接无误
-        :return:
-        """
-        match self.baseSetting["deviceType"]:
-            case "安卓设备" :
-                if self.android["getScreenWay"] == "adb":
-                    return Adb.getScreen(self.android["deviceId"])
-                else:
-                    pass
-            case "mumu模拟器":
-                if self.mumu["getScreenWay"] == "adb":
-                    return Adb.getScreen(self.mumu["deviceId"])
-                elif self.mumu["getScreenWay"] == "window前台":
-                    return Handle.getScreenPIL(self.mumu["handleNum"])
-                else:
-                    pass
-            case "雷电模拟器":
-                if self.leidian["getScreenWay"] == "adb":
-                    return Adb.getScreen(self.mumu["deviceId"])
-                elif self.leidian["getScreenWay"] == "window前台":
-                    return Handle.getScreenPIL(self.leidian["handleNum"])
-                elif self.leidian["getScreenWay"] == "window后台":
-                    return Handle.getScreen(self.leidian["handleNum"])
-            case default:
-                return None
 
-    def click(self, pos :list ) -> None:
-        """
 
-        :param pos:
-        :return:
-        """
-        match self.baseSetting["deviceType"]:
-            case "安卓设备":
-                if self.android["controlWay"] == "adb":
-                    Adb.click(self.android["deviceId"], pos)
-                else:
-                    pass
-            case "mumu模拟器":
-                if self.mumu["controlWay"] == "adb":
-                    Adb.click(self.mumu["deviceId"], pos)
-                elif self.mumu["controlWay"] == "window前台":
-                    Handle.clickPIL(self.mumu["handleNum"], pos)
-                else:
-                    pass
-            case "雷电模拟器":
-                if self.leidian["controlWay"] == "adb":
-                    Adb.click(self.leidian["deviceId"], pos)
-                elif self.leidian["controlWay"] == "window前台":
-                    Handle.clickPIL(self.leidian["handleNum"], pos)
-                elif self.leidian["controlWay"] == "window后台":
-                    Handle.click(self.leidian["handleNum"], pos)
-            case default:
-                return None
 
 class Adb():
     """
@@ -204,7 +77,7 @@ class Adb():
             if deviceList == []:   #如果都没有设备尝试连接mumu模拟器
                 print("mumu 连接中")
                 result = Adb.dealCmd('connect 127.0.0.1:7555').decode("utf-8")
-                if result.find('connect to 127.0.0.1:7555'):
+                if result.find('connect to 127.0.0.1:7555') != -1:
                     return '127.0.0.1:7555'
             for device in deviceList:
                 if device != 'offline' and device != 'unknown':
@@ -253,14 +126,7 @@ class Adb():
         scrImg = cv2.cvtColor(scrImg, cv2.COLOR_BGRA2GRAY)
         return scrImg
 
-# print( Adb.checkStatus())
-# Adb.getScreen(Adb.checkStatus())
-# print( Adb.getScreenSize('127.0.0.1:7555'))
-# Adb.DoClick('CUYDU20102004949', [500, 500])
-# img = Adb.getScreen('127.0.0.1:7555')
-# cv2.imshow("scr_img", img)  # 显示
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+
 
 class Handle():
     """
@@ -379,10 +245,10 @@ class Handle():
         imgSrceen = cv2.resize(imgSrceen, (winSize[0], winSize[1]))
 
         # 测试显示截图图片
-        cv2.namedWindow('imgSrceen')  # 命名窗口
-        cv2.imshow("imgSrceen", imgSrceen)  # 显示
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.namedWindow('imgSrceen')  # 命名窗口
+        # cv2.imshow("imgSrceen", imgSrceen)  # 显示
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
         # 内存释放
         DeleteObject(saveBitMap.GetHandle())
@@ -406,10 +272,10 @@ class Handle():
         imgScreen = array(grabImage)  # 转换为cv2的矩阵格式
         imgScreen = cv2.cvtColor(imgScreen, cv2.COLOR_BGRA2GRAY)
 
-        cv2.namedWindow('imgSrceen')  # 命名窗口
-        cv2.imshow("imgSrceen", imgScreen)  # 显示
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.namedWindow('imgSrceen')  # 命名窗口
+        # cv2.imshow("imgSrceen", imgScreen)  # 显示
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
         return imgScreen
 
@@ -438,18 +304,177 @@ class Handle():
         :return:
         """
         x1, y1, x2, y2 = GetWindowRect(handleNum)
+        print("munu"+ str(x1) +"fff"+ str(y1))
         xClick = x1 +pos[0]
         yClick = y1 +pos[1]
         # 把窗口置顶，并进行点击
         shell = Dispatch("WScript.Shell")
         shell.SendKeys('%')
         SetForegroundWindow(handleNum)
-        QThread.sleep(0.1)  # 置顶后等0.2秒再点击
+        QThread.sleep(0.2)  # 置顶后等0.2秒再点击
         presentPos = position()  # 记录当前的坐标
         moveTo(xClick, yClick)
         click(xClick, yClick)
         moveTo(presentPos[0], presentPos[1])
         return [x1 + pos[0], y1 + pos[1]]
+
+
+
+
+
+
+class Device():
+    """
+    虽然很大程度上可以把Device当成android mumu leidian 的基类，但是这个三种之间有很大不一样
+    考虑到设计需求这个东西是全局唯一的所以设计成单个依赖关系
+    非常利于后面调用
+    """
+    def __init__(self, baseSetting :dict, android :dict, munu :dict, leidian :dict) -> None:
+        super(Device, self).__init__()
+        self.baseSetting :dict = baseSetting
+        self.android :dict = android
+        self.mumu :dict = munu
+        self.leidian :dict = leidian
+
+    def connect(self) -> None:
+        """
+        检查 对设备的连接状态,如果OK返回对应的deviceId或者handleNum
+        :return:
+        """
+        match self.baseSetting["deviceType"]:
+            case "安卓设备" :
+                if self.android["connectType"] == "adb":
+                    self.android["deviceId"] = Adb.checkStatus()
+                    return self.android["deviceId"]
+            case "mumu模拟器" :
+                if self.mumu["connectType"] == "adb":
+                    self.mumu["deviceId"] = Adb.checkStatus()
+                    return self.android["deviceId"]
+                elif self.mumu["connectType"] == "window前台":
+                    self.mumu["handleNum"] = Handle.getHandleNum("阴阳师 - MuMu模拟器")
+                    return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
+            case "雷电模拟器" :
+                if self.leidian["connectType"] == "adb":
+                    self.leidian["deviceId"] = Adb.checkStatus()
+                    return self.android["deviceId"]
+                elif self.leidian["connectType"] == "window前台":
+                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
+                    return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
+                elif self.leidian["connectType"] == "window后台":
+                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
+                    return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
+
+    def connectDevice(self) -> None:
+        """
+        现在没啥用的
+        :return:
+        """
+        pass
+
+    def updateSettingToFile(self) -> None:
+        """
+        需要使用这个函数之前调用connect函数得到正确的deviceId或者handleNum
+        然后更新设置数据写入json
+        :return:
+        """
+        self.baseSetting["defaultWidth"] = 1280
+        self.baseSetting["defaultHeight"] = 720
+        self.baseSetting["windowScaleRate"] = Handle.getWindowScaleRate()
+        match self.baseSetting["deviceType"]:
+            case "安卓设备" :
+                self.android["androidWidth"] = Adb.getScreenSize(self.android["deviceId"])[0]
+                self.android["androidHeight"] = Adb.getScreenSize(self.android["deviceId"])[1]
+            case "mumu模拟器":
+                if self.mumu["connectType"] == "adb":
+                    self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
+                    self.mumu["mumuHeight"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
+                elif self.mumu["connectType"] == "window前台":
+                    self.mumu["mumuWidth"] = Handle.getSize(self.mumu["handleNum"])[0]
+                    self.mumu["mumuHeight"] = Handle.getSize(self.mumu["handleNum"])[1]
+            case "雷电模拟器":
+                if self.leidian["connectType"] == "adb":
+                    self.leidian["leidianWidth"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
+                    self.leidian["leidianHeight"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
+                else:
+                    self.leidian["leidianWidth"] = Handle.getSize(self.leidian["handleNum"])[0]
+                    self.leidian["leidianHeight"] = Handle.getSize(self.leidian["handleNum"])[1]
+        ConfigFile().writeSettingFromDevice(self.baseSetting, self.android, self.mumu, self.leidian)
+
+    def getScreen(self):
+        """
+        这个操作必须保证连接无误
+        :return:
+        """
+        match self.baseSetting["deviceType"]:
+            case "安卓设备" :
+                if self.android["getScreenWay"] == "adb":
+                    return Adb.getScreen(self.android["deviceId"])
+                else:
+                    pass
+            case "mumu模拟器":
+                if self.mumu["getScreenWay"] == "adb":
+                    return Adb.getScreen(self.mumu["deviceId"])
+                elif self.mumu["getScreenWay"] == "window前台":
+                    return Handle.getScreenPIL(self.mumu["handleNum"])
+                else:
+                    pass
+            case "雷电模拟器":
+                if self.leidian["getScreenWay"] == "adb":
+                    return Adb.getScreen(self.leidian["deviceId"])
+                elif self.leidian["getScreenWay"] == "window前台":
+                    return Handle.getScreenPIL(self.leidian["handleNum"])
+                elif self.leidian["getScreenWay"] == "window后台":
+                    return Handle.getScreen(self.leidian["handleNum"], [self.leidian["leidianWidth"],self.leidian["leidianHeight"]])
+            case default:
+                return None
+
+    def click(self, pos :list ) -> None:
+        """
+
+        :param pos:
+        :return:
+        """
+        match self.baseSetting["deviceType"]:
+            case "安卓设备":
+                if self.android["controlWay"] == "adb":
+                    Adb.click(self.android["deviceId"], pos)
+                else:
+                    pass
+            case "mumu模拟器":
+                if self.mumu["controlWay"] == "adb":
+                    Adb.click(self.mumu["deviceId"], pos)
+                elif self.mumu["controlWay"] == "window前台":
+                    Handle.clickPIL(self.mumu["handleNum"], pos)
+                else:
+                    pass
+            case "雷电模拟器":
+                if self.leidian["controlWay"] == "adb":
+                    Adb.click(self.leidian["deviceId"], pos)
+                elif self.leidian["controlWay"] == "window前台":
+                    Handle.clickPIL(self.leidian["handleNum"], pos)
+                elif self.leidian["controlWay"] == "window后台":
+                    Handle.click(self.leidian["handleNum"], pos)
+            case default:
+                return None
+
+device = Device(ConfigFile().getSettingDict("baseSetting"),
+                ConfigFile().getSettingDict("android"),
+                ConfigFile().getSettingDict("mumu"),
+                ConfigFile().getSettingDict("leidian"))
+print(device.connect())
+device.updateSettingToFile()
+img = device.getScreen()
+cv2.imshow("scr_img", cv2.resize(img, (0,0), fx=0.5, fy=0.5) ) # 显示
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+device.click([63,88])
+
+# print( Adb.checkStatus())
+# Adb.getScreen(Adb.checkStatus())
+# print( Adb.getScreenSize('127.0.0.1:7555'))
+# Adb.DoClick('CUYDU20102004949', [500, 500])
+# img = Adb.getScreen('127.0.0.1:7555')
+
 
 # print(Handle.getHandleNum('NemuPlayer'))
 # print(Handle.getHandleNum('阴阳师 - MuMu模拟器'))

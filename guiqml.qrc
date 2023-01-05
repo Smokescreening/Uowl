@@ -10,5 +10,6 @@
         <file>GuiQML/Body/SettingBoby.qml</file>
         <file>GuiQML/Component/SettingElement.qml</file>
         <file>GuiQML/Body/SettingBoby.js</file>
+        <file>GuiQML/Pane/Snackbar.qml</file>
     </qresource>
 </RCC>

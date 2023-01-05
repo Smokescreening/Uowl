@@ -20,7 +20,7 @@ class ThreadRun(QThread):
         """
         while (1):
             QThread.sleep(5)
-            Log4().sigUIShowLog.emit("info", "ffff")
+            Log4().sigUIShowLog.emit("info", "ff33333333333333333ddddddddddddff")
             Bridge().sigUIUpdateProgressBar.emit(0.6)
             Bridge().sigUIUpdateRemainTime.emit("20:33")
             Bridge().sigUIUpdatePresentTask.emit("tes i love u")

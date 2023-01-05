@@ -268,14 +268,13 @@ Item {
         }
     }
     Component.onCompleted: {
-        log4.sigUIShowLog.connect(slotUIShowLog)
-        bridge.sigUIUpdateProgressBar.connect(slotUIUpdateProgressBar)
-        bridge.sigUIUpdateRemainTime.connect(slotUIUpdateRemainTime)
-        bridge.sigUIUpdatePresentTask.connect(slotUIUpdatePresentTask)
-        bridge.sigUIUpdatePresentState.connect(slotUIUpdatePresentState)
+
     }
 
-    function slotUIShowLog(grade, info){
+
+
+    //更新内容
+    function settUIShowLog(grade, info){
         var log = {}
         log.logContent = info
         logListModel.append(log)
@@ -283,19 +282,22 @@ Item {
             logListModel.remove(0)
         }
     }
-    function slotUIUpdateProgressBar(value){
+    //进度条
+    function setUIUpdateProgressBar(value){
         controlProgress.value = value
     }
-    function slotUIUpdateRemainTime(text){
+    //剩余时间
+    function setUIUpdateRemainTime(text){
         remainTime.text = text
     }
-    function slotUIUpdatePresentTask(taskName){
+    //当前任务
+    function setUIUpdatePresentTask(taskName){
         presentTask.text = taskName
     }
-    function slotUIUpdatePresentState(stateName){
+    //当前状态
+    function setUIUpdatePresentState(stateName){
         presentState.text = stateName
     }
-
     onRunStateChanged: {
         if(taskStart.runState === 0){
             menuPane.menuOpen()

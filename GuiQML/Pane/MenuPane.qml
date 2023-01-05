@@ -6,7 +6,7 @@ Item {
     id:menuPane
     width: 48
     clip: true
-    property int menuPaneFlag: 1   //菜单选中第几个
+    property int menuPaneFlag: 1   //菜单选中第几个 0表示设置 其他依次按顺序
 
     Rectangle {
         id: rectangle
@@ -134,6 +134,9 @@ Item {
     }
     function menuClose(){
         menuPane.visible = false
+    }
+    function getVisable(){
+        return menuPane.visible
     }
 
 }
