@@ -4,6 +4,7 @@
 
 import os
 
+
 from datetime import datetime
 from pathlib import Path
 from PySide6.QtCore import QObject, Slot, Signal
@@ -48,14 +49,22 @@ class Log4(QObject):
         :return:
         """
         nowDateTime: str = datetime.now().strftime("%H:%M:%S.%f")
-        if grade == "info":
-            self.f.write('%s:%s'%(nowDateTime[:11], info) + '\r')
-        elif grade == "debug":
-            self.f.write('%s->%s:%s'%(nowDateTime[:11], grade, info) + '\r')
-        elif grade == "warning":
-            self.f.write('%s->%s:%s'%(nowDateTime[:11], grade, info) + '\r')
-        elif grade == "error":
-            self.f.write('%s->%s:%s'%(nowDateTime[:11], grade, info) + '\r')
-        else:
-            self.f.write('%s->%s:%s'%(nowDateTime[:11], grade, info) + '\r')
-        self.sigUIShowLog.emit(grade, info)
+        if grade is not None and info is not None:
+            if self.f is not None:
+                self.f.write('%s:%s'%(nowDateTime[:11], info) + '\r')
+            self.sigUIShowLog.emit(grade, info)
+
+    @Slot(str, str)
+    def log(self, grade: str, info:str) -> None:
+        """
+        在一个进程内部数据是共享的，但是这个类是单例并且我是定义在GUI线程里面的
+        而在这里的用法不正常，使用的情况是在后台线程一般做法是用信号槽，但是考虑到只用这个后台线程使用所以就这么透露了
+        :param grade:
+        :param info:
+        :return:
+        """
+        nowDateTime: str = datetime.now().strftime("%H:%M:%S.%f")
+        if grade is not None and info is not None:
+            if self.f is not None:
+                self.f.write('%s:%s' % (nowDateTime[:11], info) + '\r')
+            self.sigUIShowLog.emit(grade, f'{nowDateTime[:11]}: {info}')

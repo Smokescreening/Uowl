@@ -1,0 +1,192 @@
+{
+    "name": "DiGui",
+    "nameZh": "地域鬼王",
+    "version": "0.1",
+    "runTime": "2.0",
+    "intervalTime": "2.0",
+    "compressRate": "0.9",
+    "matchThreshold": "0.8",
+    "stateList": [
+        {
+            "stateName": "goto",
+            "imgEvent": [
+                {
+                    "eventName": "tansuo",
+                    "imgName": "tansuo.jpg",
+                    "x0": "0.2",
+                    "y0": "0.1",
+                    "width": "0.7",
+                    "height": "0.4"
+                },
+                {
+                    "eventName": "digui",
+                    "imgName": "digui.jpg",
+                    "x0": "0.5",
+                    "y0": "0.8",
+                    "width": "0.3",
+                    "height": "0.2"
+                },
+                {
+                    "eventName": "jinritiaozhan",
+                    "imgName": "jinritiaozhan.jpg",
+                    "x0": "0",
+                    "y0": "0.2",
+                    "width": "0.5",
+                    "height": "0.5"
+                }
+            ],
+            "intVarEvent": [],
+            "clickAction": [
+                {
+                    "actionName": "imgclick",
+                    "limits": "40",
+                    "moveX": "0",
+                    "moveY": "0"
+                }
+            ],
+            "intChangeAction": [],
+            "transitionsAction":[
+                {
+                    "actionName": "goto_battle1",
+                    "trigger": "goto_battle1",
+                    "source": "goto",
+                    "dest": "battle1"
+                }
+            ],
+            "envent2actionld": [
+                {
+                    "eventType": "ImgEvent",
+                    "actionType": "ClickAction",
+                    "eventName": "tansuo",
+                    "actionName": "imgclick"
+                },
+                {
+                    "eventType": "ImgEvent",
+                    "actionType": "ClickAction",
+                    "eventName": "digui",
+                    "actionName": "imgclick"
+                },
+                {
+                    "eventType": "ImgEvent",
+                    "actionType": "TransitionsAction",
+                    "eventName": "jinritiaozhan",
+                    "actionName": "goto_battle1"
+                }
+            ]
+        },
+        {
+            "stateName": "goback",
+            "imgEvent": [
+                {
+                    "eventName": "tansuo",
+                    "imgName": "tansuo.jpg",
+                    "x0": "0.2",
+                    "y0": "0.1",
+                    "width": "0.7",
+                    "height": "0.4"
+                }
+            ],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        },
+        {
+            "stateName": "battle1",
+            "imgEvent": [],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        },
+        {
+            "stateName": "winBack1",
+            "imgEvent": [],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        },
+        {
+            "stateName": "battle2",
+            "imgEvent": [],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        },
+        {
+            "stateName": "winBack2",
+            "imgEvent": [],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        },
+        {
+            "stateName": "battle3",
+            "imgEvent": [],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        },
+        {
+            "stateName": "winBack3",
+            "imgEvent": [],
+            "intVarEvent": [],
+            "clickAction": [],
+            "intChangeAction": [],
+            "transitionsAction":[],
+            "envent2actionld": []
+        }
+    ],
+    "transitionsList": [
+        {
+            "trigger": "goto_battle1",
+            "source": "goto",
+            "dest": "battle1"
+        },
+        {
+            "trigger": "battle1_winBack1",
+            "source": "battle1",
+            "dest": "winBack1"
+        },
+        {
+            "trigger": "winBack1_battle2",
+            "source": "winBack1",
+            "dest": "battle2"
+        },
+        {
+            "trigger": "battle2_winBack2",
+            "source": "battle2",
+            "dest": "winBack2"
+        },
+        {
+            "trigger": "winBack2_battle3",
+            "source": "winBack2",
+            "dest": "battle3"
+        },
+        {
+            "trigger": "battle3_winBack3",
+            "source": "battle3",
+            "dest": "winBack3"
+        },
+        {
+            "trigger": "winBack3_goback",
+            "source": "winBack3",
+            "dest": "goback"
+        },
+        {
+            "trigger": "goback",
+            "source": "*",
+            "dest": "goback"
+        }
+    ]
+}

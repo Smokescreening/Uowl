@@ -106,22 +106,7 @@ Item {
         ListModel{
             id:logListModel
             ListElement{
-                logContent:"16:33.444: fjefjeiefjieiefjfeji"
-            }
-            ListElement{
-                logContent:"15:33.444: 分解飞机飞积分奖励啊姐儿俩金额"
-            }
-            ListElement{
-                logContent:"12:33.444: 啊而分解iojf阿里积分ieja路径飞机"
-            }
-            ListElement{
-                logContent:"16:33.444: fjefjeiefjieiefjfeji"
-            }
-            ListElement{
-                logContent:"15:33.444: 分解飞机飞积分奖励啊姐解飞解飞机飞积分奖励啊姐解飞机飞积分奖励啊姐儿俩机飞积分奖励啊姐儿俩金儿俩金额"
-            }
-            ListElement{
-                logContent:"12:33.444: 啊而分解iojf阿里积分ieja路径飞机"
+                logContent:"嘻嘻！！！"
             }
         }
         // 日记输出-委托
@@ -220,7 +205,7 @@ Item {
                 }
                 else if(taskStart.runState === 2){
                     taskStart.runState = 1 //继续
-                    bridge.sigPresentTasks("continue")
+                    bridge.sigPresentTasks("resume")
                 }
             }
             }

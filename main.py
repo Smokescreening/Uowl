@@ -8,7 +8,7 @@ from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtCore import Qt, QThread
 
 from Src.ConfigFile import ConfigFile
-from Src.ThreadRun import ThreadRun
+from Src.TaskScheduler import TaskScheduler
 from Src.Bridge import Bridge
 from Src.Log4 import Log4
 
@@ -31,8 +31,8 @@ if __name__ == "__main__":
     # 连接python和qml的信号桥，两个语言通信就这两种机制一个是以json文件另一个就是这个信号槽机制
     bridge = Bridge()
     # 后端线程
-    threadRun = ThreadRun(bridge, log4)
-    threadRun.start()
+    taskSch = TaskScheduler()
+    taskSch.start()
 
     engine = QQmlApplicationEngine()
     engine.rootContext().setContextProperty("log4", log4)

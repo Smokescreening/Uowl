@@ -10,6 +10,9 @@
 
 ## 📆
 
++ 2023.1.8:  rename ThreadRun to TaskScheduler and the forthwith Task function is realized。 添加clickAction, transitionsAction和imgEvent。然后初步实现了task的内容
++ 2023.1.7:   忘记了实现了什么了
+
 + 2023.1.4：解决雷电模拟器后台模式bug，实现Device类
 
 + 2023.1.3：实现Bridge,Log4,ThreadRun：建立qml与python通信。实现Adb即Handle设备接口

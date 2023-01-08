@@ -7,7 +7,7 @@ import re
 import random
 import cv2
 
-from PySide6.QtCore import QThread
+from PySide6.QtCore import QThread, QObject
 from numpy import frombuffer, uint8, array
 from pathlib import Path
 from subprocess import Popen, PIPE
@@ -22,6 +22,7 @@ from PIL import ImageGrab
 from pyautogui import position, click, moveTo
 
 from Src.ConfigFile import ConfigFile
+from Src.Log4 import singleton,Log4
 
 
 
@@ -322,14 +323,13 @@ class Handle():
 
 
 
-
-class Device():
+class Device(QObject):
     """
     虽然很大程度上可以把Device当成android mumu leidian 的基类，但是这个三种之间有很大不一样
     考虑到设计需求这个东西是全局唯一的所以设计成单个依赖关系
     非常利于后面调用
     """
-    def __init__(self, baseSetting :dict, android :dict, munu :dict, leidian :dict) -> None:
+    def __init__(self, baseSetting :dict , android :dict , munu :dict, leidian :dict) -> None:
         super(Device, self).__init__()
         self.baseSetting :dict = baseSetting
         self.android :dict = android
@@ -345,23 +345,29 @@ class Device():
             case "安卓设备" :
                 if self.android["connectType"] == "adb":
                     self.android["deviceId"] = Adb.checkStatus()
+                    Log4().log("info",f'已连接上安卓设备,deviceId:{self.android["deviceId"]}')
                     return self.android["deviceId"]
             case "mumu模拟器" :
                 if self.mumu["connectType"] == "adb":
                     self.mumu["deviceId"] = Adb.checkStatus()
+                    Log4().log("info", f'已连接上mumu模拟器,deviceId:{self.mumu["deviceId"]}')
                     return self.android["deviceId"]
                 elif self.mumu["connectType"] == "window前台":
                     self.mumu["handleNum"] = Handle.getHandleNum("阴阳师 - MuMu模拟器")
+                    Log4().log("info", f'已连接上mumu模拟器,handleNum:{self.mumu["handleNum"]}')
                     return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
             case "雷电模拟器" :
                 if self.leidian["connectType"] == "adb":
                     self.leidian["deviceId"] = Adb.checkStatus()
+                    Log4().log("info", f'已连接上雷电模拟器,deviceId:{self.leidian["deviceId"]}')
                     return self.android["deviceId"]
                 elif self.leidian["connectType"] == "window前台":
                     self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
+                    Log4().log("info", f'已连接上雷电模拟器,handleNum:{self.leidian["handleNum"]}')
                     return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
                 elif self.leidian["connectType"] == "window后台":
                     self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
+                    Log4().log("info", f'已连接上雷电模拟器,handleNum:{self.leidian["handleNum"]}')
                     return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
 
     def connectDevice(self) -> None:
@@ -384,21 +390,27 @@ class Device():
             case "安卓设备" :
                 self.android["androidWidth"] = Adb.getScreenSize(self.android["deviceId"])[0]
                 self.android["androidHeight"] = Adb.getScreenSize(self.android["deviceId"])[1]
+                Log4().log("info", f'设备尺寸是:{self.android["androidWidth"]}x{self.android["androidHeight"]}')
             case "mumu模拟器":
                 if self.mumu["connectType"] == "adb":
                     self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
                     self.mumu["mumuHeight"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
+                    Log4().log("info", f'设备尺寸是:{self.mumu["mumuWidth"]}x{self.mumu["mumuHeight"]}')
                 elif self.mumu["connectType"] == "window前台":
                     self.mumu["mumuWidth"] = Handle.getSize(self.mumu["handleNum"])[0]
                     self.mumu["mumuHeight"] = Handle.getSize(self.mumu["handleNum"])[1]
+                    Log4().log("info", f'设备尺寸是:{self.mumu["mumuWidth"]}x{self.mumu["mumuHeight"]}')
             case "雷电模拟器":
                 if self.leidian["connectType"] == "adb":
                     self.leidian["leidianWidth"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
                     self.leidian["leidianHeight"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
+                    Log4().log("info", f'设备尺寸是:{self.leidian["leidianWidth"]}x{self.leidian["leidianHeight"]}')
                 else:
                     self.leidian["leidianWidth"] = Handle.getSize(self.leidian["handleNum"])[0]
                     self.leidian["leidianHeight"] = Handle.getSize(self.leidian["handleNum"])[1]
+                    Log4().log("info", f'设备尺寸是:{self.leidian["leidianWidth"]}x{self.leidian["leidianHeight"]}')
         ConfigFile().writeSettingFromDevice(self.baseSetting, self.android, self.mumu, self.leidian)
+
 
     def getScreen(self):
         """
@@ -457,17 +469,12 @@ class Device():
             case default:
                 return None
 
-device = Device(ConfigFile().getSettingDict("baseSetting"),
-                ConfigFile().getSettingDict("android"),
-                ConfigFile().getSettingDict("mumu"),
-                ConfigFile().getSettingDict("leidian"))
-print(device.connect())
-device.updateSettingToFile()
-img = device.getScreen()
-cv2.imshow("scr_img", cv2.resize(img, (0,0), fx=0.5, fy=0.5) ) # 显示
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-device.click([63,88])
+    def saveScreen(self, img, name: str, path = None) -> None:
+        if path is not None:
+            cv2.imwrite( path / name + '.jpg', img, [int(cv2.IMWRITE_JPEG_QUALITY), 90])  # 保存截图 质量（0-100）
+        else:
+            path = str(Path.cwd().resolve() / name) + '.jpg' # 绝对路径
+            cv2.imwrite(path, img, [int(cv2.IMWRITE_JPEG_QUALITY), 90])  # 保存截图 质量（0-100）
 
 # print( Adb.checkStatus())
 # Adb.getScreen(Adb.checkStatus())
@@ -494,3 +501,11 @@ device.click([63,88])
 # print(Handle.click(Handle.getHandleNum("计算器"), [330,453]))
 
 # print(IsWindowVisible(Handle.getHandleNum("阴阳师 - MuMu模拟器")))
+
+# device = Device(ConfigFile.getSettingDict("baseSetting"),
+#                              ConfigFile.getSettingDict("android"),
+#                              ConfigFile.getSettingDict("mumu"),
+#                              ConfigFile.getSettingDict("leidian"))
+# device.connect()
+# device.updateSettingToFile()
+# device.saveScreen( device.getScreen(), "test")

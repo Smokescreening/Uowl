@@ -175,7 +175,9 @@ Window {
                     MouseArea{
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: { rootWindow.close() }
+                    onClicked: {
+                        bridge.sigThreadExit()
+                        rootWindow.close() }
                     }
                 }
 
