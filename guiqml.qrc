@@ -11,5 +11,13 @@
         <file>GuiQML/Component/SettingElement.qml</file>
         <file>GuiQML/Body/SettingBoby.js</file>
         <file>GuiQML/Pane/Snackbar.qml</file>
+        <file>GuiQML/Component/MachineGraph.qml</file>
+        <file>GuiQML/Component/BuildMenu.qml</file>
+        <file>GuiQML/Component/BuildContents.qml</file>
+        <file>GuiQML/Component/MachineGraph.js</file>
+        <file>GuiQML/Component/MachineGraphElement.qml</file>
+        <file>GuiQML/Component/UDialog.qml</file>
+        <file>GuiQML/Component/MenuExpand.qml</file>
+        <file>GuiQML/Component/PullMenu.qml</file>
     </qresource>
 </RCC>

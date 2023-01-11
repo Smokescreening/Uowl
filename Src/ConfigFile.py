@@ -82,6 +82,7 @@ class ConfigFile(QObject):
         configSettingStr = json.dumps(root, ensure_ascii=False)
         ConfigFile().writeSettingString( configSettingStr )
 
+
     def readTaskConfig(self, taskGroup :str, taskName :str) -> str:
         """
         读取配置文件，只读不写
@@ -95,5 +96,16 @@ class ConfigFile(QObject):
                 taskConfig = f.read()
             f.close()
             return taskConfig
+        else:
+            return None
+
+    @Slot(str, str, result="QString")
+    def readTaskConfigUI(self, taskGroup :str, taskName :str) -> str:
+        if taskGroup and taskName :
+            fileName = str(Path(__file__).parent.parent / 'Tasks' / taskGroup / taskName / 'taskConfigUI.json')
+            with open(fileName, 'r', encoding='utf-8') as f:
+                taskConfigUI = f.read()
+            f.close()
+            return taskConfigUI
         else:
             return None

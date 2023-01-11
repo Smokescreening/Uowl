@@ -15,7 +15,8 @@ Item {
         anchors.bottom: taskControl.top
         anchors.bottomMargin: 8
         radius: 8
-        color: "#4dffffff"
+//        color: "#4dffffff"
+        color: "transparent"
         border.color: "#ffffff"
         border.width: 1
         clip: true
