@@ -8,6 +8,7 @@ Item {
     id:taskStart
     anchors.fill: parent
     property int runState: 0  //0是任务不运行  1是正在运行中 2是暂停中
+
     Rectangle{
         id:startRectangle
         width: parent.width
@@ -17,6 +18,7 @@ Item {
         radius: 8
 //        color: "#4dffffff"
         color: "transparent"
+//        opacity: 0.5
         border.color: "#ffffff"
         border.width: 1
         clip: true
@@ -35,7 +37,7 @@ Item {
             }
             Text {
                 id:presentTask
-                text: qsTr("任务xxx")
+                text: qsTr("xxx")
                 color: "#ffffff"
                 font.bold: true
                 font.pixelSize: 18
@@ -48,7 +50,7 @@ Item {
             }
             Text {
                 id:presentState
-                text: qsTr("状态xxx")
+                text: qsTr("xxx")
                 color: "#ffffff"
                 font.bold: true
                 font.pixelSize: 18
@@ -92,7 +94,7 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: 16
                 anchors.verticalCenter: parent.verticalCenter
-                text:"40:22"
+                text:"00:00"
                 color: "#ffffff"
             }
 //            Image {

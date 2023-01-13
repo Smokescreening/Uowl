@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import "../Body/TaskBuild.js" as TB
+
 Item {
     id: mgElement
     property string stateName: ""
@@ -23,9 +25,31 @@ Item {
             id:ma
             hoverEnabled: true
             anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: Qt.PointingHandCursor
-            onClicked: {
-                sigStateIndex(mgElement.stateName)
+            Menu {
+                    id: contextMenu
+                    background: Rectangle{
+                        implicitWidth: 140
+                        radius: 8
+                        border.color: "green"
+                        color: "transparent"
+                    }
+                    Action {
+                        text: "del"
+                        onTriggered:{
+                            TB.delState(mgElement.parent.parent.parent.parent.root, stateName)
+                            mgElement.destroy(10)
+                            sigStateIndex("goto")
+
+                        }}
+                }
+            onClicked: function(mouse){
+                if(mouse.button === Qt.RightButton){
+                    contextMenu.open()
+                }else{
+                    sigStateIndex(mgElement.stateName)
+                }
             }
             onEntered: { bg.color = "#663399"}
             onExited: {

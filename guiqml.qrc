@@ -19,5 +19,8 @@
         <file>GuiQML/Component/UDialog.qml</file>
         <file>GuiQML/Component/MenuExpand.qml</file>
         <file>GuiQML/Component/PullMenu.qml</file>
+        <file>GuiQML/Component/ConfigElement.qml</file>
+        <file>GuiQML/Component/USlider.qml</file>
+        <file>GuiQML/Body/TaskBuild.js</file>
     </qresource>
 </RCC>

@@ -1,22 +1,27 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import Qt5Compat.GraphicalEffects
 
 import "../Component"
+import "./TaskBuild.js" as TB
 
 Item { 
     Component.onCompleted: {
-        taskBuild.rootjson = JSON.parse(configFile.readTaskConfigUI("DailyGroup", "DiGui"))
-        machineGraph.transitionsList = rootjson["transitionsList"]
-        machineGraph.statePosList = rootjson["statePosList"]
+        //数据一切以这个页面为准
+        taskBuild.root = JSON.parse(configFile.readTaskConfigUI("DailyGroup", "DiGui"))
+//        machineGraph.transitionsList = rootjson["transitionsList"]
+//        machineGraph.statePosList = rootjson["statePosList"]
 
     }
-    property var rootjson: {""}
+    property var root: {""}
     id: taskBuild
     BuildMenu{
         id: tBuildMenu
         height: parent.height
         width: 200
         anchors.right: parent.right
+
+        stateName: machineGraph.stateIndex
     }
     Item{
         height: parent.height
@@ -30,7 +35,7 @@ Item {
         }
         Rectangle{
             id: splitLine
-            width: parent.width
+            width: parent.width-8
             height: 8
             y: 500
             radius: 3
@@ -72,6 +77,45 @@ Item {
             anchors.bottom: parent.bottom
         }
 
+    }
+    RoundButton{
+        width: 50
+        height: width
+        radius: 25
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 4
+        anchors.right: parent.right
+        anchors.rightMargin: 4
+        background: Rectangle{
+            id:backgroundRectangle1
+            anchors.fill: parent
+            radius: 25
+            color: "#FFB5D83C"
+            border.color: "#80ffffff"
+            border.width: 1
+        }
+        DropShadow
+        {
+            anchors.fill: backgroundRectangle1
+            radius: 8
+            samples: 16
+            color: "#B5D83C"
+            source: backgroundRectangle1
+         }
+        contentItem:Text {
+            text: "保存"
+            color: "#ffffff"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+        MouseArea{
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+           configFile.writeTaskConfigUI("DailyGroup", "DiGui", JSON.stringify(taskBuild.root))
+           log4.log("info", "已保存")
+        }
+        }
     }
 
 

@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.11
 
+import "../Body/TaskBuild.js" as TB
+
 /*
 
 关于使用该组件：
@@ -22,14 +24,15 @@ Item {
 
     property int menuIndex: 0
     property int subIndex: 0
-    signal sigChangeMenuEdit(string mainName, string subName)
+    signal sigChangeMenuEdit(string mainName, string subName) //用下面的接口
+    signal sigSelectSub(string mainName, string subName)
 
 
     Component.onCompleted: {
-        addMainModelDate("imgEvent", "../../GuiImage/pullmenu/photo.png",
-                         "test", [{"name":"img1"},{"name":"img2"}], mainModel)
-        addMainModelDate("clickAction", "../../GuiImage/pullmenu/photo.png",
-                         "test", [{"name":"click1"},{"name":"click2"}], mainModel)
+//        addMainModelDate("imgEvent", "../../GuiImage/pullmenu/photo.png",
+//                         "test", [{"name":"img1"},{"name":"img2"}], mainModel)
+//        addMainModelDate("clickAction", "../../GuiImage/pullmenu/photo.png",
+//                         "test", [{"name":"click1"},{"name":"click2"}], mainModel)
     }
 
     ListView{
@@ -66,14 +69,14 @@ Item {
                 color: "transparent"
             }
             Action {
-                text: "添加新子项"
+                text: "new"
                 onTriggered:{
                     newNaemDialog.open()
             }}
         }
         UDialog{
             id:newNaemDialog
-            title: "stateName"
+            title: "Name"
             TextInput{
                 id:dialogText
                 color: "#663399"
@@ -85,8 +88,9 @@ Item {
             }
             function buttonClicked(label){
                 if(label==="确定"){
+                    TB.addSub(root.parent.parent.root, root.parent.stateName, name, dialogText.text)
                     addSubModelDate(name, dialogText.text, mainModel)
-                newNaemDialog.close()
+                    newNaemDialog.close()
                 }else if(label === "取消")
                 {newNaemDialog.close()}
             }
@@ -129,13 +133,13 @@ Item {
             anchors.top: rowLayout.bottom
             anchors.topMargin: 8
             width: root.width
-            implicitHeight: (index === menuIndex)?subModel.count*20:0
+            implicitHeight: (index === menuIndex)?subList.count*20:0
             spacing: 4
             Component.onCompleted: {
 
             }
 
-            model: subModel
+            model: subList
             delegate: Component{
                 id: highlig
                 Item{
@@ -161,6 +165,7 @@ Item {
                                 var mainN = mainModel.get(menuIndex).name
                                 var subN = name
                                 sigChangeMenuEdit(mainN, subN)
+                                sigSelectSub(mainN, subN)
                                 console.debug(mainN, subN)
                             }
                         }
@@ -175,7 +180,8 @@ Item {
                             Action {
                                 text: "删除该项"
                                 onTriggered:{
-                                    mainModel.get(menuIndex).subModel.remove(index)
+                                    TB.delSub(root.parent.parent.root, root.parent.stateName, mainModel.get(menuIndex).name ,name)
+                                    mainModel.get(menuIndex).subList.remove(index)
                             }}
                         }
                     }
@@ -201,9 +207,9 @@ Item {
             mainModel.append({"name": name,
                               "icon": icon,
                               "desc": description,
-                              "subModel": submodel })
+                              "subList": submodel })
         }else{  //之前有这一大项模型，更改子项模型
-            mainModel.get(index).subModel =subModel
+            mainModel.get(index).subList =subList
         }
     }
     //添加以小项模型数据 最后一个输入是要操作的模型数据
@@ -213,7 +219,7 @@ Item {
             addMainModelDate(mainName, "", "no find description",
                              [{"name":subName}], mainModel)
         }else{
-            mainModel.get(index).subModel.append({"name":subName})
+            mainModel.get(index).subList.append({"name":subName})
         }
     }
     //删除一小项数据  最后一项是模型数据
@@ -224,4 +230,13 @@ Item {
             mainModel.get(index).subModel.remove(subIndex)
         }
     }
+    //添加数据模型 对外接口
+    function addModel(model){
+        mainModel.append(model)
+    }
+    //删除 全部 对外接口
+    function clearModel(){
+        mainModel.clear()
+    }
+
 }
