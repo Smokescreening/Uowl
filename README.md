@@ -10,6 +10,10 @@
 
 ## 📆
 
++ 2023.1.14: "Task Build"   finished!!!
+
++ 2023.1.13：还有一些Task
+
 + 2023.1.11：完成一半Task的Build界面
 
 + 2023.1.8:  rename ThreadRun to TaskScheduler and the forthwith Task function is realized。 添加clickAction, transitionsAction和imgEvent。然后初步实现了task的内容

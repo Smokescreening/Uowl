@@ -10,8 +10,6 @@ Item {
     clip: true
     property string stateIndex: "goto"  //当前处于第几个状态
     property var transitionsList: []
-//    property var statePosList: []
-
 
     signal sigAddNewState(string stateName)  //添加状态的时候发出
 
@@ -59,7 +57,9 @@ Item {
             allLine.ctx.lineWidth = 1
             ctx.fillStyle = "#ffffff"
             allLine.ctx.font = "12px '仿宋'"
-//            MG.drawLine(allLine.ctx, machineGraph.statePosList, machineGraph.transitionsList, parent.width, parent.height)
+            var posList = TB.getStatePosList(machineGraph.parent.parent.root)
+            var transList = TB.getTransitionsList(machineGraph.parent.parent.root)
+            MG.drawLine(allLine.ctx, posList, transList, parent.width, parent.height)
         }
 
         Component.onCompleted: {

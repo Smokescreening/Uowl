@@ -20,7 +20,6 @@ Item {
         height: parent.height
         width: 200
         anchors.right: parent.right
-
         stateName: machineGraph.stateIndex
     }
     Item{
@@ -112,11 +111,30 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-           configFile.writeTaskConfigUI("DailyGroup", "DiGui", JSON.stringify(taskBuild.root))
-           log4.log("info", "已保存")
+            tContexts.saveContents(tBuildMenu.stateName, tContexts.showMainName, tContexts.showSubName)
+            configFile.writeTaskConfigUI("DailyGroup", "DiGui", JSON.stringify(taskBuild.root))
+            log4.log("info", "已保存")
         }
         }
     }
 
+    function changeContents(mainName, subName){
+        tContexts.saveContents(tBuildMenu.stateName, tContexts.showMainName, tContexts.showSubName)
+        if(mainName === "0" && subName === "baseConfig"){
+            tContexts.showContents("0", "0", "baseConfig")
+        }else{
+            tContexts.showContents(tBuildMenu.stateName, mainName, subName)
+        }
+    }
 
+    function getStateList(){
+        return TB.getStateList(taskBuild.root)
+    }
+    function getEventOActionList(type){
+        if(type === "eventName"){
+            return TB.getEventNameList(taskBuild.root, tBuildMenu.stateName)
+        }else if(type === "actionName"){
+            return TB.getActionNameList(taskBuild.root, tBuildMenu.stateName)
+        }
+    }
 }

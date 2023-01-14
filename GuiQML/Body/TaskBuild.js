@@ -20,11 +20,11 @@ function newImgEvent(name){
     var reu = {}
     reu["name"] = name
     reu["detail"] = []
-    reu["detail"].push( newEleDetail("imgName", "fileDialog",["0","0"]))
-    reu["detail"].push( newEleDetail("x0", "slider",["0","1"]))
-    reu["detail"].push( newEleDetail("y0", "slider",["0","1"]))
-    reu["detail"].push( newEleDetail("width", "slider",["0","1"]))
-    reu["detail"].push( newEleDetail("height", "slider",["0","1"]))
+    reu["detail"].push( newEleDetail("imgName", "fileDialog",[{"paramete":"0"},{"paramete":"0"}]))
+    reu["detail"].push( newEleDetail("x0", "slider",[{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("y0", "slider",[{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("width", "slider",[{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("height", "slider",[{"paramete":"0"},{"paramete":"1"}]))
     return reu
 }
 //
@@ -32,7 +32,7 @@ function newIntVarEvent(name){
     var reu = {}
     reu["name"] = name
     reu["detail"] = []
-    reu["detail"].push( newEleDetail("imgName", "fileDialog",["0","0"]))
+    reu["detail"].push( newEleDetail("imgName", "fileDialog",[{"paramete":"0"},{"paramete":"0"}]))
     return reu
 }
 //
@@ -40,9 +40,9 @@ function newClickAtion(name){
     var reu = {}
     reu["name"] = name
     reu["detail"] = []
-    reu["detail"].push( newEleDetail("limits", "slider", ["20","80"]))
-    reu["detail"].push( newEleDetail("moveX", "slider", ["0","1"]))
-    reu["detail"].push( newEleDetail("moveY", "slider", ["0","1"]))
+    reu["detail"].push( newEleDetail("limits", "slider", [{"paramete":"20"},{"paramete":"80"}]))
+    reu["detail"].push( newEleDetail("moveX", "slider", [{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("moveY", "slider", [{"paramete":"0"},{"paramete":"1"}]))
     return reu
 }
 // new transitions:
@@ -50,9 +50,9 @@ function newTransitionsAction(name){
     var reu = {}
     reu["name"] = name
     reu["detail"] = []
-    reu["detail"].push( newEleDetail("trigger", "textInput", ["20","80"]))
-    reu["detail"].push( newEleDetail("source", "comboBox", ["0","1"]))
-    reu["detail"].push( newEleDetail("dest", "comboBox", ["0","1"]))
+    reu["detail"].push( newEleDetail("trigger", "textInput", [{"paramete":"20"},{"paramete":"80"}]))
+    reu["detail"].push( newEleDetail("source", "comboBox", [{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("dest", "comboBox", [{"paramete":"0"},{"paramete":"1"}]))
     return reu
 }
 // new
@@ -60,10 +60,10 @@ function newEnvent2Action(name){
     var reu = {}
     reu["name"] = name
     reu["detail"] = []
-    reu["detail"].push( newEleDetail("eventType", "comboBox", ["20","80"]))
-    reu["detail"].push( newEleDetail("eventName", "comboBox", ["0","1"]))
-    reu["detail"].push( newEleDetail("actionType", "comboBox", ["0","1"]))
-    reu["detail"].push( newEleDetail("actionName", "comboBox", ["0","1"]))
+    reu["detail"].push( newEleDetail("eventType", "comboBox", [{"paramete":"imgEvent"},{"paramete":"intVarEvent"}]))
+    reu["detail"].push( newEleDetail("eventName", "comboBox", [{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("actionType", "comboBox", [{"paramete":"clickAction"},{"paramete":"intChangeAction"}]))
+    reu["detail"].push( newEleDetail("actionName", "comboBox", [{"paramete":"0"},{"paramete":"1"}]))
     return reu
 }
 //  创建一个新的 sub
@@ -171,4 +171,110 @@ function getDetail(root, stateName, mainName, subName){
         }
         }
     }
+}
+
+function saveDetail(root, stateName, mainName, subName, detail){
+    if(mainName==="0" && subName==="baseConfig"){
+        root["baseConfig"].detail = detail
+    }
+    for(let state of root["stateList"]){
+        if(state["name"] === stateName){               //找state
+        for(let main of state["mainList"]){
+            if(main["name"] === mainName){             //找main
+            for(let sub of main["subList"]){
+                if(sub["name"] === subName){
+                    sub["detail"] = detail              //返回数组
+                }
+            }
+            }
+        }
+        }
+    }
+}
+
+//获取所有的状态列表 带参数paramete
+function getStateList(root){
+    var reu = []
+    for(let state of root["stateList"]){
+        var eleParamete ={}
+        eleParamete["paramete"] = state["name"]
+        reu.push( eleParamete )
+    }
+    return reu
+}
+//获取所有的event 带参数paramete
+function getEventNameList(root, stateName){
+    var reu = []
+    for(let state of root["stateList"]){ //找到statename
+        if(state["name"] === stateName){
+        for(let main of state["mainList"]){
+            if(main["name"] === "imgEvent" || main["name"] === "和intVarEvent"){//找到imgEvent 和intVarEvent
+            for(let sub of main["subList"]){
+                var paramete = {}
+                paramete["paramete"] = sub["name"]
+                reu.push(paramete)
+            }
+            }
+        }
+        }
+    }
+    return reu
+}
+//获取所有的action 带参数paramete
+function getActionNameList(root, stateName){
+    var reu = []
+    for(let state of root["stateList"]){ //找到statename
+        if(state["name"] === stateName){
+        for(let main of state["mainList"]){
+            if(main["name"] === "clickAction" || main["name"] === "intChangeAction"){//clickAction intChangeAction
+            for(let sub of main["subList"]){
+                var paramete = {}
+                paramete["paramete"] = sub["name"]
+                reu.push(paramete)
+            }
+            }
+        }
+        }
+    }
+    return reu
+}
+
+//
+function getStatePosList(root){
+    var statePosList = []
+    for(let state of root["stateList"]){ //找到statename
+        var statePos = {}
+        statePos["stateName"] = state["name"]
+        statePos["x"] = state["x"]
+        statePos["y"] = state["y"]
+        statePosList.push(statePos)
+    }
+    console.debug(JSON.stringify(statePosList))
+    return statePosList
+}
+
+//
+function getTransitionsList(root){
+    var transitionsList =[]
+    for(let state of root["stateList"]){ //找到statename
+    for(let main of state["mainList"]){//找到transitions
+        if(main["name"] === "transitionsAction"){
+        for(let sub of main["subList"]){ //遍历所有的sub然后加入
+            var transitinos ={}
+            for(let ele of sub["detail"]){
+            if(ele["eleName"] === "trigger"){
+                transitinos["trigger"] = ele["eleVal"]
+            }else if(ele["eleName"]==="source"){
+                transitinos["source"] = ele["eleVal"]
+            }else if(ele["eleName"]==="dest"){
+                transitinos["dest"] = ele["eleVal"]
+            }
+            }
+            transitionsList.push(transitinos)
+        }
+        }
+    }
+    }
+    console.debug(JSON.stringify(transitionsList))
+    return transitionsList
 }

@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQml.Models 2.12
 import QtQuick.Dialogs
 import Qt5Compat.GraphicalEffects 1.0
 
@@ -14,8 +15,9 @@ Item {
     property string eleDescription: "description!!!"
     property string eleName: "imgName"
     property string eleVal: "19"
-    property var eleParamete: ["0", "80", "clickAction", "imgEvent"]
-
+    property var eleParamete: ListModel{}
+    Component.onCompleted: {
+    }
     Rectangle{
         anchors.fill: parent
         color: "#ffffff"
@@ -79,7 +81,7 @@ Item {
             width: parent.width
             anchors.verticalCenter: parent.verticalCenter
             model:eleParamete
-            visible: root.eleType === "comboBox"?ture:false
+            visible: root.eleType === "comboBox"?true:false
             delegate: ItemDelegate { //呈现标准视图项 以在各种控件和控件中用作委托
                           width: comboBox.width
                           contentItem: Text {
@@ -87,6 +89,7 @@ Item {
                               color: "green"
                               font: comboBox.font
                               verticalAlignment: Text.AlignVCenter
+
                           }
             }
             contentItem: Text { //界面上显示出来的文字
@@ -118,10 +121,36 @@ Item {
                       color: "transparent"
                       radius: 2
                   }
+                  onOpened: {
+                      if(root.eleName === "eventName"){
+                          eleParamete.clear()
+                          var temp = root.parent.parent.parent.getEventOActionList("eventName")
+                          for(let i of temp){
+                              eleParamete.append(i)
+                          }
+                      }else if(root.eleName === "actionName"){
+                          eleParamete.clear()
+                          var temp1 = root.parent.parent.parent.getEventOActionList("actionName")
+                          for(let j of temp1){
+                              eleParamete.append(j)
+                          }
+                      }else if(root.eleName === "source" || root.eleName === "dest"){
+                          eleParamete.clear()
+                          var temp2 = root.parent.parent.parent.getStateList()
+                          for(let k of temp2){
+                              eleParamete.append(k)
+                          }
+                      }
+                  }
+
                   onClosed: {
                       root.eleVal = comboBox.displayText
                   }
             }
+            onAccepted: {
+                eleVal = comboBox.currentText
+            }
+
             Component.onCompleted: {
                 currentIndex = find(root.eleVal)
             }
@@ -148,9 +177,13 @@ Item {
                 border.width: 2
                 border.color: "#80ffffff"
             }
+            onTextEdited: {
+                root.eleVal = textInput.text
+            }
+
             onEditingFinished: {
                 focus= false
-                console.debug(text)
+               //这个没啥用
             }
         }
         //滑动条
@@ -158,12 +191,13 @@ Item {
             id: uSlider
             width: parent.width-2
             anchors.centerIn: parent
+            enabled: (root.eleType === "slider")?true:false
             visible: (root.eleType === "slider")?true:false
-            from: root.eleParamete[0]
-            to: root.eleParamete[1]
+            from: (eleType==="slider")?parseFloat(root.eleParamete.get(0).paramete):0
+            to: (eleType==="slider")?parseFloat(root.eleParamete.get(1).paramete):1
             value: parseFloat(root.eleVal)
             onMoved: {
-                root.eleVal = value
+                root.eleVal = value.toString()
             }
             Label{
                 id: valText
@@ -175,6 +209,11 @@ Item {
                 text: uSlider.value.toFixed(2)
                 horizontalAlignment: TextInput.AlignRight
                 verticalAlignment: TextInput.AlignVCenter
+            }
+            Component.onCompleted: {
+//                console.debug("ddd"+eleParamete.get(0).paramete)
+//                from = Number(eleParamete.get(0).paramete)
+//                to = Number(eleParamete.get(1).paramete)
             }
         }
         //文件选择
@@ -238,5 +277,27 @@ Item {
                 }
             }
         }
+    }
+
+    //取得控件的值
+    function getEleJson(){
+        //返回json对象
+        var json ={}
+        var eleParamete = [] //把ListMode转为json对象的中间变量
+        for(var i=0; i<root.eleParamete.count; i++){// 遍历所有ListElement
+            var item = root.eleParamete.get(i)
+            var ele ={}
+            ele.paramete = item.paramete
+            eleParamete.push(ele)
+        }
+
+        json.eleName = root.eleName
+        json.eleDescription = root.eleDescription
+        json.eleIcn = root.eleIcn
+        json.eleType = root.eleType
+        json.eleVal = root.eleVal
+        json.eleParamete = eleParamete
+
+        return json
     }
 }

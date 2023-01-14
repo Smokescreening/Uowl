@@ -3,7 +3,11 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 Item{
+    id: tBuildMenu
     property string stateName: "goto"
+
+    signal sigChangeContents(string stateName, string mainName, string subName)
+
     Label{
         id: stName
         anchors.top: parent.top
@@ -13,6 +17,7 @@ Item{
         font.bold: true
         font.pixelSize: 24
     }
+
     RowLayout{
         id: rowLayout
         width: parent.width
@@ -38,15 +43,27 @@ Item{
             Layout.preferredWidth: 20
             Layout.alignment: Qt.AlignVCenter|Qt.AlignRight
             source: "../../GuiImage/pullmenu/chevron_down.png"
+        }
 
+    }
+
+    MouseArea{
+        anchors.fill: rowLayout
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            tBuildMenu.parent.changeContents("0", "baseConfig")
         }
     }
+
     PullMenu{
         id:pullMenu
         width: parent.width
         anchors.top: rowLayout.bottom
         anchors.topMargin: 8
         anchors.bottom: parent.bottom
+        onSigSelectSub: {  //信号层级套娃
+
+        }
 
     }
     Component.onCompleted: {
@@ -54,6 +71,8 @@ Item{
     }
     onStateNameChanged: {
         showMenu(stateName)
+        tBuildMenu.parent.changeContents("0", "baseConfig")
+
     }
     //显示右边的菜单
     function showMenu(stateName){
@@ -77,4 +96,6 @@ Item{
             }
         }
     }
+
+
 }

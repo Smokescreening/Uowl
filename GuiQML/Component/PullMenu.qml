@@ -156,6 +156,7 @@ Item {
                     }
                     MouseArea{
                         anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked: function(mouse){
                             if (mouse.button === Qt.RightButton){
@@ -166,6 +167,7 @@ Item {
                                 var subN = name
                                 sigChangeMenuEdit(mainN, subN)
                                 sigSelectSub(mainN, subN)
+                                root.parent.parent.changeContents(mainN, subN)
                                 console.debug(mainN, subN)
                             }
                         }
