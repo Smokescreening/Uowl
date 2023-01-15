@@ -249,7 +249,6 @@ function getStatePosList(root){
         statePos["y"] = state["y"]
         statePosList.push(statePos)
     }
-    console.debug(JSON.stringify(statePosList))
     return statePosList
 }
 
@@ -275,6 +274,117 @@ function getTransitionsList(root){
         }
     }
     }
-    console.debug(JSON.stringify(transitionsList))
     return transitionsList
+}
+
+// UI to taskConfig json
+function UItoConfig(root){
+    var reu = {}
+    reu["name"] = "" //这个我还没想好
+    reu["nameZh"] = root["baseConfig"]
+    for(let detail of root["baseConfig"]["detail"]){
+    if(detail["eleName"] === "nameZh"){
+        reu["nameZh"] = detail["eleVal"]  //中文
+    }else if(detail["eleName"] === "version"){
+        reu["version"] = detail["eleVal"]
+    }else if(detail["eleName"] === "runTime"){
+        reu["runTime"] = detail["eleVal"]
+    }else if(detail["eleName"] === "intervalTime"){
+        reu["intervalTime"] = detail["eleVal"]
+    }else if(detail["eleName"] === "compressRate"){
+        reu["compressRate"] = detail["eleVal"]
+    }else if(detail["eleName"] === "matchThreshold"){
+        reu["matchThreshold"] = detail["eleVal"]
+    }
+    }
+/*******************************************/
+    reu["stateList"] = []
+    reu["transitionsList"] = []
+    for(let state of root["stateList"]){
+        var stateTemp ={}
+        stateTemp["stateName"] = state["name"]
+        stateTemp["imgEvent"] = []
+        stateTemp["intVarEvent"] = []
+        stateTemp["clickAction"] = []
+        stateTemp["intChangeAction"] = []
+        stateTemp["transitionsAction"] = []
+        stateTemp["envent2actionld"] = []
+        //找下面的sub
+
+        for(let main of state["mainList"]){
+        if(main["name"]=== "imgEvent"){
+            for(let sub of main["subList"]){
+            var eventTemp = {}
+            eventTemp["eventName"] = sub["name"]
+            for(detail of sub["detail"]){
+                if(detail["eleName"]==="imgName"){eventTemp["imgName"]=detail["eleVal"]}
+                else if(detail["eleName"]==="x0"){eventTemp["x0"]=detail["eleVal"]}
+                else if(detail["eleName"]==="y0"){eventTemp["y0"]=detail["eleVal"]}
+                else if(detail["eleName"]==="width"){eventTemp["width"]=detail["eleVal"]}
+                else if(detail["eleName"]==="height"){eventTemp["height"]=detail["eleVal"]}
+            }
+            stateTemp["imgEvent"].push(eventTemp)
+            }
+        }else if(main["name"]=== "intVarEvent"){
+            for(let sub of main["subList"]){
+            var eventTemp = {}
+            eventTemp["eventName"] = sub["name"]
+            for(detail of sub["detail"]){
+            }
+            stateTemp["intVarEvent"].push(eventTemp)
+            }
+        }else if(main["name"]=== "clickAction"){
+            for(let sub of main["subList"]){
+            var eventTemp = {}
+            eventTemp["actionName"] = sub["name"]
+            for(detail of sub["detail"]){
+                if(detail["eleName"]==="limits"){eventTemp["limits"]=detail["eleVal"]}
+                else if(detail["eleName"]==="moveX"){eventTemp["moveX"]=detail["eleVal"]}
+                else if(detail["eleName"]==="moveY"){eventTemp["moveY"]=detail["eleVal"]}
+            }
+            stateTemp["clickAction"].push(eventTemp)
+            }
+        }else if(main["name"]=== "intChangeAction"){
+            for(let sub of main["subList"]){
+            var eventTemp = {}
+            eventTemp["actionName"] = sub["name"]
+            for(detail of sub["detail"]){
+            }
+            stateTemp["intChangeAction"].push(eventTemp)
+            }
+        }else if(main["name"]=== "transitionsAction"){
+            for(let sub of main["subList"]){
+            var eventTemp = {}
+            eventTemp["actionName"] = sub["name"]
+            for(detail of sub["detail"]){
+                if(detail["eleName"]==="trigger"){eventTemp["trigger"]=detail["eleVal"]}
+                else if(detail["eleName"]==="source"){eventTemp["source"]=detail["eleVal"]}
+                else if(detail["eleName"]==="dest"){eventTemp["dest"]=detail["eleVal"]}
+            }
+            stateTemp["transitionsAction"].push(eventTemp)
+            }
+        }else if(main["name"]=== "envent2Action"){
+            for(let sub of main["subList"]){
+            var eventTemp = {}
+            for(detail of sub["detail"]){
+                if(detail["eleName"]==="eventType"){eventTemp["eventType"]=detail["eleVal"]}
+                else if(detail["eleName"]==="actionType"){eventTemp["actionType"]=detail["eleVal"]}
+                else if(detail["eleName"]==="eventName"){eventTemp["eventName"]=detail["eleVal"]}
+                else if(detail["eleName"]==="actionName"){eventTemp["actionName"]=detail["eleVal"]}
+            }
+            stateTemp["envent2actionld"].push(eventTemp)
+            }
+        }
+        }
+        reu["stateList"].push(stateTemp)
+    }
+
+    //
+    reu["transitionsList"] = []
+    for(let state of reu["stateList"]){
+        for(let trans of state["transitionsAction"]){
+            reu["transitionsList"].push(trans)
+        }
+    }
+    return reu
 }

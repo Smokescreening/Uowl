@@ -117,3 +117,30 @@ class ConfigFile(QObject):
             with open(fileName, 'w', encoding='utf-8') as f:
                 f.write(string)
             f.close()
+
+    @Slot(result="QString")
+    def getGroupTaskList(self) -> str:
+        """
+           {"root": [{"name": "DailyGroup", "list": [{"name": "DiGui"}, {"name": "DiGui2"}]}, {"name": "feijfeiGroup", "list": [{"name": "666"}, {"name": "DiGui"}]}, {"name": "uuuuuu88888Group", "list": [{"name": "g"}, {"name": "rrrr"}]}]}
+        :return:   返回一个如上的列表 key 就是group的名字 value 就是 下一级的 task 名字
+        """
+        path = Path(__file__).parent.parent / 'Tasks'
+        res :list = []
+        for group in path.iterdir():
+            g :list = {}
+            if group.parts[-1] != "DefaultGroup":
+                g["name"] = group.parts[-1]
+                g["list"] = []
+                for task in group.iterdir():
+                    if( Path(task/"taskConfigUI.json").exists):
+                        g["list"].append({"name":task.parts[-1]})
+                res.append(g)
+        return json.dumps({"list":res}, ensure_ascii=False)
+# print( ConfigFile().getGroupTaskList())
+
+    @Slot(result="QString")
+    def readTaskScheduler(self) -> str:
+        fileName = Path(__file__).parent.parent / "Config" /"taskScheduler.json"
+        with open(fileName, 'r', encoding='utf-8') as f:
+            taskScheduler = f.read()
+        return taskScheduler

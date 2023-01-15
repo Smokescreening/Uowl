@@ -307,4 +307,8 @@ Window {
             rootWindow.showMaximized();
         }
     }
+    // 切换菜单项 对外接口
+    function changeMenu(index){
+        menuPane.menuPaneFlag = index
+    }
 }
