@@ -97,7 +97,7 @@ Item {
             anchors.top: parent.top
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            text: "name"
+            text: "task"
             color: "#ffffff"
             font.bold: true
             font.pixelSize: 24
@@ -199,8 +199,12 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
+            var rootSche = JSON.parse( configFile.readTaskScheduler())
+            rootSche["list"] = JSON.parse(configFile.getGroupTaskList())["list"]
+            rootSche["groupName"] = rootSche["list"][groupIndex]["name"]
+            rootSche["taskName"] = rootSche["list"][groupIndex]["list"][taskIndex]["name"]
+            configFile.writeTaskScheduler(JSON.stringify(rootSche))
             rootWindow.changeMenu(4)
-
         }
         }
     }

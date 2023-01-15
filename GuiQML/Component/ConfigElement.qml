@@ -211,9 +211,6 @@ Item {
                 verticalAlignment: TextInput.AlignVCenter
             }
             Component.onCompleted: {
-//                console.debug("ddd"+eleParamete.get(0).paramete)
-//                from = Number(eleParamete.get(0).paramete)
-//                to = Number(eleParamete.get(1).paramete)
             }
         }
         //文件选择

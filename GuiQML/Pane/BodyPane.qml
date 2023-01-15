@@ -7,7 +7,7 @@ Item {
         id:bodyLoader
         anchors.fill: parent
         Component.onCompleted: {
-            bodyLoader.source="../Body/TaskBuild.qml"
+            bodyLoader.source="../Body/TaskQueue.qml"
             log4.sigUIShowLog.connect(slotUIShowLog)
             bridge.sigUIUpdateProgressBar.connect(slotUIUpdateProgressBar)
             bridge.sigUIUpdateRemainTime.connect(slotUIUpdateRemainTime)

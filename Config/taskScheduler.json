@@ -10,6 +10,53 @@
                     "name": "DiGui2"
                 }
             ]
+        },
+        {
+            "name": "feijfeiGroup",
+            "list": [
+                {
+                    "name": "666"
+                },
+                {
+                    "name": "DiGui"
+                }
+            ]
+        },
+        {
+            "name": "uuuuuu88888Group",
+            "list": [
+                {
+                    "name": "g"
+                },
+                {
+                    "name": "rrrr"
+                }
+            ]
+        }
+    ],
+    "groupName": "DailyGroup",
+    "taskName": "DiGui",
+    "forthwithCurrentQueue":"q1",
+    "forthwith":[
+        {
+            "queue": "q1",
+            "runTime": "96",
+            "list": [
+                {
+                    "group": "Daily",
+                    "task": "DiGui"
+                }
+            ]
+        },
+        {
+            "queue": "q2",
+            "runTime": "62",
+            "list": [
+                {
+                    "group": "Daily",
+                    "task": "DiGui"
+                }
+            ]
         }
     ]
 }

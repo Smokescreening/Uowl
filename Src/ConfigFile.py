@@ -121,7 +121,7 @@ class ConfigFile(QObject):
     @Slot(result="QString")
     def getGroupTaskList(self) -> str:
         """
-           {"root": [{"name": "DailyGroup", "list": [{"name": "DiGui"}, {"name": "DiGui2"}]}, {"name": "feijfeiGroup", "list": [{"name": "666"}, {"name": "DiGui"}]}, {"name": "uuuuuu88888Group", "list": [{"name": "g"}, {"name": "rrrr"}]}]}
+           {"list": [{"name": "DailyGroup", "list": [{"name": "DiGui"}, {"name": "DiGui2"}]}, {"name": "feijfeiGroup", "list": [{"name": "666"}, {"name": "DiGui"}]}, {"name": "uuuuuu88888Group", "list": [{"name": "g"}, {"name": "rrrr"}]}]}
         :return:   返回一个如上的列表 key 就是group的名字 value 就是 下一级的 task 名字
         """
         path = Path(__file__).parent.parent / 'Tasks'
@@ -144,3 +144,9 @@ class ConfigFile(QObject):
         with open(fileName, 'r', encoding='utf-8') as f:
             taskScheduler = f.read()
         return taskScheduler
+
+    @Slot(str)
+    def writeTaskScheduler(self, info :str) -> None:
+        fileName = Path(__file__).parent.parent / "Config" / "taskScheduler.json"
+        with open(fileName, 'w', encoding='utf-8') as f:
+            f.write(info)
