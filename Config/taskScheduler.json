@@ -36,11 +36,12 @@
     ],
     "groupName": "DailyGroup",
     "taskName": "DiGui",
-    "forthwithCurrentQueue":"q1",
-    "forthwith":[
+    "forthwithCurrentQueue": "queue2",
+    "forthwith": [
         {
-            "queue": "q1",
+            "queue": "queue1",
             "runTime": "96",
+            "runModel": "随机循环",
             "list": [
                 {
                     "group": "Daily",
@@ -49,14 +50,45 @@
             ]
         },
         {
-            "queue": "q2",
+            "queue": "queue2",
             "runTime": "62",
+            "runModel": "顺序循环",
             "list": [
                 {
                     "group": "Daily",
                     "task": "DiGui"
+                },
+                {
+                    "group": "Daily",
+                    "task": "DiGui2"
                 }
             ]
+        }
+    ],
+    "weekly":[
+        {
+            "groupName": "feijfeiGroup",
+            "taskName": "666",
+            "week": "周三",
+            "hour": "14",
+            "minute": "13",
+            "random": "true"
+        },
+        {
+            "groupName": "DailyGroup",
+            "taskName": "DiGui2",
+            "week": "周四",
+            "hour": "14",
+            "minute": "13",
+            "random": "true"
+        },
+        {
+            "groupName": "DailyGroup",
+            "taskName": "DiGui",
+            "week": "周五",
+            "hour": "15",
+            "minute": "53",
+            "random": "true"
         }
     ]
 }

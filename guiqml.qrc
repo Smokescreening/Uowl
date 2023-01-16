@@ -22,5 +22,7 @@
         <file>GuiQML/Component/ConfigElement.qml</file>
         <file>GuiQML/Component/USlider.qml</file>
         <file>GuiQML/Body/TaskBuild.js</file>
+        <file>GuiQML/Component/UMenu.qml</file>
+        <file>GuiQML/Component/USwitch.qml</file>
     </qresource>
 </RCC>

@@ -122,7 +122,7 @@ Item {
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
                     text: logContent
-                    color: "#663399"
+                    color: "#ffffff"
                     font.bold: false
                     font.pixelSize: 14
                 }
