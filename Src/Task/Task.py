@@ -100,7 +100,9 @@ class Task(Machine):
         当状态改变后从新载入该状态的event和action，并且从新绑定两者
         :return:
         """
+        # self.taskChangeState("onPause")
         self.loadEventAction()
+        # self.taskChangeState("running")
 
     def loadEventAction(self) -> None:
         """
@@ -121,8 +123,6 @@ class Task(Machine):
                 self.imgEventList.append( ImgEvent(self.taskGroup, self.taskName, self.mathWay,
                                                    self.compressRate, self.matchThreshold,
                                                    imgEvent))
-                # cmd :str = strName +' = ImgEvent()'
-                # exec( )
         # 载入点击action  这里用偷懒获取屏幕尺寸
         size = []
         match ConfigFile().getSettingDict("baseSetting")["deviceType"]:
@@ -149,20 +149,20 @@ class Task(Machine):
             for envent2actionld in self.statesInfoList[index]["envent2actionld"]:  # 一个一个绑定event action
                 enventObj, actionObj = None, None   # 先定义两个引用，下面查找这两个引用，最后连接
                 match envent2actionld["eventType"]:
-                    case "ImgEvent":
+                    case "imgEvent":
                         for i in range(len(self.imgEventList)):
                             if self.imgEventList[i].eventName == envent2actionld["eventName"]:
                                 enventObj = self.imgEventList[i]
-                    case "IntVarEvent":
+                    case "intVarEvent":
                         pass
                 match envent2actionld["actionType"]:
-                    case "ClickAction":
+                    case "clickAction":
                         for i in range(len(self.clickActionList)):
                             if self.clickActionList[i].actionName == envent2actionld["actionName"]:
                                 actionObj = self.clickActionList[i]
-                    case "IntChangeAction":
+                    case "intChangeAction":
                         pass
-                    case "TransitionsAction":
+                    case "transitionsAction":
                         for i in range(len(self.transitionsActionList)):
                             if self.transitionsActionList[i].actionName == envent2actionld["actionName"]:
                                 actionObj = self.transitionsActionList[i]
@@ -231,6 +231,7 @@ class Task(Machine):
                 case "onPause":
                     QThread.sleep(1)
                 case "exit":
+                    Log4().log("info", '任务退出exit')
                     return None
                 case "quit":
                     return None

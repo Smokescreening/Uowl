@@ -99,6 +99,14 @@ class ConfigFile(QObject):
         else:
             return None
 
+    @Slot(str, str, str)
+    def writeTaskConfig(self, taskGroup: str, taskName: str, string: str) -> None:
+        if taskGroup and taskName:
+            fileName = str(Path(__file__).parent.parent / 'Tasks' / taskGroup / taskName / 'taskConfig.json')
+            with open(fileName, 'w', encoding='utf-8') as f:
+                f.write(string)
+            f.close()
+
     @Slot(str, str, result="QString")
     def readTaskConfigUI(self, taskGroup :str, taskName :str) -> str:
         if taskGroup and taskName :

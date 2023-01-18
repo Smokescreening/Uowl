@@ -62,7 +62,7 @@ function newEnvent2Action(name){
     reu["detail"] = []
     reu["detail"].push( newEleDetail("eventType", "comboBox", [{"paramete":"imgEvent"},{"paramete":"intVarEvent"}]))
     reu["detail"].push( newEleDetail("eventName", "comboBox", [{"paramete":"0"},{"paramete":"1"}]))
-    reu["detail"].push( newEleDetail("actionType", "comboBox", [{"paramete":"clickAction"},{"paramete":"intChangeAction"}]))
+    reu["detail"].push( newEleDetail("actionType", "comboBox", [{"paramete":"clickAction"},{"paramete":"transitionsAction"}]))
     reu["detail"].push( newEleDetail("actionName", "comboBox", [{"paramete":"0"},{"paramete":"1"}]))
     return reu
 }
@@ -226,7 +226,9 @@ function getActionNameList(root, stateName){
     for(let state of root["stateList"]){ //找到statename
         if(state["name"] === stateName){
         for(let main of state["mainList"]){
-            if(main["name"] === "clickAction" || main["name"] === "intChangeAction"){//clickAction intChangeAction
+            if(main["name"] === "clickAction" ||
+               main["name"] === "intChangeAction" ||
+               main["name"] === "transitionsAction"){
             for(let sub of main["subList"]){
                 var paramete = {}
                 paramete["paramete"] = sub["name"]
@@ -278,7 +280,7 @@ function getTransitionsList(root){
 }
 
 // UI to taskConfig json
-function UItoConfig(root){
+function ui2Config(root){
     var reu = {}
     reu["name"] = "" //这个我还没想好
     reu["nameZh"] = root["baseConfig"]
@@ -316,7 +318,7 @@ function UItoConfig(root){
             for(let sub of main["subList"]){
             var eventTemp = {}
             eventTemp["eventName"] = sub["name"]
-            for(detail of sub["detail"]){
+            for(let detail of sub["detail"]){
                 if(detail["eleName"]==="imgName"){eventTemp["imgName"]=detail["eleVal"]}
                 else if(detail["eleName"]==="x0"){eventTemp["x0"]=detail["eleVal"]}
                 else if(detail["eleName"]==="y0"){eventTemp["y0"]=detail["eleVal"]}
@@ -329,7 +331,7 @@ function UItoConfig(root){
             for(let sub of main["subList"]){
             var eventTemp = {}
             eventTemp["eventName"] = sub["name"]
-            for(detail of sub["detail"]){
+            for(let detail of sub["detail"]){
             }
             stateTemp["intVarEvent"].push(eventTemp)
             }
@@ -337,7 +339,7 @@ function UItoConfig(root){
             for(let sub of main["subList"]){
             var eventTemp = {}
             eventTemp["actionName"] = sub["name"]
-            for(detail of sub["detail"]){
+            for(let detail of sub["detail"]){
                 if(detail["eleName"]==="limits"){eventTemp["limits"]=detail["eleVal"]}
                 else if(detail["eleName"]==="moveX"){eventTemp["moveX"]=detail["eleVal"]}
                 else if(detail["eleName"]==="moveY"){eventTemp["moveY"]=detail["eleVal"]}
@@ -348,7 +350,7 @@ function UItoConfig(root){
             for(let sub of main["subList"]){
             var eventTemp = {}
             eventTemp["actionName"] = sub["name"]
-            for(detail of sub["detail"]){
+            for(let detail of sub["detail"]){
             }
             stateTemp["intChangeAction"].push(eventTemp)
             }
@@ -356,7 +358,7 @@ function UItoConfig(root){
             for(let sub of main["subList"]){
             var eventTemp = {}
             eventTemp["actionName"] = sub["name"]
-            for(detail of sub["detail"]){
+            for(let detail of sub["detail"]){
                 if(detail["eleName"]==="trigger"){eventTemp["trigger"]=detail["eleVal"]}
                 else if(detail["eleName"]==="source"){eventTemp["source"]=detail["eleVal"]}
                 else if(detail["eleName"]==="dest"){eventTemp["dest"]=detail["eleVal"]}
@@ -366,7 +368,7 @@ function UItoConfig(root){
         }else if(main["name"]=== "envent2Action"){
             for(let sub of main["subList"]){
             var eventTemp = {}
-            for(detail of sub["detail"]){
+            for(let detail of sub["detail"]){
                 if(detail["eleName"]==="eventType"){eventTemp["eventType"]=detail["eleVal"]}
                 else if(detail["eleName"]==="actionType"){eventTemp["actionType"]=detail["eleVal"]}
                 else if(detail["eleName"]==="eventName"){eventTemp["eventName"]=detail["eleVal"]}
@@ -379,12 +381,22 @@ function UItoConfig(root){
         reu["stateList"].push(stateTemp)
     }
 
-    //
+    //  输出给状态机的 transitions
     reu["transitionsList"] = []
     for(let state of reu["stateList"]){
         for(let trans of state["transitionsAction"]){
-            reu["transitionsList"].push(trans)
+            var t = {}
+            t["trigger"] = trans["trigger"]
+            t["source"] = trans["source"]
+            t["dest"] = trans["dest"]
+            reu["transitionsList"].push(t)
         }
     }
+    //手动生成
+    var goback ={}
+    goback["trigger"] = "goback"
+    goback["source"] = "*"
+    goback["dest"] = "goback"
+    reu["transitionsList"].push(goback)
     return reu
 }

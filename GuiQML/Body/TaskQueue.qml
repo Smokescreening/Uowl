@@ -15,6 +15,8 @@ Item {
     property var weeklyListModel: ListModel{}
     property var dailyListModel: ListModel{}
 
+
+
     //每周
     Rectangle{
         id: weeklyBackground
@@ -141,6 +143,15 @@ Item {
                             height: width
                             anchors.verticalCenter: parent.verticalCenter
                             source: "../../GuiImage/window/SelectTime.png"
+                            MouseArea{
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    weeklyTimeSelect.setTime(week, hour, minute)
+                                    weeklySelect.index = index
+                                    weeklySelect.open()
+                                }
+                            }
                         }
                     }
                     USwitch{
@@ -148,6 +159,10 @@ Item {
                         height: 20
                         anchors.right: parent.right
                         anchors.verticalCenter: parent.verticalCenter
+                        checked: (random==="true")?true:false
+                        onClicked: {
+                            updateRadom("weekly",index, checked)
+                        }
                     }
 
                 }
@@ -235,6 +250,25 @@ Item {
             }
         }
 
+        UDialog{
+            id:weeklySelect
+            property int index: 0  //这个表示列表第几个点击的一个变量
+            UTimeSelect{
+                id: weeklyTimeSelect
+            }
+            function buttonClicked(label){
+                weeklySelect.close()
+                if(label === "确定"){
+                    var w = weeklyTimeSelect.getWeek()
+                    var h = weeklyTimeSelect.getHour()
+                    var m = weeklyTimeSelect.getMinute()
+                    updateTime("weekly", index, w, h, m)
+                }
+            }
+            Component.onCompleted: {
+               weeklySelect.footerButtonClicked.connect(buttonClicked)
+            }}
+
     }
     //每日
     Rectangle{
@@ -261,6 +295,236 @@ Item {
             font.bold: true
             font.pixelSize: 24
         }
+        //绿色外阴影
+        DropShadow
+        {
+            anchors.fill: dailyTable
+            radius: 8
+            samples: 16
+            color: "green"
+            source: dailyTable
+         }
+        Rectangle{
+            id:dailyTable
+            width: parent.width-12
+            height: 40
+            anchors.top: dailyLable.bottom
+            anchors.topMargin: 8
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: "#33ffffff"
+            radius: 8
+            Label{
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                text: "task"
+                color: "#ffffff"
+                leftPadding: 4
+                font.pixelSize: 18
+                clip: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            Label{
+                anchors.centerIn: parent
+                text: "time"
+                color: "#ffffff"
+                font.pixelSize: 18
+                clip: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+            Label{
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                text: "random"
+                color: "#ffffff"
+                rightPadding: 8
+                font.pixelSize: 18
+                clip: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+        }
+
+        ListView{
+            id:dailyListView
+            width: parent.width
+            anchors.top: dailyTable.bottom
+            anchors.topMargin: 12
+            anchors.bottom: rowdailyButton.top
+            anchors.bottomMargin: 8
+            model: dailyListModel
+            Component.onCompleted: {
+                for(let item of rootSche["daily"]){
+                    dailyListModel.append(item)
+                }
+            }
+            delegate: Component{
+                Item{
+                    width: dailyListView.width-8
+                    height: 30
+                    Text {
+                        id: name
+                        height: 30
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text:  taskName
+                        color: "#ffffff"
+                        leftPadding: 8
+                        font.pixelSize: 14
+                        clip: true
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    Item{
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        height: 30
+                        width: 100
+                        Text {
+                            id: dailyText
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: "#ffffff"
+                            font.pixelSize: 14
+                            clip: true
+                            text: hour +":"+minute
+                        }
+                        Image {
+                            anchors.left: dailyText.right
+                            anchors.leftMargin: 8
+                            width: 20
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            source: "../../GuiImage/window/SelectTime.png"
+                            MouseArea{
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    dailyTimeSelect.setTime(hour, minute)
+                                    dailySelect.index = index
+                                    dailySelect.open()
+                                }
+                            }
+                        }
+                    }
+                    USwitch{
+                        width: 40
+                        height: 20
+                        anchors.right: parent.right
+                        anchors.verticalCenter: parent.verticalCenter
+                        checked: (random==="true")?true:false
+                        onClicked: {
+                            updateRadom("daily",index, checked)
+                        }
+                    }
+
+                }
+            }
+        }
+        RowLayout{
+            id:rowdailyButton
+            width: parent.width
+            height: 30
+            anchors.bottom: parent.bottom
+            Button{
+                Layout.preferredWidth: 70
+                Layout.preferredHeight: 28
+                Layout.alignment: Qt.AlignHCenter
+                background: Rectangle{
+                    anchors.fill: parent
+                    radius: 4
+                    color: "transparent"
+                }
+                contentItem:Text {
+                    text: qsTr("添加")
+                    color: "#ffffff"
+                    font.bold: true
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+                UMenu{
+                        id: dailyAddMenu
+                        Component.onCompleted: {
+                            for(var i=0; i<rootSche["list"].length; i++){
+                                dailyAddMenu.addSubMenu(rootSche["list"][i])
+                            }
+                            sigTriggered.connect(addTrigger)
+                        }
+                        function addTrigger(sub, act){//actionName, subName
+                            addDaily(sub, act)
+                        }
+                }
+                MouseArea{
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    dailyAddMenu.open()
+                }
+                }
+            }
+            Button{
+                Layout.preferredWidth: 70
+                Layout.preferredHeight: 28
+                Layout.alignment: Qt.AlignHCenter
+                background: Rectangle{
+                    anchors.fill: parent
+                    radius: 4
+                    color: "transparent"
+                }
+                contentItem:Text {
+                    text: qsTr("删除")
+                    color: "#ffffff"
+                    font.bold: true
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                }
+                UMenu{
+                        id: dailyDeleteMenu
+                        Component.onCompleted: {
+                            sigTriggered.connect(delTrigger)
+                        }
+                        function delTrigger(sub, act){//actionName, subName
+                            deleteDaily(sub, act)
+                        }
+                }
+                MouseArea{
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    dailyDeleteMenu.deleteAll()
+                    for(let item of rootSche["daily"]){
+                        dailyDeleteMenu.addOne(item["groupName"], item["taskName"])
+                    }
+                    dailyDeleteMenu.open()
+                }
+                }
+            }
+        }
+
+        UDialog{
+            id:dailySelect
+            property int index: 0  //这个表示列表第几个点击的一个变量
+            UDailySelect{
+                id:dailyTimeSelect
+            }
+
+            function buttonClicked(label){
+                dailySelect.close()
+                if(label === "确定"){
+                    var h = dailyTimeSelect.getHour()
+                    var m = dailyTimeSelect.getMinute()
+                    updateTime("daily", index, "w", h, m)
+                }
+            }
+            Component.onCompleted: {
+               dailySelect.footerButtonClicked.connect(buttonClicked)
+            }}
     }
     //即时
     Rectangle{
@@ -285,6 +549,7 @@ Item {
             font.bold: true
             font.pixelSize: 24
         }
+
         ComboBox{
             id:comboBox
             width: parent.width-12
@@ -307,17 +572,25 @@ Item {
             }
             contentItem: Text { //界面上显示出来的文字
                           text: comboBox.displayText //表示ComboBox上显示的文本
-                          //font: comboBox.font    //文字大小
+                          rightPadding: 8
                           font.bold: true
-                          color: comboBox.pressed ? "orange" : "#663399"   //文字颜色
+                          color: comboBox.pressed ? "orange" : "#ffffff"   //文字颜色
+                          font.pixelSize: 18
                           verticalAlignment: Text.AlignVCenter  //文字位置
                           horizontalAlignment: Text.AlignRight
                       }
+            DropShadow
+            {
+                anchors.fill: comboBoxBackground
+                radius: 8
+                samples: 16
+                color: "green"
+                source: comboBoxBackground
+             }
             background:Rectangle{
-                color:"transparent"
-                radius: 4
-                border.width: 2
-                border.color: "#4d663399"
+                id: comboBoxBackground
+                color:"#33ffffff"
+                radius: 8
             }
             popup: Popup {    //弹出项
                   y: comboBox.height
@@ -336,7 +609,7 @@ Item {
                       radius: 2
                   }
                   onClosed: {
-                      forthwithCurrentQueue = comboBox.currentText
+                      forthwithCurrentQueue = comboBox.currentText                     
                   }
             }
             Component.onCompleted: {
@@ -558,12 +831,12 @@ Item {
                 anchors.topMargin: 12
                 anchors.bottom: uSlider.top
                 anchors.bottomMargin: 8
-                spacing: 4
                 model: forthwithListModel
                 delegate: Component{
                     Text {
                         id: name
                         text: model.task
+                        height: 30
                         color: "#ffffff"
                         leftPadding: 8
                         font.pixelSize: 14
@@ -587,7 +860,13 @@ Item {
 
 
     }
+    Component.onDestruction: { //关闭界面的时候保存
+        configFile.writeTaskScheduler( JSON.stringify(rootSche))
+    }
+
     onForthwithCurrentQueueChanged: {
+        rootSche["forthwithCurrentQueue"] = forthwithCurrentQueue
+
         for(var i=0; i<rootSche["forthwith"].length; i++){
         if(rootSche["forthwith"][i]["queue"] === forthwithCurrentQueue){
             forthwithListModel.clear()
@@ -650,6 +929,51 @@ Item {
            rootSche["weekly"][i]["taskName"] === task ){
             rootSche["weekly"].splice(i, 1)
             weeklyListModel.remove(i)
+            break
+        }
+        }
+    }
+    //更新时间  model 是一个字符串
+    function updateTime(model, index, week, hour, minute){
+    if(model === "weekly"){
+        weeklyListModel.setProperty(index, "week", week)
+        weeklyListModel.setProperty(index, "hour", hour.toString())
+        weeklyListModel.setProperty(index, "minute", minute.toString())
+        rootSche["weekly"][index]["week"] = week
+        rootSche["weekly"][index]["hour"] = hour.toString()
+        rootSche["weekly"][index]["minute"] = minute.toString()
+    }else if(model==="daily"){
+        dailyListModel.setProperty(index, "hour", hour.toString())
+        dailyListModel.setProperty(index, "minute", minute.toString())
+        rootSche["daily"][index]["hour"] = hour.toString()
+        rootSche["daily"][index]["minute"] = minute.toString()
+    }
+    }
+    function updateRadom(model, index, state){
+    if(model === "weekly"){
+        weeklyListModel.setProperty(index, "random", state?"true":"false")
+        rootSche["weekly"][index]["random"] = state?"true":"false"
+    }else if(model ==="daily"){
+        dailyListModel.setProperty(index, "random", state?"true":"false")
+        rootSche["daily"][index]["random"] = state?"true":"false"
+    }
+    }
+    function addDaily(group, task){
+        var temp ={}
+        temp["groupName"] = group
+        temp["taskName"] = task
+        temp["hour"] = "20"
+        temp["minute"] = "10"
+        temp["random"] = "true"
+        dailyListModel.append(temp)
+        rootSche["daily"].push(temp)
+    }
+    function deleteDaily(group, task){
+        for(var i=0; i<rootSche["daily"].length; i++){
+        if(rootSche["daily"][i]["groupName"] === group &&
+           rootSche["daily"][i]["taskName"] === task ){
+            rootSche["daily"].splice(i, 1)
+            dailyListModel.remove(i)
             break
         }
         }

@@ -118,13 +118,27 @@ class ImgEvent(QObject):
         width, height = img.shape[1], img.shape[0]  #这个是图片压缩后的大小
         cropImg = None
         posTemp = None
-        if float(self.eventInfo["x0"])+float(self.eventInfo["width"])<=1 and float(self.eventInfo["y0"])+float(self.eventInfo["height"])<=1 :
-            # 裁剪
-            xStart, xEnd = int(width*float(self.eventInfo["x0"])), int(width*float(self.eventInfo["x0"])+width*float(self.eventInfo["width"]))
-            yStart, yEnd = int(height*float(self.eventInfo["y0"])), int(height*float(self.eventInfo["y0"])+height*float(self.eventInfo["height"]))
-            cropImg = img[yStart:yEnd, xStart:xEnd]  # 矩阵的第一项就是图片的y
+        # if float(self.eventInfo["x0"])+float(self.eventInfo["width"])<=1 and float(self.eventInfo["y0"])+float(self.eventInfo["height"])<=1 :
+        #     # 裁剪
+        #     xStart, xEnd = int(width*float(self.eventInfo["x0"])), int(width*float(self.eventInfo["x0"])+width*float(self.eventInfo["width"]))
+        #     yStart, yEnd = int(height*float(self.eventInfo["y0"])), int(height*float(self.eventInfo["y0"])+height*float(self.eventInfo["height"]))
+        #     cropImg = img[yStart:yEnd, xStart:xEnd]  # 矩阵的第一项就是图片的y
+        # else:
+        #     pass
+        if float(self.eventInfo["x0"])+float(self.eventInfo["width"]) > 1:
+            xStart = int(width*float(self.eventInfo["x0"]))
+            xEnd = int(width)
         else:
-            pass
+            xStart = int(width * float(self.eventInfo["x0"]))
+            xEnd = int(width*float(self.eventInfo["x0"])+width*float(self.eventInfo["width"]))
+
+        if float(self.eventInfo["y0"])+float(self.eventInfo["height"]) > 1:
+            yStart = int(height*float(self.eventInfo["y0"]))
+            yEnd = int(height)
+        else:
+            yStart = int(height * float(self.eventInfo["y0"]))
+            yEnd = int(height*float(self.eventInfo["y0"])+height*float(self.eventInfo["height"]))
+        cropImg = img[yStart:yEnd, xStart:xEnd]  # 矩阵的第一项就是图片的y
 
         # 匹配图片
         # cv2.imshow('result', cropImg)

@@ -7,44 +7,22 @@
                     "name": "DiGui"
                 },
                 {
-                    "name": "DiGui2"
-                }
-            ]
-        },
-        {
-            "name": "feijfeiGroup",
-            "list": [
-                {
-                    "name": "666"
-                },
-                {
-                    "name": "DiGui"
-                }
-            ]
-        },
-        {
-            "name": "uuuuuu88888Group",
-            "list": [
-                {
-                    "name": "g"
-                },
-                {
-                    "name": "rrrr"
+                    "name": "test"
                 }
             ]
         }
     ],
     "groupName": "DailyGroup",
     "taskName": "DiGui",
-    "forthwithCurrentQueue": "queue2",
+    "forthwithCurrentQueue": "default queue",
     "forthwith": [
         {
-            "queue": "queue1",
-            "runTime": "96",
-            "runModel": "随机循环",
+            "queue": "default queue",
+            "runTime": "10",
+            "runModel": "单次执行",
             "list": [
                 {
-                    "group": "Daily",
+                    "group": "DailyGroup",
                     "task": "DiGui"
                 }
             ]
@@ -53,42 +31,9 @@
             "queue": "queue2",
             "runTime": "62",
             "runModel": "顺序循环",
-            "list": [
-                {
-                    "group": "Daily",
-                    "task": "DiGui"
-                },
-                {
-                    "group": "Daily",
-                    "task": "DiGui2"
-                }
-            ]
+            "list": []
         }
     ],
-    "weekly":[
-        {
-            "groupName": "feijfeiGroup",
-            "taskName": "666",
-            "week": "周三",
-            "hour": "14",
-            "minute": "13",
-            "random": "true"
-        },
-        {
-            "groupName": "DailyGroup",
-            "taskName": "DiGui2",
-            "week": "周四",
-            "hour": "14",
-            "minute": "13",
-            "random": "true"
-        },
-        {
-            "groupName": "DailyGroup",
-            "taskName": "DiGui",
-            "week": "周五",
-            "hour": "15",
-            "minute": "53",
-            "random": "true"
-        }
-    ]
+    "weekly": [],
+    "daily": []
 }

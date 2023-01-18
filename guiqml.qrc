@@ -24,5 +24,8 @@
         <file>GuiQML/Body/TaskBuild.js</file>
         <file>GuiQML/Component/UMenu.qml</file>
         <file>GuiQML/Component/USwitch.qml</file>
+        <file>GuiQML/Component/UTimeSelect.qml</file>
+        <file>GuiQML/Component/UTumbler.qml</file>
+        <file>GuiQML/Component/UDailySelect.qml</file>
     </qresource>
 </RCC>

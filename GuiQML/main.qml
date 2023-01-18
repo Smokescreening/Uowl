@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
 import QtQml 2.12
+import Qt.labs.settings 1.1
 import Qt5Compat.GraphicalEffects
 
 import "./Pane"
@@ -19,6 +20,10 @@ Window {
     flags:   Qt.FramelessWindowHint | Qt.WindowSystemMenuHint | Qt.WindowMinimizeButtonHint| Qt.Window
 
     property int menuPaneFlag
+    Settings{
+        property alias windowWidth: rootWindow.width
+        property alias windowHeight: rootWindow.height
+    }
 
     //主界面
     Rectangle{

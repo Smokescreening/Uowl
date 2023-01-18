@@ -5,15 +5,18 @@ import Qt5Compat.GraphicalEffects
 import "../Component"
 import "./TaskBuild.js" as TB
 
-Item { 
+Item {
     Component.onCompleted: {
         //数据一切以这个页面为准
-        taskBuild.root = JSON.parse(configFile.readTaskConfigUI("DailyGroup", "DiGui"))
-//        machineGraph.transitionsList = rootjson["transitionsList"]
-//        machineGraph.statePosList = rootjson["statePosList"]
+        var taskScheluder = JSON.parse(configFile.readTaskScheduler())
+        buildGroup = taskScheluder["groupName"]
+        buildName = taskScheluder["taskName"]
+        taskBuild.root = JSON.parse(configFile.readTaskConfigUI(buildGroup, buildName))
 
     }
     property var root: {""}
+    property string buildGroup: "DailyGroup"
+    property string buildName: "DiGui"
     id: taskBuild
     BuildMenu{
         id: tBuildMenu
@@ -111,8 +114,10 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            tContexts.saveContents(tBuildMenu.stateName, tContexts.showMainName, tContexts.showSubName)
-            configFile.writeTaskConfigUI("DailyGroup", "DiGui", JSON.stringify(taskBuild.root))
+            tContexts.saveContents(tBuildMenu.stateName, tContexts.showMainName, tContexts.showSubName) //保存当前显示的页面
+            configFile.writeTaskConfigUI(buildGroup, buildName, JSON.stringify(taskBuild.root))
+            var taskConfig = JSON.stringify(TB.ui2Config(root))
+            configFile.writeTaskConfig(buildGroup, buildName, taskConfig)
             log4.log("info", "已保存")
         }
         }

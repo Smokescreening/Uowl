@@ -292,7 +292,7 @@ Item {
         json.eleDescription = root.eleDescription
         json.eleIcn = root.eleIcn
         json.eleType = root.eleType
-        json.eleVal = root.eleVal
+        json.eleVal =  json.eleType==="slider" ?uSlider.value.toFixed(2) :root.eleVal
         json.eleParamete = eleParamete
 
         return json

@@ -22,7 +22,8 @@ if __name__ == "__main__":
     QGuiApplication.setWindowIcon(QIcon(os.fspath(Path(__file__).resolve().parent / "GuiImage/logo/logo-64.ico")))
     # 设置软件名字
     QGuiApplication.setApplicationName("Uowl")
-
+    #
+    QGuiApplication.setOrganizationName("Uowl")
 
     # Logx系统
     log4 = Log4()

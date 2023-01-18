@@ -345,29 +345,29 @@ class Device(QObject):
             case "安卓设备" :
                 if self.android["connectType"] == "adb":
                     self.android["deviceId"] = Adb.checkStatus()
-                    Log4().log("info",f'已连接上安卓设备,deviceId:{self.android["deviceId"]}')
+                    Log4().log("info",f'连接安卓设备, deviceId:{self.android["deviceId"]}')
                     return self.android["deviceId"]
             case "mumu模拟器" :
                 if self.mumu["connectType"] == "adb":
                     self.mumu["deviceId"] = Adb.checkStatus()
-                    Log4().log("info", f'已连接上mumu模拟器,deviceId:{self.mumu["deviceId"]}')
+                    Log4().log("info", f'连接mumu模拟器, deviceId:{self.mumu["deviceId"]}')
                     return self.android["deviceId"]
                 elif self.mumu["connectType"] == "window前台":
                     self.mumu["handleNum"] = Handle.getHandleNum("阴阳师 - MuMu模拟器")
-                    Log4().log("info", f'已连接上mumu模拟器,handleNum:{self.mumu["handleNum"]}')
+                    Log4().log("info", f'连接mumu模拟器, handleNum:{self.mumu["handleNum"]}')
                     return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
             case "雷电模拟器" :
                 if self.leidian["connectType"] == "adb":
                     self.leidian["deviceId"] = Adb.checkStatus()
-                    Log4().log("info", f'已连接上雷电模拟器,deviceId:{self.leidian["deviceId"]}')
+                    Log4().log("info", f'连接雷电模拟器, deviceId:{self.leidian["deviceId"]}')
                     return self.android["deviceId"]
                 elif self.leidian["connectType"] == "window前台":
                     self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
-                    Log4().log("info", f'已连接上雷电模拟器,handleNum:{self.leidian["handleNum"]}')
+                    Log4().log("info", f'连接雷电模拟器, handleNum:{self.leidian["handleNum"]}')
                     return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
                 elif self.leidian["connectType"] == "window后台":
                     self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
-                    Log4().log("info", f'已连接上雷电模拟器,handleNum:{self.leidian["handleNum"]}')
+                    Log4().log("info", f'连接雷电模拟器, handleNum:{self.leidian["handleNum"]}')
                     return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
 
     def connectDevice(self) -> None:

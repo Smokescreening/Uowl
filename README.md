@@ -10,6 +10,8 @@
 
 ## 📆
 
++ 2023.1.18: 伟大的里程碑！！！完成<地域鬼王>
+
 + 2023.1.15: task list done! and complete a part of the scheduler UI
 
 + 2023.1.14: "Task Build"   finished!!!
