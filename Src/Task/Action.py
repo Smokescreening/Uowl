@@ -17,7 +17,7 @@ class ClickAction(QObject):
         self.screenSize :list = screenSize  # 设备的尺寸，这个是为了点击位置经过算法后给一个限度
         self.device = device
         self.actionName = actionInfo["actionName"]
-        self.limits = int(actionInfo["limits"])  # 一个正态分布不需超出这个范围
+        self.limits = int(float(actionInfo["limits"]))  # 一个正态分布不需超出这个范围
         self.moveX = float(actionInfo["moveX"])  # 对输入的坐标点移动的百分比
         self.moveY = float(actionInfo["moveY"])  # 这个解决某些情况下识别到了图片但是其实并不是要点击图片的问题
         Log4().log("info", f'action载入->actionName:{self.actionName},  点击范围限制:{self.limits},  移动偏移:x{self.moveX},y{self.moveY}')
