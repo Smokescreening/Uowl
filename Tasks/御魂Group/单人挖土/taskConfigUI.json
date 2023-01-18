@@ -1,0 +1,1909 @@
+{
+    "baseConfig": {
+        "name": "baseConfig",
+        "detail": [
+            {
+                "eleName": "nameZh",
+                "eleDescription": "0",
+                "eleIcn": "weather.png",
+                "eleType": "textInput",
+                "eleVal": "模板",
+                "eleParamete": [
+                    {
+                        "paramete": "envent2actionld"
+                    },
+                    {
+                        "paramete": "0"
+                    }
+                ]
+            },
+            {
+                "eleName": "version",
+                "eleDescription": "0",
+                "eleIcn": "bar-graph.png",
+                "eleType": "textInput",
+                "eleVal": "0.0",
+                "eleParamete": [
+                    {
+                        "paramete": "envent2actionld"
+                    },
+                    {
+                        "paramete": "0"
+                    }
+                ]
+            },
+            {
+                "eleName": "runTime",
+                "eleDescription": "0",
+                "eleIcn": "calendar.png",
+                "eleType": "slider",
+                "eleVal": "1.79",
+                "eleParamete": [
+                    {
+                        "paramete": "0"
+                    },
+                    {
+                        "paramete": "90"
+                    }
+                ]
+            },
+            {
+                "eleName": "intervalTime",
+                "eleDescription": "0",
+                "eleIcn": "options.png",
+                "eleType": "slider",
+                "eleVal": "3.00",
+                "eleParamete": [
+                    {
+                        "paramete": "0.8"
+                    },
+                    {
+                        "paramete": "5"
+                    }
+                ]
+            },
+            {
+                "eleName": "compressRate",
+                "eleDescription": "图片压缩率",
+                "eleIcn": "wallet.png",
+                "eleType": "slider",
+                "eleVal": "1.00",
+                "eleParamete": [
+                    {
+                        "paramete": "0.5"
+                    },
+                    {
+                        "paramete": "1"
+                    }
+                ]
+            },
+            {
+                "eleName": "matchThreshold",
+                "eleDescription": "图片匹配阈值",
+                "eleIcn": "folder.png",
+                "eleType": "slider",
+                "eleVal": "0.70",
+                "eleParamete": [
+                    {
+                        "paramete": "0.5"
+                    },
+                    {
+                        "paramete": "0.9"
+                    }
+                ]
+            }
+        ]
+    },
+    "stateList": [
+        {
+            "name": "goto",
+            "x": 0.08054226475279107,
+            "y": 0.238,
+            "mainList": [
+                {
+                    "name": "imgEvent",
+                    "icon": "../../GuiImage/pullmenu/photo.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "taosuo",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "tansuo.jpg",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.34",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.13",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.45",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.48",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "yvhun",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "yvhun.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bar-graph.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "1.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "1.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "bajidase",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "bajidase.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "cancel.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bag.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.42",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "slider",
+                                    "eleVal": "1.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "battle1",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "battle12.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.77",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.67",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.22",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.33",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "prepare",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "prepare.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.71",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.53",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.28",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bar-graph.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.47",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "gu",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "gu.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.23",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.12",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.55",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.46",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hun",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "hun.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.30",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.51",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.46",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.48",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intVarEvent",
+                    "icon": "../../GuiImage/pullmenu/textformat_123.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "clickAction",
+                    "icon": "../../GuiImage/pullmenu/location_fill_rotated.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "imgclick",
+                            "detail": [
+                                {
+                                    "eleName": "limits",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "40.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "20"
+                                        },
+                                        {
+                                            "paramete": "80"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveX",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveY",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intChangeAction",
+                    "icon": "../../GuiImage/pullmenu/minus_slash_plus.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "transitionsAction",
+                    "icon": "../../GuiImage/pullmenu/repeat.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "envent2Action",
+                    "icon": "../../GuiImage/pullmenu/arrow-left-right-fill.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "newname1",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "taosuo",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bag.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "newname2",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "yvhun",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "newname3",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "bajidase",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "newname4",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "battle1",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bag.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "newname5",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "prepare",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "newname6",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "cancel.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "gu",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "newname7",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "cancel.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "hun",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "taosuo"
+                                        },
+                                        {
+                                            "paramete": "yvhun"
+                                        },
+                                        {
+                                            "paramete": "bajidase"
+                                        },
+                                        {
+                                            "paramete": "battle1"
+                                        },
+                                        {
+                                            "paramete": "prepare"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        },
+                                        {
+                                            "paramete": "hun"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgclick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgclick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "goback",
+            "x": 0.07885085574572127,
+            "y": 0.384,
+            "mainList": [
+                {
+                    "name": "imgEvent",
+                    "icon": "../../GuiImage/pullmenu/photo.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "tansuo",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "tansuo.jpg",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.20",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.10",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.69",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.40",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "closedRed",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bar-graph.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "closedRed.jpg",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.73",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.25",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.38",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "backDefalut",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "backDefalut.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.25",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.35",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "gu",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "hun.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.26",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.26",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.77",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.73",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intVarEvent",
+                    "icon": "../../GuiImage/pullmenu/textformat_123.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "clickAction",
+                    "icon": "../../GuiImage/pullmenu/location_fill_rotated.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "imgClick",
+                            "detail": [
+                                {
+                                    "eleName": "limits",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "39.29",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "20"
+                                        },
+                                        {
+                                            "paramete": "80"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveX",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveY",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intChangeAction",
+                    "icon": "../../GuiImage/pullmenu/minus_slash_plus.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "transitionsAction",
+                    "icon": "../../GuiImage/pullmenu/repeat.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "envent2Action",
+                    "icon": "../../GuiImage/pullmenu/arrow-left-right-fill.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "e1",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bar-graph.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "closedRed",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "tansuo"
+                                        },
+                                        {
+                                            "paramete": "closedRed"
+                                        },
+                                        {
+                                            "paramete": "backDefalut"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgClick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgClick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "e2",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "backDefalut",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "tansuo"
+                                        },
+                                        {
+                                            "paramete": "closedRed"
+                                        },
+                                        {
+                                            "paramete": "backDefalut"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgClick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgClick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "e3",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "gu",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "tansuo"
+                                        },
+                                        {
+                                            "paramete": "closedRed"
+                                        },
+                                        {
+                                            "paramete": "backDefalut"
+                                        },
+                                        {
+                                            "paramete": "gu"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "cancel.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgClick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgClick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "description": "这个是一个任务模板，点击open即可打开修改。关于任务的description请在taskConfigUI.json文件下、“description” 修改"
+}

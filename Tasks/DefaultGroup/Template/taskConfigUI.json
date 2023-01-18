@@ -1,0 +1,660 @@
+{
+    "baseConfig": {
+        "name": "baseConfig",
+        "detail": [
+            {
+                "eleName": "nameZh",
+                "eleDescription": "0",
+                "eleIcn": "weather.png",
+                "eleType": "textInput",
+                "eleVal": "模板",
+                "eleParamete": [
+                    {
+                        "paramete": "envent2actionld"
+                    },
+                    {
+                        "paramete": "0"
+                    }
+                ]
+            },
+            {
+                "eleName": "version",
+                "eleDescription": "0",
+                "eleIcn": "bar-graph.png",
+                "eleType": "textInput",
+                "eleVal": "0.0",
+                "eleParamete": [
+                    {
+                        "paramete": "envent2actionld"
+                    },
+                    {
+                        "paramete": "0"
+                    }
+                ]
+            },
+            {
+                "eleName": "runTime",
+                "eleDescription": "0",
+                "eleIcn": "calendar.png",
+                "eleType": "slider",
+                "eleVal": "15.00",
+                "eleParamete": [
+                    {
+                        "paramete": "0"
+                    },
+                    {
+                        "paramete": "90"
+                    }
+                ]
+            },
+            {
+                "eleName": "intervalTime",
+                "eleDescription": "0",
+                "eleIcn": "options.png",
+                "eleType": "slider",
+                "eleVal": "3.00",
+                "eleParamete": [
+                    {
+                        "paramete": "0.8"
+                    },
+                    {
+                        "paramete": "5"
+                    }
+                ]
+            },
+            {
+                "eleName": "compressRate",
+                "eleDescription": "图片压缩率",
+                "eleIcn": "wallet.png",
+                "eleType": "slider",
+                "eleVal": "0.80",
+                "eleParamete": [
+                    {
+                        "paramete": "0.5"
+                    },
+                    {
+                        "paramete": "1"
+                    }
+                ]
+            },
+            {
+                "eleName": "matchThreshold",
+                "eleDescription": "图片匹配阈值",
+                "eleIcn": "folder.png",
+                "eleType": "slider",
+                "eleVal": "0.80",
+                "eleParamete": [
+                    {
+                        "paramete": "0.5"
+                    },
+                    {
+                        "paramete": "0.9"
+                    }
+                ]
+            }
+        ]
+    },
+    "stateList": [
+        {
+            "name": "goto",
+            "x": 0.08108108108108109,
+            "y": 0.2388663967611336,
+            "mainList": [
+                {
+                    "name": "imgEvent",
+                    "icon": "../../GuiImage/pullmenu/photo.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "intVarEvent",
+                    "icon": "../../GuiImage/pullmenu/textformat_123.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "clickAction",
+                    "icon": "../../GuiImage/pullmenu/location_fill_rotated.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "imgclick",
+                            "detail": [
+                                {
+                                    "eleName": "limits",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "40.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "20"
+                                        },
+                                        {
+                                            "paramete": "80"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveX",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveY",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intChangeAction",
+                    "icon": "../../GuiImage/pullmenu/minus_slash_plus.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "transitionsAction",
+                    "icon": "../../GuiImage/pullmenu/repeat.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "envent2Action",
+                    "icon": "../../GuiImage/pullmenu/arrow-left-right-fill.png",
+                    "desc": "0",
+                    "subList": []
+                }
+            ]
+        },
+        {
+            "name": "goback",
+            "x": 0.07923832923832924,
+            "y": 0.38653846153846155,
+            "mainList": [
+                {
+                    "name": "imgEvent",
+                    "icon": "../../GuiImage/pullmenu/photo.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "tansuo",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "tansuo.jpg",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.20",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.10",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.69",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.40",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "closedRed",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bar-graph.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "closedRed.jpg",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.73",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.25",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "folder.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.38",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "backDefalut",
+                            "detail": [
+                                {
+                                    "eleName": "imgName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "warning.png",
+                                    "eleType": "fileDialog",
+                                    "eleVal": "backDefalut.png",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "0"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "x0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "y0",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "width",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.25",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "height",
+                                    "eleDescription": "0",
+                                    "eleIcn": "secured.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.35",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intVarEvent",
+                    "icon": "../../GuiImage/pullmenu/textformat_123.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "clickAction",
+                    "icon": "../../GuiImage/pullmenu/location_fill_rotated.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "imgClick",
+                            "detail": [
+                                {
+                                    "eleName": "limits",
+                                    "eleDescription": "0",
+                                    "eleIcn": "settings.png",
+                                    "eleType": "slider",
+                                    "eleVal": "39.29",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "20"
+                                        },
+                                        {
+                                            "paramete": "80"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveX",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "moveY",
+                                    "eleDescription": "0",
+                                    "eleIcn": "weather.png",
+                                    "eleType": "slider",
+                                    "eleVal": "0.00",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "0"
+                                        },
+                                        {
+                                            "paramete": "1"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "intChangeAction",
+                    "icon": "../../GuiImage/pullmenu/minus_slash_plus.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "transitionsAction",
+                    "icon": "../../GuiImage/pullmenu/repeat.png",
+                    "desc": "0",
+                    "subList": []
+                },
+                {
+                    "name": "envent2Action",
+                    "icon": "../../GuiImage/pullmenu/arrow-left-right-fill.png",
+                    "desc": "0",
+                    "subList": [
+                        {
+                            "name": "e1",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "bar-graph.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "wallet.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "closedRed",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "tansuo"
+                                        },
+                                        {
+                                            "paramete": "closedRed"
+                                        },
+                                        {
+                                            "paramete": "backDefalut"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "calendar.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgClick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgClick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "e2",
+                            "detail": [
+                                {
+                                    "eleName": "eventType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "options.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgEvent",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgEvent"
+                                        },
+                                        {
+                                            "paramete": "intVarEvent"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "eventName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "backDefalut",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "tansuo"
+                                        },
+                                        {
+                                            "paramete": "closedRed"
+                                        },
+                                        {
+                                            "paramete": "backDefalut"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionType",
+                                    "eleDescription": "0",
+                                    "eleIcn": "rocket.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "clickAction",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "clickAction"
+                                        },
+                                        {
+                                            "paramete": "transitionsAction"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "eleName": "actionName",
+                                    "eleDescription": "0",
+                                    "eleIcn": "pie-chart.png",
+                                    "eleType": "comboBox",
+                                    "eleVal": "imgClick",
+                                    "eleParamete": [
+                                        {
+                                            "paramete": "imgClick"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "description":"这个是一个任务模板，点击open即可打开修改。关于任务的description请在taskConfigUI.json文件下、“description” 修改"
+}

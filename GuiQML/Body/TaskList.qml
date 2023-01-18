@@ -158,7 +158,7 @@ Item {
             anchors.top: taskName.bottom
             anchors.topMargin: 8
             width: parent.width
-            text: qsTr("text")
+            text: "这个是一个任务模板，点击open即可打开修改。关于任务的description请在taskConfigUI.json文件下、“description” 修改"
             color: "#ffffff"
             font.pixelSize: 14
             wrapMode: Text.WrapAnywhere
