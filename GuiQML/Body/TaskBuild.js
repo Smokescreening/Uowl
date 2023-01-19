@@ -40,7 +40,7 @@ function newClickAtion(name){
     var reu = {}
     reu["name"] = name
     reu["detail"] = []
-    reu["detail"].push( newEleDetail("limits", "slider", [{"paramete":"20"},{"paramete":"80"}]))
+    reu["detail"].push( newEleDetail("limits", "slider", [{"paramete":"40"},{"paramete":"450"}]))
     reu["detail"].push( newEleDetail("moveX", "slider", [{"paramete":"0"},{"paramete":"1"}]))
     reu["detail"].push( newEleDetail("moveY", "slider", [{"paramete":"0"},{"paramete":"1"}]))
     return reu

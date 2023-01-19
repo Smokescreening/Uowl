@@ -1,6 +1,11 @@
-<center><font face="黑体" color=purple size=72>Uowl</font></center>
+<div align="center">
+<font color=purple size=72>Uowl</font>
+</div>
 
-<center>痒痒鼠的全自动托管助手</center>
+
+<div align="center">痒痒鼠的全自动托管助手
+</div>
+
 
 ## 🎈安装方法
 
