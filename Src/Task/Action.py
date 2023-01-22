@@ -34,8 +34,8 @@ class ClickAction(QObject):
         while(True):
             randList = rand(30, 2)  # 30个
             biasRate = randList[ randint(30)]
-            moveX : int = int(self.moveX) + int(biasRate[0]*self.limits)
-            moveY : int = int(self.moveY) + int(biasRate[1]*self.limits)
+            moveX : int = int(self.moveX*int(self.screenSize[0])) + int(biasRate[0]*self.limits)
+            moveY : int = int(self.moveY*int(self.screenSize[1])) + int(biasRate[1]*self.limits)
             endX : int = int(info["position"][0])+moveX
             endY : int = int(info["position"][1])+moveY
             screenWidth : int = int(self.screenSize[0])

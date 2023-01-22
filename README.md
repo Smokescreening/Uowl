@@ -1,15 +1,8 @@
-
-<div align="center">
-<font color=purple size=72>Uowl</font>
-</div>
-
-
+![](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/%E9%AB%98%E6%B8%854K%E5%93%81%E8%B4%A8LOGO%E5%8E%9F%E8%89%B2%E8%83%8C%E6%99%AF.jpeg)
 
 
 <div align="center">痒痒鼠的全自动托管助手
 </div>
-
-
 ## 🎈安装方法
 
 <details>
@@ -41,7 +34,8 @@
 
 <details>
 <summary></summary>
-+ 下载客户端，支持：雷电模拟器([官网](https://www.ldmnq.com/))、MuMu模拟器([官网](https://yys.163.com/zmb/))、安卓手机
++ 下载客户端，支持：雷电模拟器[官网](https://www.ldmnq.com/)、MuMu模拟器[官网](https://yys.163.com/zmb/)、安卓手机
+
 
   作者强烈推荐使用雷电模拟器
 
@@ -272,8 +266,8 @@
 
 <details>
 <summary></summary>
-
 感谢aicezam的项目[SmartOnmyoji](https://github.com/aicezam/SmartOnmyoji)
-
 </details>
+
+<img src="https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/qrcode_1674146176920.jpg"  />
 
