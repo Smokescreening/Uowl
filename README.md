@@ -1,8 +1,16 @@
-![](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/%E9%AB%98%E6%B8%854K%E5%93%81%E8%B4%A8LOGO%E5%8E%9F%E8%89%B2%E8%83%8C%E6%99%AF.jpeg)
+![高清4K品质LOGO原色背景](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/%E9%AB%98%E6%B8%854K%E5%93%81%E8%B4%A8LOGO%E5%8E%9F%E8%89%B2%E8%83%8C%E6%99%AF.png)
 
 
 <div align="center">痒痒鼠的全自动托管助手
 </div>
+## ❤为什么选择我们
+
+- **比其他脚本更加安全防封**
++ **最全的，高度扩展性的功能**
++ **永远开源，社区活跃，长期维护**
+
+***
+
 ## 🎈安装方法
 
 <details>
@@ -269,5 +277,4 @@
 感谢aicezam的项目[SmartOnmyoji](https://github.com/aicezam/SmartOnmyoji)
 </details>
 
-<img src="https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/qrcode_1674146176920.jpg"  />
-
+![QQ图片20230123005204](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/QQ%E5%9B%BE%E7%89%8720230123005204.jpg)
