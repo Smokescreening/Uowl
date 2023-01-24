@@ -41,8 +41,8 @@ function newClickAtion(name){
     reu["name"] = name
     reu["detail"] = []
     reu["detail"].push( newEleDetail("limits", "slider", [{"paramete":"25"},{"paramete":"450"}]))
-    reu["detail"].push( newEleDetail("moveX", "slider", [{"paramete":"0"},{"paramete":"1"}]))
-    reu["detail"].push( newEleDetail("moveY", "slider", [{"paramete":"0"},{"paramete":"1"}]))
+    reu["detail"].push( newEleDetail("moveX", "slider", [{"paramete":"-0.5"},{"paramete":"0.5"}]))
+    reu["detail"].push( newEleDetail("moveY", "slider", [{"paramete":"-0.5"},{"paramete":"0.5"}]))
     return reu
 }
 // new transitions:

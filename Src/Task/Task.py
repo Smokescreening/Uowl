@@ -166,6 +166,10 @@ class Task(Machine):
                         for i in range(len(self.transitionsActionList)):
                             if self.transitionsActionList[i].actionName == envent2actionld["actionName"]:
                                 actionObj = self.transitionsActionList[i]
+                if not enventObj:
+                    Log4().log("info", "找不到eventObj imgEvent")
+                if not actionObj:
+                    Log4().log("info", "找不到actionObj ")
                 enventObj.sigEvent.connect(actionObj.deal)
 
         # 最后如果这个状态是最后的goback态那么
