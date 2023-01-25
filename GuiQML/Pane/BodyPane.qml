@@ -13,6 +13,7 @@ Item {
             bridge.sigUIUpdateRemainTime.connect(slotUIUpdateRemainTime)
             bridge.sigUIUpdatePresentTask.connect(slotUIUpdatePresentTask)
             bridge.sigUIUpdatePresentState.connect(slotUIUpdatePresentState)
+            bridge.sigUISetRunState.connect(slotUIUpdatePresentRunState)
         }
     }
 
@@ -56,6 +57,11 @@ Item {
     function slotUIUpdatePresentState(stateName){
         if(menuPane.menuPaneFlag === 1){
             bodyLoader.item.setUIUpdatePresentState(stateName)
+        }
+    }
+    function slotUIUpdatePresentRunState(value){
+        if(menuPane.menuPaneFlag === 1){
+            bodyLoader.item.setUIRunState(value)
         }
     }
 }

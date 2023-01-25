@@ -143,6 +143,17 @@ Item {
                  anchors.fill: parent
                  model:logListModel
                  delegate:logListDelegate
+                 add: Transition {
+                     ParallelAnimation{
+                      NumberAnimation { properties: "y"; from: logListView.height; duration: 300 }
+                      NumberAnimation {
+                                  property: "opacity"
+                                  from: 0.4
+                                  to: 1.0
+                                  duration: 300
+                              }
+                     }
+                 }
              }
         }
     }
@@ -256,7 +267,6 @@ Item {
         }
     }
     Component.onCompleted: {
-
     }
 
 
@@ -286,6 +296,11 @@ Item {
     function setUIUpdatePresentState(stateName){
         presentState.text = stateName
     }
+    // 槽函数
+    function setUIRunState(value){
+        taskStart.runState = value
+    }
+
     onRunStateChanged: {
         if(taskStart.runState === 0){
             menuPane.menuOpen()

@@ -129,6 +129,11 @@ Item {
         }
     }
 
+    Behavior on width {
+        NumberAnimation{
+            duration: 400
+        }
+    }
     function menuOpen(){
         menuPane.visible = true
     }

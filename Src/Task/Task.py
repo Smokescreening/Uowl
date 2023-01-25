@@ -15,6 +15,7 @@ from Src.Bridge import Bridge
 from Src.ConfigFile import ConfigFile
 from Src.Task.Event import ImgEvent, IntVarEvent
 from Src.Task.Action import ClickAction, IntChangeAction, TransitionsAction
+from Src.Task.Before import Before
 from Src.Device import Device
 
 # @staticmethod
@@ -37,6 +38,7 @@ from Src.Device import Device
 class Task(Machine):
     def __init__(self, taskGroup :str, taskName :str, device :Device) -> None:
         self.runState = "running"  # 用来描述这个任务的运行情况  running 表示正在运行运行  onPause  exit表示状态直接切换到最后一个状态以供退出 quit强制退出之间关闭任务
+        self.transState = False  # 有一个bug是切换状态的时候for迭代器并不会退出而是继续按照切换状态后的list对象继续迭代下去
         self.matchThreshold = None  #  单纯给imgEvent输入
         self.compressRate = None  # 图片的压缩率单纯给imgEvent输入
         self.intervalTime = None  # 任务执行的间隔时间
@@ -49,10 +51,13 @@ class Task(Machine):
         match device.baseSetting["deviceType"]:
             case "安卓设备":
                 self.mathWay = device.android["imgMathWay"]
+                self.before = Before(device, [device.android["androidWidth"], device.android["androidHeight"]])
             case "mumu模拟器":
                 self.mathWay = device.mumu["imgMathWay"]
+                self.before = Before(device, [device.mumu["mumuWidth"], device.mumu["mumuHeight"]])
             case "雷电模拟器":
                 self.mathWay = device.leidian["imgMathWay"]
+                self.before = Before(device, [device.leidian["leidianWidth"], device.leidian["leidianHeight"]])
         self.statesList = []   # 用来输入到machine的初始化，以及查找状态的序号
         self.transitionsList = []  # 这个是状态transitions列表 单纯用来输入到machine的初始化
         self.statesInfoList = []  # 这个保存着这个任务所有状态所有的信息，在切换状态的时候拿出来
@@ -100,9 +105,10 @@ class Task(Machine):
         当状态改变后从新载入该状态的event和action，并且从新绑定两者
         :return:
         """
-        # self.taskChangeState("onPause")
+        self.taskChangeState("onPause")
         self.loadEventAction()
-        # self.taskChangeState("running")
+        self.taskChangeState("running")
+        self.transState = True
 
     def loadEventAction(self) -> None:
         """
@@ -197,7 +203,10 @@ class Task(Machine):
                 self.trigger("goback")
                 # self.runState = "exit"
             case "quit":
-                self.runState = "quit"
+                if self.runState == "onPause":
+                    self.runState = "exit"
+                else:
+                    self.runState = "quit"
 
     @Slot(dict)
     def slotTaskQuit(self, info :dict) -> None:
@@ -208,6 +217,8 @@ class Task(Machine):
         :return:
         """
         self.taskChangeState("quit")
+        Log4().log("info", "任务接受，退出")
+        Bridge().sigUISetRunState.emit(0)
 
     def run(self):
         while True:
@@ -215,10 +226,15 @@ class Task(Machine):
                 case "running":
                     startTime = time.time()
                     srcSreen = self.device.getScreen()
-                    # device.saveScreen(srcSreen, "test")
+                    # 先处理协作等等
+                    self.before.deal(srcSreen)
                     # 图片事件处理
                     for imgEvent in self.imgEventList:
+                        if self.transState == True:
+                            self.transState = False
+                            break
                         imgEvent.deal(srcSreen)
+
                     costTime = float(time.time() - startTime)
                     randTime = uniform(-0.5, 0.5)  # 随机上下波动
                     sleepTime = self.intervalTime - costTime + randTime

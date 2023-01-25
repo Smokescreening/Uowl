@@ -17,7 +17,7 @@ class Bridge(QObject):
     sigUIUpdateRemainTime = Signal(str)  # 后台控制前台剩余时间
     sigUIUpdatePresentTask = Signal(str)  # 后台控制前台当前任务
     sigUIUpdatePresentState = Signal(str)  # 后台控制前台当前状态
-
+    sigUISetRunState = Signal(int)  # 任务接受改变一下
     # 后台信号 -> 后台槽
 
     def __init__(self) -> None:
