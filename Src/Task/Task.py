@@ -39,10 +39,13 @@ class Task(Machine):
     def __init__(self, taskGroup :str, taskName :str, device :Device) -> None:
         self.runState = "running"  # 用来描述这个任务的运行情况  running 表示正在运行运行  onPause  exit表示状态直接切换到最后一个状态以供退出 quit强制退出之间关闭任务
         self.transState = False  # 有一个bug是切换状态的时候for迭代器并不会退出而是继续按照切换状态后的list对象继续迭代下去
+        self.imgCurrentCount = 0  # 计数
+        self.imgCurrentName = "0"  # 名字
         self.matchThreshold = None  #  单纯给imgEvent输入
         self.compressRate = None  # 图片的压缩率单纯给imgEvent输入
         self.intervalTime = None  # 任务执行的间隔时间
         self.runTime = None  # 这个是规定任务最多的时间
+        self.timeOutFlag = False  # 用于执行一次超时标志位，到了会自动变True
         self.startTime = time.time()  # 记录起始时间 用于后面判断
         self.taskGroup = taskGroup
         self.taskName = taskName
@@ -233,7 +236,8 @@ class Task(Machine):
                         if self.transState == True:
                             self.transState = False
                             break
-                        imgEvent.deal(srcSreen)
+                        if imgEvent.deal(srcSreen):
+                            self.exceptionCount(imgEvent.eventName)
 
                     costTime = float(time.time() - startTime)
                     randTime = uniform(-0.5, 0.5)  # 随机上下波动
@@ -243,9 +247,11 @@ class Task(Machine):
                     totalMinute, totalSdcond = int(totalTime/60), totalTime%60  #
                     Bridge().sigUIUpdateRemainTime.emit( f'{totalMinute}:{totalSdcond}')  # 向UI发送还剩多少时间
                     Bridge().sigUIUpdateProgressBar.emit(round(totalTime/60/self.runTime, 2))  # 向UI发送进度条的值
-                    if self.state != "goback":
-                        if float(totalTime/60) >= self.runTime:
-                            self.taskChangeState("exit")  # 时间到了 要退出任务
+                    if not self.timeOutFlag :  # 还没有超时判断一下
+                        if self.state != "goback":
+                            if float(totalTime/60) >= self.runTime:
+                                self.timeOutFlag = True
+                                self.taskChangeState("exit")  # 时间到了 要退出任务
                     if sleepTime > 0:
                         QThread.sleep(sleepTime)
                 case "onPause":
@@ -256,6 +262,19 @@ class Task(Machine):
                 case "quit":
                     return None
 
+    def exceptionCount(self, imgEventName :str) -> None:
+        """
+        用来解决连续多次识别到一个图片，这说明运行出错了，跳转到goback态退出
+        :param imgEventName:
+        :return:
+        """
+        if self.imgCurrentName == imgEventName:
+            self.imgCurrentCount += 1
+            if self.imgCurrentCount >= 20:  # 超过20次退出
+                self.taskChangeState("exit")
+        else:
+            self.imgCurrentName = imgEventName
+            self.imgCurrentCount = 0
 # device = Device(ConfigFile.getSettingDict("baseSetting"),
 #                              ConfigFile.getSettingDict("android"),
 #                              ConfigFile.getSettingDict("mumu"),

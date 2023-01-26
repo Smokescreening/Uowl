@@ -15,7 +15,7 @@ class Before:
         :param device: 注入设备句柄
         :param size:  设备大小
         """
-        infoAccept :dict = {"eventName": "accept", "imgName": "accept.jpg", "x0": "0.63", "y0": "0.55", "width": "0.08", "height": "0.14"}
+        infoAccept :dict = {"eventName": "accept", "imgName": "accept.jpg", "x0": "0.60", "y0": "0.52", "width": "0.16", "height": "0.20"}
         infoReject :dict = {"eventName": "reject", "imgName": "reject.jpg", "x0": "0.63", "y0": "0.70", "width": "0.08", "height": "0.14"}
         infoAction :dict = {"actionName": "imgClick", "limits": "20.00", "moveX": "0.00", "moveY": "0.00"}
         self.imgEventAccept = ImgEvent("DefaultGroup","Before","matchTemplate",
