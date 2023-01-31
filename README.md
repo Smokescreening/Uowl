@@ -36,7 +36,11 @@
 
 + **以打包程序**
 
-  (还未发布)
+  + **star**支持一下不过分吧
+  
+  点击这里[Releases · runhey/Uowl (github.com)](https://github.com/runhey/Uowl/releases)
+  
+  解压大概需要四百多兆空间
 
 </details>
 
