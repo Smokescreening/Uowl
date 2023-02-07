@@ -125,18 +125,43 @@
 
   ![image-20230127012326570](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230127012326570.png)
 
-#### 使用
+#### 详细使用
 
 ！！！**作者在写的时候为了提进度没有考虑各种异常情况**，请一定按照说明来操作
 
 如有一些不正常的情况请先保存，再重启
 
++ 首先启动游戏再打开Uowl，若接入成功则显示正确的handleNum或者deviceId, 以及设备尺寸
+
+  ![image-20230207164021157](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207164021157.png)
+
+  ![image-20230207164723281](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207164723281.png)
+
 + 点击左边菜单第二个任务调度中心，三个页面分别是每周，每日，立即执行三类，最下边自行添加删除设置。
 
+  ![image-20230207164923000](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207164923000.png)
+
 + 值得一提的是的forthwith 下面的default queue是一个单选框，可以选择设置多个以便不同情况切换
+
 + 点击左边菜单第一个，点击启动即可运行刚刚添加到forthwith上的任务
 
-**如有疑惑请往 搭建任务 章节**
++ 游戏多开：目前仅支持雷电模拟器，没多开一个游戏需要复制一份游戏文件，并对于不同的游戏窗口设置不同的handleTitle（在雷电多开器可以看到）
+
+  ![image-20230207170027334](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207170027334.png)
+
+  ![image-20230207165839799](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207165839799.png)
+
+#### 注意事项
+
++ 使用window后台时游戏窗口不能点击最小化（但是可以被覆盖），否则脚本无法获取游戏截图而无法正常运行
+
++ 想保持window桌面干净正确的做法是新建一个虚拟桌面(自行百度一下)，把游戏和脚本放到单独一个桌面
+
+  ![image-20230207165252156](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207165252156.png)
+
+  
+
+**如有疑惑请往 搭建任务 [章节](https://github.com/runhey/Uowl/blob/master/Docs/搭建任务.md)**
 
 </details>
 

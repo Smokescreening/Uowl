@@ -401,7 +401,7 @@ class Device(QObject):
                 Log4().log("info", f'设备尺寸是:{self.android["androidWidth"]}x{self.android["androidHeight"]}')
             case "mumu模拟器":
                 if self.mumu["connectType"] == "adb":
-                    self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
+                    self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[1]
                     self.mumu["mumuHeight"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
                     Log4().log("info", f'设备尺寸是:{self.mumu["mumuWidth"]}x{self.mumu["mumuHeight"]}')
                 elif self.mumu["connectType"] == "window前台":
@@ -410,7 +410,7 @@ class Device(QObject):
                     Log4().log("info", f'设备尺寸是:{self.mumu["mumuWidth"]}x{self.mumu["mumuHeight"]}')
             case "雷电模拟器":
                 if self.leidian["connectType"] == "adb":
-                    self.leidian["leidianWidth"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
+                    self.leidian["leidianWidth"] = Adb.getScreenSize(self.leidian["deviceId"])[1]
                     self.leidian["leidianHeight"] = Adb.getScreenSize(self.leidian["deviceId"])[0]
                     Log4().log("info", f'设备尺寸是:{self.leidian["leidianWidth"]}x{self.leidian["leidianHeight"]}')
                 else:
