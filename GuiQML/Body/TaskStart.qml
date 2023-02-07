@@ -109,7 +109,7 @@ Item {
         ListModel{
             id:logListModel
             ListElement{
-                logContent:"嘻嘻！！！"
+                logContent:"欢迎使用Uowl,详细使用请点击左上角Uowl，将跳转到github项目"
             }
         }
         // 日记输出-委托

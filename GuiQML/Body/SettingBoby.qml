@@ -33,10 +33,10 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             radius: 8
-//            color: "#4dffffff"
-            color: "transparent"
-            border.color: "#ffffff"
-            border.width: 1
+            color: "#4dffffff"
+//            color: "transparent"
+//            border.color: "#ffffff"
+//            border.width: 1
             clip: true
             Column{
                 id:sMenuColumn

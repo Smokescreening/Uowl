@@ -24,7 +24,17 @@ Window {
         property alias windowWidth: rootWindow.width
         property alias windowHeight: rootWindow.height
     }
-
+    //外阴影
+    DropShadow{
+        anchors.fill: windowMain
+        horizontalOffset: 1
+        verticalOffset: 1
+        radius: 8
+        samples: 16
+        source: windowMain
+        color: "#1abc9c"
+        Behavior on radius { PropertyAnimation { duration: 100 } }
+    }
     //主界面
     Rectangle{
         id:windowMain
@@ -221,7 +231,7 @@ Window {
                 anchors.left: appName.right
                 anchors.leftMargin: 4
                 anchors.bottom: parent.bottom
-                text: qsTr("V0.0")
+                text: qsTr("V0.2-beta")
                 color: "#FFCC00"
                 font.bold: false
                 font.pixelSize: 12
@@ -256,17 +266,6 @@ Window {
         Snackbar{
             id: snackbar
         }
-    }
-    //外阴影
-    DropShadow{
-        anchors.fill: windowMain
-        horizontalOffset: 1
-        verticalOffset: 1
-        radius: 8
-        samples: 16
-        source: windowMain
-        color: "#1abc9c"
-        Behavior on radius { PropertyAnimation { duration: 100 } }
     }
     //改变鼠标形状
     MouseArea {

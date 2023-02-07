@@ -78,7 +78,7 @@ class Adb():
             if deviceList == []:   #如果都没有设备尝试连接mumu模拟器
                 print("mumu 连接中")
                 result = Adb.dealCmd('connect 127.0.0.1:7555').decode("utf-8")
-                if result.find('connect to 127.0.0.1:7555') != -1:
+                if result.find('connect to 127.0.0.1:7555') == -1:
                     return '127.0.0.1:7555'
             for device in deviceList:
                 if device != 'offline' and device != 'unknown':
@@ -144,15 +144,11 @@ class Handle():
         :return:
         """
         handleNumParent = FindWindow(None, handleTitle)
-        match handleTitle:
-            case '雷电模拟器':
-                handleNum = FindWindowEx(handleNumParent, None, None, "TheRender")
-                return 0 if handleNum == 0 else handleNum
-            case '阴阳师 - MuMu模拟器':
-                handleNum = FindWindowEx(handleNumParent, None, None, "NemuPlayer")
-                return 0 if handleNum == 0 else handleNum
-            case default:
-                return 0
+        handleNum :int = 0
+        handleNum = FindWindowEx(handleNumParent, None, None, "TheRender")  # 先找雷电的
+        if handleNum == 0:
+            handleNum = FindWindowEx(handleNumParent, None, None, "NemuPlayer")  # 后面找mumu
+        return handleNum
 
     @classmethod
     def getHandTitle(cls, handleNum :int) -> str:
@@ -346,28 +342,40 @@ class Device(QObject):
                 if self.android["connectType"] == "adb":
                     self.android["deviceId"] = Adb.checkStatus()
                     Log4().log("info",f'连接安卓设备, deviceId:{self.android["deviceId"]}')
+                    if not self.android["deviceId"]:
+                        Log4().log("info", "无法通过adb连接安卓设备, 请确保安卓设备打开开发者选项并正常运行")
                     return self.android["deviceId"]
             case "mumu模拟器" :
                 if self.mumu["connectType"] == "adb":
                     self.mumu["deviceId"] = Adb.checkStatus()
                     Log4().log("info", f'连接mumu模拟器, deviceId:{self.mumu["deviceId"]}')
+                    if not self.mumu["deviceId"]:
+                        Log4().log("info", "无法通过adb连接mumu模拟器, 请确保模拟器正常运行")
                     return self.android["deviceId"]
                 elif self.mumu["connectType"] == "window前台":
-                    self.mumu["handleNum"] = Handle.getHandleNum("阴阳师 - MuMu模拟器")
-                    Log4().log("info", f'连接mumu模拟器, handleNum:{self.mumu["handleNum"]}')
+                    self.mumu["handleNum"] = Handle.getHandleNum(self.mumu["handleTitle"])
+                    Log4().log("info", f'连接mumu模拟器, handleTitle:{self.mumu["handleTitle"]}, handleNum:{self.mumu["handleNum"]}')
+                    if self.mumu["handleNum"] == 0:
+                        Log4().log("info", "无法连接mumu, 请确保模拟器正常运行")
                     return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
             case "雷电模拟器" :
                 if self.leidian["connectType"] == "adb":
                     self.leidian["deviceId"] = Adb.checkStatus()
                     Log4().log("info", f'连接雷电模拟器, deviceId:{self.leidian["deviceId"]}')
+                    if not self.leidian["deviceId"]:
+                        Log4().log("info", "无法通过adb连接雷电模拟器, 请确保模拟器正常运行")
                     return self.android["deviceId"]
                 elif self.leidian["connectType"] == "window前台":
-                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
-                    Log4().log("info", f'连接雷电模拟器, handleNum:{self.leidian["handleNum"]}')
+                    self.leidian["handleNum"] = Handle.getHandleNum(self.leidian["handleTitle"])
+                    Log4().log("info", f'连接雷电模拟器, handleTitle:{self.leidian["handleTitle"]}, handleNum:{self.leidian["handleNum"]}')
+                    if self.leidian["handleNum"] == 0:
+                        Log4().log("info", "无法连接雷电模拟器, 请确保模拟器正常运行")
                     return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
                 elif self.leidian["connectType"] == "window后台":
-                    self.leidian["handleNum"] = Handle.getHandleNum("雷电模拟器")
-                    Log4().log("info", f'连接雷电模拟器, handleNum:{self.leidian["handleNum"]}')
+                    self.leidian["handleNum"] = Handle.getHandleNum(self.leidian["handleTitle"])
+                    Log4().log("info", f'连接雷电模拟器, handleTitle:{self.leidian["handleTitle"]}, handleNum:{self.leidian["handleNum"]}')
+                    if self.leidian["handleNum"] == 0:
+                        Log4().log("info", "无法连接雷电模拟器, 请确保模拟器正常运行")
                     return self.leidian["handleNum"] if Handle.checkStatus(self.leidian["handleNum"]) else None
 
     def connectDevice(self) -> None:
@@ -509,3 +517,7 @@ class Device(QObject):
 # device.connect()
 # device.updateSettingToFile()
 # device.saveScreen( device.getScreen(), "test")
+
+
+# h = Handle()
+# print(h.getHandleNum("浏览器 - MuMu模拟器"))
