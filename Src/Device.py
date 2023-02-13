@@ -16,10 +16,10 @@ from subprocess import Popen, PIPE
 from win32print import GetDeviceCaps
 from win32con import SRCCOPY, DESKTOPHORZRES, DESKTOPVERTRES, WM_LBUTTONUP, WM_LBUTTONDOWN, WM_ACTIVATE, WA_ACTIVE, MK_LBUTTON, WM_NCHITTEST, WM_SETCURSOR, HTCLIENT, WM_MOUSEMOVE
 from win32com.client import Dispatch
-from win32gui import GetWindowText, FindWindow, FindWindowEx, IsWindow, GetWindowRect, GetWindowDC, DeleteObject, SetForegroundWindow, IsWindowVisible, GetDC
+from win32gui import GetWindowText, FindWindow, FindWindowEx, IsWindow, GetWindowRect, GetWindowDC, DeleteObject, SetForegroundWindow, IsWindowVisible, GetDC, GetParent
 from win32process import GetWindowThreadProcessId
 from win32ui import CreateDCFromHandle, CreateBitmap
-from win32api import GetSystemMetrics, SendMessage, MAKELONG, PostMessage, RegisterWindowMessage
+from win32api import GetSystemMetrics, SendMessage, MAKELONG, PostMessage
 from PIL import ImageGrab
 from pyautogui import position, click, moveTo, dragTo
 from math import dist
@@ -163,6 +163,15 @@ class Handle():
         if handleNum == 0:
             handleNum = FindWindowEx(handleNumParent, None, None, "NemuPlayer")  # 后面找mumu
         return handleNum
+
+    @classmethod
+    def getParentHandleNum(cls, handleNum :int) -> int:
+        """
+        从子窗口获取父窗口的句柄
+        :param handleNum:
+        :return:
+        """
+        return GetParent(handleNum)
 
     @classmethod
     def getHandTitle(cls, handleNum :int) -> str:
@@ -329,6 +338,22 @@ class Handle():
         return [x1 + pos[0], y1 + pos[1]]
 
     @classmethod
+    def clickMumu(cls, pHandleNum :int, cHandleNum :int, pos :list) -> list:
+        """
+        对猪场风控的反制，小小猪场难不倒我
+        mumu模拟器界面也是qt写的底层同样也是wind API
+        :param pHandleNum: 父窗口的句柄 一般是 阴阳师 - MuMu模拟器
+        :param cHandleNum:  NemuPlayer
+        :param pos:
+        :return:
+        """
+        x1, y1, x2, y2 = GetWindowRect(cHandleNum)
+        SendMessage(pHandleNum, WM_LBUTTONDOWN, 0, MAKELONG(pos[0], pos[1]+57))  # 模拟鼠标按下 先是父窗口 上面的框高度是57
+        QThread.sleep((random.randint(100, 200)) / 1000.0)  # 点击弹起改为随机,时间100ms-200ms
+        SendMessage(cHandleNum, WM_LBUTTONUP, 0, MAKELONG(pos[0], pos[1]))  # 模拟鼠标弹起 后是子窗口
+        return [x1 + pos[0], y1 + pos[1]]
+
+    @classmethod
     def swipe(cls, handleNum :int, startPos :list, endPos :list) -> None:
         """
         后台滑动
@@ -340,7 +365,6 @@ class Handle():
         interval: int = 8  # 每次移动的间隔时间
         numberList :int = int(dist(startPos, endPos)/(1.5*interval))  # 表示每秒移动1.5个像素点， 总的时间除以每个点10ms就得到总的点的个数
         trackData: list = []
-        print(numberList)
         trace :list = BezierTrajectory.trackArray(start=startPos, end=endPos, numberList=numberList, le=3,
                      deviation=30, bias=0.5, type=3, cbb=0, yhh=10)
 
@@ -419,6 +443,13 @@ class Device(QObject):
                     if self.mumu["handleNum"] == 0:
                         Log4().log("info", "无法连接mumu, 请确保模拟器正常运行")
                     return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
+                elif self.mumu["connectType"] == "window后台":
+                    self.mumu["handleNum"] = Handle.getHandleNum(self.mumu["handleTitle"])
+                    self.mumu["pHandleNum"] = Handle.getParentHandleNum(self.mumu["handleNum"])
+                    Log4().log("info", f'连接mumu模拟器, handleTitle:{self.mumu["handleTitle"]}, handleNum:{self.mumu["handleNum"]}')
+                    if self.mumu["handleNum"] == 0:
+                        Log4().log("info", "无法连接mumu模拟器, 请确保模拟器正常运行")
+                    return self.mumu["handleNum"] if Handle.checkStatus(self.mumu["handleNum"]) else None
             case "雷电模拟器" :
                 if self.leidian["connectType"] == "adb":
                     self.leidian["deviceId"] = Adb.checkStatus()
@@ -465,7 +496,7 @@ class Device(QObject):
                     self.mumu["mumuWidth"] = Adb.getScreenSize(self.mumu["deviceId"])[1]
                     self.mumu["mumuHeight"] = Adb.getScreenSize(self.mumu["deviceId"])[0]
                     Log4().log("info", f'设备尺寸是:{self.mumu["mumuWidth"]}x{self.mumu["mumuHeight"]}')
-                elif self.mumu["connectType"] == "window前台":
+                else:
                     self.mumu["mumuWidth"] = Handle.getSize(self.mumu["handleNum"])[0]
                     self.mumu["mumuHeight"] = Handle.getSize(self.mumu["handleNum"])[1]
                     Log4().log("info", f'设备尺寸是:{self.mumu["mumuWidth"]}x{self.mumu["mumuHeight"]}')
@@ -497,8 +528,8 @@ class Device(QObject):
                     return Adb.getScreen(self.mumu["deviceId"])
                 elif self.mumu["getScreenWay"] == "window前台":
                     return Handle.getScreenPIL(self.mumu["handleNum"])
-                else:
-                    pass
+                elif self.mumu["getScreenWay"] == "window后台":
+                    return Handle.getScreen(self.mumu["handleNum"], [self.mumu["mumuWidth"],self.mumu["mumuHeight"]])
             case "雷电模拟器":
                 if self.leidian["getScreenWay"] == "adb":
                     return Adb.getScreen(self.leidian["deviceId"])
@@ -526,8 +557,8 @@ class Device(QObject):
                     Adb.click(self.mumu["deviceId"], pos)
                 elif self.mumu["controlWay"] == "window前台":
                     Handle.clickPIL(self.mumu["handleNum"], pos)
-                else:
-                    pass
+                elif self.mumu["controlWay"] == "window后台":
+                    Handle.clickMumu(self.mumu["pHandleNum"], self.mumu["handleNum"], pos)
             case "雷电模拟器":
                 if self.leidian["controlWay"] == "adb":
                     Adb.click(self.leidian["deviceId"], pos)
@@ -563,8 +594,8 @@ class Device(QObject):
                     Adb.swipe(self.mumu["deviceId"], startPos, endPos)
                 elif self.mumu["controlWay"] == "window前台":
                     Handle.swipePIL(self.mumu["handleNum"], startPos, endPos)
-                else:
-                    pass
+                elif self.mumu["controlWay"] == "window后台":
+                    Handle.swipe(self.mumu["handleNum"], startPos, endPos)
             case "雷电模拟器":
                 if self.leidian["controlWay"] == "adb":
                     Adb.swipe(self.leidian["deviceId"], startPos, endPos)
@@ -581,12 +612,19 @@ class Device(QObject):
 
 # trace = [[500,0], [500,50], [500,100], [500,150], [500,200], [500,250], [500,300], [500,350], [500,400], [500, 450]]
 # h = Handle()
-# handleNum = h.getHandleNum("雷电模拟器")
-# h.click(handleNum, [100,100])
-# mouseTrack = MouseTrack(h.swipe(handleNum, [201,420], [900, 440]))
+# handleNum = h.getHandleNum("MuMu模拟器")
+# mouseTrack = MouseTrack(h.swipe(handleNum, [201,440], [800, 440]))
 # mouseTrack.show_track(x_min=0, y_min=0, x_max=1280, y_max=720)
 
 
 # adb = Adb()
 # deviceId = adb.checkStatus()
 # adb.swipe(deviceId, [400, 1], [500, 450])
+
+# h = Handle()
+# handleNumParent = FindWindow(None, "MuMu模拟器")
+# handleNum = FindWindowEx(handleNumParent, None, None, "NemuPlayer")  # 后面找mumu
+# print(f"父窗口大小:{h.getSize(handleNumParent)},  子窗口大小:{h.getSize(handleNum)}")
+# SendMessage(handleNumParent, WM_LBUTTONDOWN, 0, MAKELONG(1076, 207))  # 模拟鼠标按下
+# QThread.sleep((random.randint(100, 200)) / 1000.0)  # 点击弹起改为随机,时间100ms-200ms
+# SendMessage(handleNum, WM_LBUTTONUP, 0, MAKELONG(1076, 150))  # 模拟鼠标弹起

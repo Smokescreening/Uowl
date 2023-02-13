@@ -68,9 +68,7 @@ class Task(Machine):
         self.statesInfoList = []  # 这个保存着这个任务所有状态所有的信息，在切换状态的时候拿出来
         self.readConfig()
         super(Task, self).__init__(model=self, states=self.statesList, initial=self.statesList[0],
-                                   transitions=self.transitionsList, use_pygraphviz=True,
-                                   show_auto_transitions=False, after_state_change='afterStateChange',
-                                   title=self.taskName)
+                                   transitions=self.transitionsList, after_state_change='afterStateChange')
         # 下面这些是用来保存每个状态的事件动作, 注意里面的东西的Action和Event对象
         self.imgEventList = []
         self.intVarEventList = []
