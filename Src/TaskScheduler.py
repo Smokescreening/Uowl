@@ -32,8 +32,10 @@ def queueExecute() -> None:
         taskInfo = taskSche.queue[0]
         del taskSche.queue[0]
         Bridge().sigUIUpdatePresentTask.emit(taskInfo["taskName"])  # 向ui发送当前的任务
+        Log4().slotStartLog(taskInfo["taskName"])
         taskSche.task = Task(taskInfo["taskGroup"], taskInfo["taskName"], taskSche.device)
         taskSche.task.run()
+        Log4().slotFinishLog()
         taskSche.lock = True  # 释放锁
 
 def queueAdd(taskGroup :str, taskName :str) -> None:

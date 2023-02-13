@@ -364,7 +364,6 @@ class Handle():
         """
         interval: int = 8  # 每次移动的间隔时间
         numberList :int = int(dist(startPos, endPos)/(1.5*interval))  # 表示每秒移动1.5个像素点， 总的时间除以每个点10ms就得到总的点的个数
-        trackData: list = []
         trace :list = BezierTrajectory.trackArray(start=startPos, end=endPos, numberList=numberList, le=3,
                      deviation=30, bias=0.5, type=3, cbb=0, yhh=10)
 
@@ -378,12 +377,12 @@ class Handle():
         for pos in trace:
             tmpPos = MAKELONG(pos[0], pos[1])
             PostMessage(handleNum, WM_MOUSEMOVE, MK_LBUTTON, tmpPos)
-            trackData.append([pos[0], pos[1], time.time()])
+            Log4().csv(pos[0], pos[1], time.time())
             time.sleep((interval+random.randint(-2, 2))/1000.0)
         # 最后释放鼠标
         tmpPos = MAKELONG(trace[-1][0], trace[-1][1])
         PostMessage(handleNum, WM_LBUTTONUP, 0, tmpPos)
-        return trackData
+
 
     @classmethod
     def swipePIL(cls, handleNum :int, startPos :list, endPos :list) -> None:
@@ -511,7 +510,6 @@ class Device(QObject):
                     Log4().log("info", f'设备尺寸是:{self.leidian["leidianWidth"]}x{self.leidian["leidianHeight"]}')
         ConfigFile().writeSettingFromDevice(self.baseSetting, self.android, self.mumu, self.leidian)
 
-
     def getScreen(self):
         """
         这个操作必须保证连接无误
@@ -546,6 +544,7 @@ class Device(QObject):
         :param pos:
         :return:
         """
+        Log4().csv(pos[0], pos[1], time.time())
         match self.baseSetting["deviceType"]:
             case "安卓设备":
                 if self.android["controlWay"] == "adb":

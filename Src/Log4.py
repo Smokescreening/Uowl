@@ -3,11 +3,13 @@
 # github https://github.com/runhey
 
 import os
-
+import csv
 
 from datetime import datetime
 from pathlib import Path
 from PySide6.QtCore import QObject, Slot, Signal
+
+from Src.ConfigFile import ConfigFile
 
 def singleton(cls):  # 单例模式
     _instance = {}
@@ -23,7 +25,11 @@ class Log4(QObject):
 
     def __init__(self) -> None:
         super().__init__()
-        self.f = None
+        self.fTxt = None
+        self.fCsv = None
+        self.wCsv = None
+        self.record = ConfigFile().getSettingDict("baseSetting")["log"]
+
 
     @Slot(str)
     def slotStartLog(self, taskName: str) -> None:
@@ -32,26 +38,34 @@ class Log4(QObject):
         :param taskName: 文件名不带后缀
         :return:
         """
-        nowDateTime:str = datetime.now().strftime("%m-%d^%H")
-        self.f = open(os.fspath(Path(__file__).resolve().parent.parent / "Log/" / ('%s@%s'%(nowDateTime,taskName)+".txt")), 'a', encoding='utf-8')
+        if self.record == 'open':
+            nowDateTime:str = datetime.now().strftime("%m-%d^%H:%M")
+            self.fTxt = open(os.fspath(Path(__file__).resolve().parent.parent / "Log/" / ('%s@%s'%(nowDateTime,taskName)+".txt")), 'a', encoding='utf-8')
+            self.fCsv = open(os.fspath(Path(__file__).resolve().parent.parent / "Log/" / ('%s@%s'%(nowDateTime,taskName)+".csv")), 'a', encoding='utf-8')
+            self.wCsv = csv.writer(self.fCsv, dialect= "excel")
+            self.wCsv.writerow(["x", "y", "time"])
 
     @Slot()
     def slotFinishLog(self) -> None:
-        self.f.close()
-        self.f = None
+        if self.record == 'open':
+            self.fTxt.close()
+            self.fCsv.close()
+            self.fTxt = None
+            del(self.wCsv)
+            self.fCsv = None
 
     @Slot(str, str)
     def slotLog(self, grade: str, info:str) -> None:
         """
-        向文件写入和向UI输出
+        向文件写入和向UI输出, 老的接口弃用
         :param grade: info debug warning error log 五个级别
         :param info: log的内容
         :return:
         """
         nowDateTime: str = datetime.now().strftime("%H:%M:%S.%f")
         if grade is not None and info is not None:
-            if self.f is not None:
-                self.f.write('%s:%s'%(nowDateTime[:11], info) + '\r')
+            if self.fTxt is not None:
+                self.fTxt.write('%s:%s'%(nowDateTime[:11], info) + '\r')
             self.sigUIShowLog.emit(grade, info)
 
     @Slot(str, str)
@@ -65,6 +79,20 @@ class Log4(QObject):
         """
         nowDateTime: str = datetime.now().strftime("%H:%M:%S.%f")
         if grade is not None and info is not None:
-            if self.f is not None:
-                self.f.write('%s:%s' % (nowDateTime[:11], info) + '\r')
+            if self.fTxt is not None:
+                self.fTxt.write('%s:%s' % (nowDateTime[:11], info) + '\r')
             self.sigUIShowLog.emit(grade, f'{nowDateTime[:11]}: {info}')
+
+    @Slot(int, int, float)
+    def csv(self, x :int, y :int, time :float) -> None:
+        """
+        输出一条位置信息
+        :param x:
+        :param y:
+        :param time:  以时间戳形式
+        :return:
+        """
+        if self.fCsv is not None and self.wCsv is not None:
+            self.wCsv.writerow([x, y, time])
+
+
