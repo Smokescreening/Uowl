@@ -7,7 +7,8 @@ import time
 
 from PySide6.QtCore import QThread, QObject, Slot
 from pathlib import Path
-from transitions.extensions import GraphMachine as Machine
+# from transitions.extensions import GraphMachine as Machine
+from transitions import Machine
 from numpy.random import uniform
 
 from Src.Log4 import Log4
@@ -51,6 +52,7 @@ class Task(Machine):
         self.taskName = taskName
         self.device = device
         self.mathWay = None
+        Bridge().sigUISetRunState.emit(1)
         match device.baseSetting["deviceType"]:
             case "安卓设备":
                 self.mathWay = device.android["imgMathWay"]
@@ -95,13 +97,13 @@ class Task(Machine):
         self.transitionsList = list(config["transitionsList"])
         self.statesInfoList = config["stateList"]
 
-    def saveStateMachineImg(self) -> None:
-        """
-        保存到对于的图状态
-        :return:
-        """
-        filename = self.taskPath / self.taskName + '.png'
-        self.get_graph().draw(filename, prog='dot',format='png')
+    # def saveStateMachineImg(self) -> None:
+    #     """
+    #     保存到对于的图状态
+    #     :return:
+    #     """
+    #     filename = self.taskPath / self.taskName + '.png'
+    #     self.get_graph().draw(filename, prog='dot',format='png')
 
     def afterStateChange(self) -> None:
         """

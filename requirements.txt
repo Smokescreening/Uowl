@@ -7,5 +7,7 @@ pillow>=9.4.0
 pyautogui>=0.9.53
 apscheduler>=3.9.1.post1
 transitions>=0.9.0
-graphviz>=2.38.0
-python-graphviz>=0.12
+matplotlib>=3.6.3
+# 下面两个没用到
+# graphviz>=2.38.0
+# python-graphviz>=0.12

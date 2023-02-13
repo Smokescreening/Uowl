@@ -6,9 +6,11 @@ import numpy
 
 from PySide6.QtCore import Slot, QObject
 from numpy.random  import  rand, randint, choice
+from math import sin, cos, radians
 
 from Src.Log4 import Log4
 from Src.Device import Device
+from Src.ConfigFile import ConfigFile
 
 
 class ClickAction(QObject):
@@ -24,12 +26,6 @@ class ClickAction(QObject):
 
     @Slot(dict)
     def deal(self, info :dict) -> None:
-        # if info["limits"] :
-        #     self.limits = int(info["limits"])
-        # if info["moveX"] :
-        #     self.moveX = float(info["moveX"])
-        # if info["moveY"] :
-        #     self.moveY = float(info["moveY"])
         # 生成二维高斯分布并抽取一个
         while(True):
             randList = rand(30, 2)  # 30个
@@ -81,4 +77,50 @@ class TransitionsAction(QObject):
         self.taskObj.trigger(self.trigger)
 
 
+class SwipeAction(QObject):
+    def __init__(self, screenSize :list, actionInfo :dict, device :Device) -> None:
+        """
 
+        :param screenSize:  屏幕大小
+        :param actionInfo:  信息
+        :param device:  持有设备引用
+        """
+        super(SwipeAction, self).__init__()
+        self.screenSize: list = screenSize  # 设备的尺寸，这个是为了点击位置经过算法后给一个限度
+        self.device = device
+        self.actionName = actionInfo["actionName"]
+        self.angle : int = actionInfo["angle"]   # 0-360  0表示向右90表示向上180表示向左360表示向下
+        self.distance : float = actionInfo["distance"]  # 0-1
+        self.random :int = actionInfo["random"]  # 5-50
+
+    @Slot(dict)
+    def deal(self, info: dict) -> list:
+        """
+        滑动坐标模型是这样工作的：首先取得滑动的中心点，取得一个偏转角参数（代表方向），如此得到点斜式的直线
+        再获得滑动距离百分比这个参数乘以设备屏幕的大小得到x和y方向滑动的绝对距离，进而得到滑动的起始和结束的坐标
+        ，最后对两个坐标以一个限定的范围进行二维的随机分布，在没有超出屏幕的前提下进行最终设备的轨迹滑动
+        :param info: 传过来的滑动信息, centerPos:滑动的坐标中心点如[500, 400]， distance: 滑动距离百分比
+        :return: 返回最终的滑动起始点和结束点
+        """
+        vector :list = [cos(radians(self.angle))*self.screenSize[0]*self.distance, sin(radians(self.angle))*self.screenSize[1]*self.distance]
+        tempStart = [info["centerPos"][0] - vector[0]/2, info["centerPos"][1] - vector[1]/2]
+        tempEnd = [info["centerPos"][0] + vector[0]/2, info["centerPos"][1] + vector[1]/2]
+        while(True):
+            startPos = [int(tempStart[0] + randint(-self.random, self.random)), int(tempStart[1] + randint(-self.random, self.random))]
+            endPos = [int(tempEnd[0] + randint(-self.random, self.random)), int(tempEnd[1] + randint(-self.random, self.random))]
+            if startPos[0]>0 and startPos[0]<self.screenSize[0] and startPos[1]>0 and startPos[1]<self.screenSize[1] and \
+               endPos[0] > 0 and endPos[0] < self.screenSize[0] and endPos[1] > 0 and endPos[1] < self.screenSize[1]:
+                self.device.swipe(startPos, endPos)
+                return [startPos, endPos]
+
+def testSwipe() -> None:
+    device = Device(ConfigFile.getSettingDict("baseSetting"),
+                             ConfigFile.getSettingDict("android"),
+                             ConfigFile.getSettingDict("mumu"),
+                             ConfigFile.getSettingDict("leidian"))
+    device.connect()
+    device.updateSettingToFile()
+    swipe = SwipeAction([1280, 720], {"actionName": "test", "angle": 0, "distance": 0.3, "random": 10}, device)
+    print(swipe.deal({"centerPos": [640, 500]}))
+
+# testSwipe()

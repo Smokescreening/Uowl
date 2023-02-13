@@ -5,25 +5,29 @@
 # import cv2
 import re
 import random
+import time
+
 import cv2
 
 from PySide6.QtCore import QThread, QObject
-from numpy import frombuffer, uint8, array
+from numpy import frombuffer, uint8, array, random
 from pathlib import Path
 from subprocess import Popen, PIPE
 from win32print import GetDeviceCaps
-from win32con import SRCCOPY, DESKTOPHORZRES, DESKTOPVERTRES, WM_LBUTTONUP, WM_LBUTTONDOWN, WM_ACTIVATE, WA_ACTIVE, MK_LBUTTON
+from win32con import SRCCOPY, DESKTOPHORZRES, DESKTOPVERTRES, WM_LBUTTONUP, WM_LBUTTONDOWN, WM_ACTIVATE, WA_ACTIVE, MK_LBUTTON, WM_NCHITTEST, WM_SETCURSOR, HTCLIENT, WM_MOUSEMOVE
 from win32com.client import Dispatch
 from win32gui import GetWindowText, FindWindow, FindWindowEx, IsWindow, GetWindowRect, GetWindowDC, DeleteObject, SetForegroundWindow, IsWindowVisible, GetDC
 from win32process import GetWindowThreadProcessId
 from win32ui import CreateDCFromHandle, CreateBitmap
-from win32api import GetSystemMetrics, SendMessage, MAKELONG
+from win32api import GetSystemMetrics, SendMessage, MAKELONG, PostMessage, RegisterWindowMessage
 from PIL import ImageGrab
-from pyautogui import position, click, moveTo
+from pyautogui import position, click, moveTo, dragTo
+from math import dist
 
+from robot_mouse_track.mouse_track import MouseTrack
 from Src.ConfigFile import ConfigFile
 from Src.Log4 import singleton,Log4
-
+from Src.Component.cBezier import BezierTrajectory
 
 
 
@@ -127,7 +131,17 @@ class Adb():
         scrImg = cv2.cvtColor(scrImg, cv2.COLOR_BGRA2GRAY)
         return scrImg
 
+    @classmethod
+    def swipe(cls, deviceId :str, startPos :list, endPos :list) -> None:
+        """
 
+        :param deviceId:
+        :param startPos:
+        :param endPos:
+        :return:
+        """
+        command = rf' shell input swipe {startPos[0]} {startPos[1]} {endPos[0]} {endPos[1]}'
+        Adb.dealCmd(command, deviceId)
 
 class Handle():
     """
@@ -286,7 +300,7 @@ class Handle():
         """
         x1, y1, x2, y2 = GetWindowRect(handleNum)
         clickPos = MAKELONG(pos[0], pos[1])
-        SendMessage(handleNum, WM_ACTIVATE, WA_ACTIVE, 0)
+        # SendMessage(handleNum, WM_ACTIVATE, WA_ACTIVE, 0)  # 激活窗口
         SendMessage(handleNum, WM_LBUTTONDOWN, 0, clickPos)  # 模拟鼠标按下
         QThread.sleep((random.randint(100, 200)) / 1000.0)  # 点击弹起改为随机,时间100ms-200ms
         SendMessage(handleNum, WM_LBUTTONUP, 0, clickPos)  # 模拟鼠标弹起
@@ -301,7 +315,6 @@ class Handle():
         :return:
         """
         x1, y1, x2, y2 = GetWindowRect(handleNum)
-        print("munu"+ str(x1) +"fff"+ str(y1))
         xClick = x1 +pos[0]
         yClick = y1 +pos[1]
         # 把窗口置顶，并进行点击
@@ -315,9 +328,57 @@ class Handle():
         moveTo(presentPos[0], presentPos[1])
         return [x1 + pos[0], y1 + pos[1]]
 
+    @classmethod
+    def swipe(cls, handleNum :int, startPos :list, endPos :list) -> None:
+        """
+        后台滑动
+        :param handleNum:
+        :param startPos:
+        :param endPos:
+        :return:
+        """
+        interval: int = 8  # 每次移动的间隔时间
+        numberList :int = int(dist(startPos, endPos)/(1.5*interval))  # 表示每秒移动1.5个像素点， 总的时间除以每个点10ms就得到总的点的个数
+        trackData: list = []
+        print(numberList)
+        trace :list = BezierTrajectory.trackArray(start=startPos, end=endPos, numberList=numberList, le=3,
+                     deviation=30, bias=0.5, type=3, cbb=0, yhh=10)
 
+        PostMessage(handleNum, WM_ACTIVATE, WA_ACTIVE, 0)  # 激活窗口
+        # 先移动到第一个点
+        tmpPos = MAKELONG(trace[0][0], trace[0][1])
+        SendMessage(handleNum, WM_NCHITTEST, 0, tmpPos)
+        SendMessage(handleNum, WM_SETCURSOR, handleNum, MAKELONG(HTCLIENT, WM_LBUTTONDOWN))
+        PostMessage(handleNum, WM_LBUTTONDOWN, MK_LBUTTON, tmpPos)
+        # 一点一点移动鼠标
+        for pos in trace:
+            tmpPos = MAKELONG(pos[0], pos[1])
+            PostMessage(handleNum, WM_MOUSEMOVE, MK_LBUTTON, tmpPos)
+            trackData.append([pos[0], pos[1], time.time()])
+            time.sleep((interval+random.randint(-2, 2))/1000.0)
+        # 最后释放鼠标
+        tmpPos = MAKELONG(trace[-1][0], trace[-1][1])
+        PostMessage(handleNum, WM_LBUTTONUP, 0, tmpPos)
+        return trackData
 
-
+    @classmethod
+    def swipePIL(cls, handleNum :int, startPos :list, endPos :list) -> None:
+        """
+        鼠标拖动 前台滑动
+        :param handleNum:
+        :param startPos:
+        :param endPos:
+        :param time: 执行时间  好了现在没有用了
+        :return:
+        """
+        x1, y1, x2, y2 = GetWindowRect(handleNum)
+        # 把窗口置顶，并进行点击
+        shell = Dispatch("WScript.Shell")
+        shell.SendKeys('%')
+        SetForegroundWindow(handleNum)
+        QThread.sleep(0.2)  # 置顶后等0.2秒再滑动
+        moveTo(x1+startPos[0], y1+startPos[1])
+        dragTo(x1+endPos[0], y1+endPos[1], button='left')
 
 class Device(QObject):
     """
@@ -484,40 +545,48 @@ class Device(QObject):
             path = str(Path.cwd().resolve() / name) + '.jpg' # 绝对路径
             cv2.imwrite(path, img, [int(cv2.IMWRITE_JPEG_QUALITY), 90])  # 保存截图 质量（0-100）
 
-# print( Adb.checkStatus())
-# Adb.getScreen(Adb.checkStatus())
-# print( Adb.getScreenSize('127.0.0.1:7555'))
-# Adb.DoClick('CUYDU20102004949', [500, 500])
-# img = Adb.getScreen('127.0.0.1:7555')
+    def swipe(self, startPos :list, endPos :list) -> None:
+        """
 
-
-# print(Handle.getHandleNum('NemuPlayer'))
-# print(Handle.getHandleNum('阴阳师 - MuMu模拟器'))
-# print(Handle.getHandPid(Handle.getHandleNum("雷电模拟器")))
-# print(Handle.getSize(Handle.getHandleNum('阴阳师 - MuMu模拟器')))
-# Handle.getScreen(Handle.getHandleNum("阴阳师 - MuMu模拟器"), [1280, 720], 1.0)
-# Handle.getScreenPIL(Handle.getHandleNum("阴阳师 - MuMu模拟器"))
-
-# Handle.getScreenPIL(Handle.getHandleNum("雷电模拟器"))
-# Handle.getScreen(Handle.getHandleNum("雷电模拟器"), [1282, 756])
-# print(Handle.click(2493146, [850,140]))
-# print(Handle.click( , [460,316]))
-
-# print(Handle.getSize(Handle.getHandleNum("PicGo")))
-# Handle.getScreen(Handle.getHandleNum("计算器"), [958 , 705])
-# Handle.getScreenPIL(Handle.getHandleNum("计算器"))
-# print(Handle.click(Handle.getHandleNum("计算器"), [330,453]))
-
-# print(IsWindowVisible(Handle.getHandleNum("阴阳师 - MuMu模拟器")))
-
-# device = Device(ConfigFile.getSettingDict("baseSetting"),
-#                              ConfigFile.getSettingDict("android"),
-#                              ConfigFile.getSettingDict("mumu"),
-#                              ConfigFile.getSettingDict("leidian"))
-# device.connect()
-# device.updateSettingToFile()
-# device.saveScreen( device.getScreen(), "test")
+        :param startPos:
+        :param endPos:
+        :return:
+        """
+        match self.baseSetting["deviceType"]:
+            case "安卓设备":
+                if self.android["controlWay"] == "adb":
+                    Adb.swipe(self.android["deviceId"], startPos, endPos)
+                else:
+                    pass
+            case "mumu模拟器":
+                if self.mumu["controlWay"] == "adb":
+                    Adb.swipe(self.mumu["deviceId"], startPos, endPos)
+                elif self.mumu["controlWay"] == "window前台":
+                    Handle.swipePIL(self.mumu["handleNum"], startPos, endPos)
+                else:
+                    pass
+            case "雷电模拟器":
+                if self.leidian["controlWay"] == "adb":
+                    Adb.swipe(self.leidian["deviceId"], startPos, endPos)
+                elif self.leidian["controlWay"] == "window前台":
+                    Handle.swipePIL(self.leidian["handleNum"], startPos, endPos)
+                elif self.leidian["controlWay"] == "window后台":
+                    Handle.swipe(self.leidian["handleNum"], startPos, endPos)
+            case default:
+                return None
 
 
 # h = Handle()
 # print(h.getHandleNum("浏览器 - MuMu模拟器"))
+
+# trace = [[500,0], [500,50], [500,100], [500,150], [500,200], [500,250], [500,300], [500,350], [500,400], [500, 450]]
+# h = Handle()
+# handleNum = h.getHandleNum("雷电模拟器")
+# h.click(handleNum, [100,100])
+# mouseTrack = MouseTrack(h.swipe(handleNum, [201,420], [900, 440]))
+# mouseTrack.show_track(x_min=0, y_min=0, x_max=1280, y_max=720)
+
+
+# adb = Adb()
+# deviceId = adb.checkStatus()
+# adb.swipe(deviceId, [400, 1], [500, 450])

@@ -141,11 +141,11 @@
 
   ![image-20230207164923000](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207164923000.png)
 
-+ 值得一提的是的forthwith 下面的default queue是一个单选框，可以选择设置多个以便不同情况切换
++ 值得一提的是的forthwith 下面的default queue是一个下拉框，可以选择设置多个以便不同情况切换
 
 + 点击左边菜单第一个，点击启动即可运行刚刚添加到forthwith上的任务
 
-+ 游戏多开：目前仅支持雷电模拟器，没多开一个游戏需要复制一份游戏文件，并对于不同的游戏窗口设置不同的handleTitle（在雷电多开器可以看到）
++ 游戏多开：目前仅支持雷电模拟器，每多开一个游戏需要复制一份游戏文件，并对于不同的游戏窗口设置不同的handleTitle（在雷电多开器可以看到）
 
   ![image-20230207170027334](https://runhey-img-stg1.oss-cn-chengdu.aliyuncs.com/img2/image-20230207170027334.png)
 
@@ -180,11 +180,11 @@
 
 ## 🚨防封说明
 
-[Uowl/Docs at master · runhey/Uowl ](https://github.com/runhey/Uowl/tree/master/Docs)
+[Docs/防封说明](https://github.com/runhey/Uowl/blob/master/Docs/防封说明.md)
 
 ## ✏搭建任务
 
-[Uowl/Docs at master · runhey/Uowl ](https://github.com/runhey/Uowl/tree/master/Docs)
+[Docs/搭建任务](https://github.com/runhey/Uowl/blob/master/Docs/搭建任务.md)
 
 ## 📝更新计划
 
@@ -283,25 +283,17 @@
 <details>
 <summary></summary>
 
++ 2023.2.07:  新增游戏多开，优化启动连接游戏异常显示，修复由于qt兼容性导致渲染混乱而覆盖原有的UI
 + 2023.1.26:  优化UI动画，接受勾协
-
-+ 2023.1.18: 伟大的里程碑！！！完成<地域鬼王>
-
-+ 2023.1.15: task list done! and complete a part of the scheduler UI
-
-+ 2023.1.14: "Task Build"   finished!!!
-
++ 2023.1.18:  伟大的里程碑！！！完成<地域鬼王>
++ 2023.1.15:  task list done! and complete a part of the scheduler UI
++ 2023.1.14:  "Task Build"   finished!!!
 + 2023.1.13：还有一些Task
-
 + 2023.1.11：完成一半Task的Build界面
-
 + 2023.1.8:  rename ThreadRun to TaskScheduler and the forthwith Task function is realized。 添加clickAction, transitionsAction和imgEvent。然后初步实现了task的内容
 + 2023.1.7:   忘记了实现了什么了
-
 + 2023.1.4：解决雷电模拟器后台模式bug，实现Device类
-
 + 2023.1.3：实现Bridge,Log4,ThreadRun：建立qml与python通信。实现Adb即Handle设备接口
-
 + 2023.1.2：打包测试，实现启动页UI，设置页UI，编写基本设置JSON文件
 + 2022.12.29：搭建部分UI框架
 + 2022.12.28：实现部分设计稿
